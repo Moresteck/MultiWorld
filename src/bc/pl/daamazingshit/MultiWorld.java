@@ -22,12 +22,16 @@ public class MultiWorld extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		log.info("[MultiWorld] MultiWorld v0.0 wlaczony");
-		getConfig().load();
+		loadConfig();
 		
 	}
 	
 	public Configuration getConfig() {
 		return getConfiguration();
+	}
+	
+	public void loadConfig() {
+		getConfig().load();
 	}
 	
 	public void reloadConfig() {
@@ -55,13 +59,20 @@ public class MultiWorld extends JavaPlugin {
 			if (args.length == 0) {
 				
 				sender.sendMessage(red   + "Za malo argumentów! Pomoc:");
-				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + white  + "-"   + green + " Stwarza nowy swiat");
-				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + white  + "-"   + green + " Usuwa swiat");
-				sender.sendMessage(gold  + "  /mw idz "    + blue  + "<swiat> "         + white  + "-"   + green + " Wysyla cie na wybrany swiat");
-				sender.sendMessage(gold  + "  /mw wyslij " + blue  + "<gracz> <swiat> " + white  + "-"   + green + " Wysyla kogos na wybrany swiat");
-				sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
-				sender.sendMessage(gold  + "  /mw lista "                               + white  + "-"   + green + " Ukazuje liste swiatów");
-				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + yellow + "2017");
+				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + 
+						   white  + "-"   + green + " Stwarza nowy swiat");
+				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + 
+						   white  + "-"   + green + " Usuwa swiat");
+				sender.sendMessage(gold  + "  /mw idz "    + blue  + "<swiat> "         + 
+						   white  + "-"   + green + " Wysyla cie na wybrany swiat");
+				sender.sendMessage(gold  + "  /mw wyslij " + blue  + "<gracz> <swiat> " + 
+						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
+				sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + 
+						   white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
+				sender.sendMessage(gold  + "  /mw lista "                               + 
+						   white  + "-"   + green + " Ukazuje liste swiatów");
+				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + 
+						   yellow + "2017");
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("stworz") && sender.isOp()) {
@@ -74,21 +85,23 @@ public class MultiWorld extends JavaPlugin {
 				}
 				if (args[2].equalsIgnoreCase("nether")) {
 					
-					getServer().broadcastMessage(gold + "Tworzenie nowego swiata - nazwa: " + yellow + args[1] + gold + ", typ: " + yellow + args[2] + gold + "!");
+					getServer().broadcastMessage(gold + "Tworzenie nowego swiata - nazwa: " + 
+								     yellow + args[1] + gold + ", typ: " + 
+								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NETHER);
 					getConfig().setProperty(args[1], "nether");
-					getConfig().save();
-					getConfig().load();
+					reloadConfig();
 					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
 					return true;
 				}
 				if (args[2].equalsIgnoreCase("normalny")) {
 					
-					getServer().broadcastMessage(gold  + "Tworzenie nowego swiata - nazwa: " + yellow + args[1] + gold + ", typ: " + yellow + args[2] + gold + "!");
+					getServer().broadcastMessage(gold  + "Tworzenie nowego swiata - nazwa: " + 
+								     yellow + args[1] + gold + ", typ: " + 
+								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NORMAL);
 					getConfig().setProperty(args[1], "normalny");
-					getConfig().save();
-					getConfig().load();
+					reloadConfig();
 					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
 					return true;
 				} else {
@@ -111,9 +124,9 @@ public class MultiWorld extends JavaPlugin {
 				if (getConfig().getProperty(args[1]) != null) {
 					
 					getConfig().removeProperty(args[1]);
-					getConfig().save();
-					getConfig().load();
-					sender.sendMessage(green + "Swiat usuniety pomyslnie! (" + gold + args[1] + green + ")!");
+					reloadConfig();
+					sender.sendMessage(green + "Swiat usuniety pomyslnie! (" + 
+							   gold + args[1] + green + ")!");
 					return true;
 				} else {
 					
@@ -137,7 +150,8 @@ public class MultiWorld extends JavaPlugin {
 					
 					Location spawn = getServer().getWorld(args[1]).getSpawnLocation();
 					p.teleportTo(spawn);
-					p.sendMessage(ChatColor.GRAY + "Teleportacja do swiata " + gold + args[1] + ChatColor.GRAY + ".");
+					p.sendMessage(ChatColor.GRAY + "Teleportacja do swiata " + gold + 
+						      args[1] + ChatColor.GRAY + ".");
 					return true;
 				} else {
 					
@@ -161,15 +175,19 @@ public class MultiWorld extends JavaPlugin {
 					
 					if (getConfig().getProperty(args[2]) != null) {
 						target.teleportTo(spawn);
-						sender.sendMessage(green + "Teleportacja gracza " + yellow + target.getName() + green + " do swiata " + yellow + target.getWorld() + green + ".");
+						sender.sendMessage(green + "Teleportacja gracza " + yellow + 
+								   target.getName() + green + " do swiata " + yellow + 
+								   target.getWorld() + green + ".");
 						return true;
 					} else {
-						sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + args[2] + red + ")!");
+						sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + 
+								   args[2] + red + ")!");
 						return true;
 					}
 				} else {
 					
-					sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + gold + " istnieje!");
+					sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
+							   gold + " istnieje!");
 					return true;
 				}
 				
