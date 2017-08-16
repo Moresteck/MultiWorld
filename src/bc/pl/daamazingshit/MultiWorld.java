@@ -58,7 +58,7 @@ public class MultiWorld extends JavaPlugin {
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("stworz") && sender.isOp()) {
-				if (args.length == 1) {
+				if (args.length == 1 || args.length == 2) {
 					sender.sendMessage(red  + "Za malo argumentów! Pomoc:");
 					sender.sendMessage(gold + "  /mw stworz " + blue + "<swiat> (typ)");
 					return true;
@@ -122,7 +122,7 @@ public class MultiWorld extends JavaPlugin {
 				}
 			}
 			if (args[0].equalsIgnoreCase("wyslij") && sender.isOp()) {
-				if (args.length == 1) {
+				if (args.length == 1 || args.length == 2) {
 					sender.sendMessage(red  + "Za malo argumentów! Pomoc:");
 					sender.sendMessage(gold + "  /mw wyslij " + blue + "<gracz> <swiat>");
 					return true;
