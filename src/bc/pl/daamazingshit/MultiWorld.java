@@ -11,20 +11,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
+import com.nijiko.permissions.PermissionHandler;
+
 public class MultiWorld extends JavaPlugin {
+	
+	private PermissionHandler pr;
 	
 	public static final Logger log = Logger.getLogger("Minecraft");
 	
 	@Override
 	public void onDisable() {
 		saveConfig();
-		log.info("[MultiWorld] MultiWorld v0.1 wylaczony");
+		log.info("[MultiWorld] MultiWorld v0.0 wylaczony");
 		
 	}
 
 	@Override
 	public void onEnable() {
-		log.info("[MultiWorld] MultiWorld v0.1 wlaczony");
+		log.info("[MultiWorld] MultiWorld v0.0 wlaczony");
 		loadConfig();
 		
 	}
@@ -65,7 +69,7 @@ public class MultiWorld extends JavaPlugin {
 			
 			if (args.length == 0) {
 				
-				sender.sendMessage(red   + "Za malo argument贸w! Pomoc:");
+				sender.sendMessage(red   + "Za malo argument體! Pomoc:");
 				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + 
 						   white  + "-"   + green + " Stwarza nowy swiat");
 				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + 
@@ -76,18 +80,18 @@ public class MultiWorld extends JavaPlugin {
 						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
 				//sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
 				sender.sendMessage(gold  + "  /mw lista "                               + 
-						   white  + "-"   + green + " Ukazuje liste swiat贸w");
+						   white  + "-"   + green + " Ukazuje liste swiat體");
 				sender.sendMessage(gold  + "  /mw przeladuj"                            +
 						   white + "-"    + green + " Przeladowuje konfiguracje");
 				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + 
 						   yellow + "2017");
 				return true;
 			}
-			if (args[0].equalsIgnoreCase("stworz") && sender.isOp()) {
+			if (args[0].equalsIgnoreCase("stworz") && (sender.isOp() || pr.has(p, "multiworld.stworz"))) {
 				
 				if (args.length == 1 || args.length == 2) {
 					
-					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
 					sender.sendMessage(gold + "  /mw stworz " + blue + "<swiat> (typ)");
 					return true;
 				}
@@ -121,11 +125,11 @@ public class MultiWorld extends JavaPlugin {
 				}
 				
 			}
-			if (args[0].equalsIgnoreCase("usun") && sender.isOp()) {
+			if (args[0].equalsIgnoreCase("usun") && (sender.isOp() || pr.has(p, "multiworld.usun"))) {
 				
 				if (args.length == 1) {
 					
-					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
 					sender.sendMessage(gold + "  /mw usun " + blue + "<swiat>");
 					return true;
 				}
@@ -142,7 +146,7 @@ public class MultiWorld extends JavaPlugin {
 					return true;
 				}
 			}
-			if (args[0].equalsIgnoreCase("idz") && sender.isOp()) {
+			if (args[0].equalsIgnoreCase("idz") && (sender.isOp() || pr.has(p, "multiworld.idz"))) {
 				
 				if (!(sender instanceof Player)) {
 					
@@ -150,7 +154,7 @@ public class MultiWorld extends JavaPlugin {
 				}
 				if (args.length == 1) {
 					
-					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
 					sender.sendMessage(gold + "  /mw idz " + blue + "<swiat>");
 					return true;
 				}
@@ -167,11 +171,11 @@ public class MultiWorld extends JavaPlugin {
 					return true;
 				}
 			}
-			if (args[0].equalsIgnoreCase("wyslij") && sender.isOp()) {
+			if (args[0].equalsIgnoreCase("wyslij") && (sender.isOp() || pr.has(p, "multiworld.wyslij"))) {
 				
 				if (args.length == 1 || args.length == 2) {
 					
-					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
 					sender.sendMessage(gold + "  /mw wyslij " + blue + "<gracz> <swiat>");
 					return true;
 				}
@@ -209,23 +213,22 @@ public class MultiWorld extends JavaPlugin {
 				}
 				
 			}
-			if (args[0].equalsIgnoreCase("lista")) {
+			if (args[0].equalsIgnoreCase("lista") && (sender.isOp() || pr.has(p, "multiworld.lista"))) {
 				
-				sender.sendMessage(green + "Lista swiat贸w: ");
+				sender.sendMessage(green + "Lista swiat體: ");
 				sender.sendMessage(getServer().getWorlds().toString());
 				return true;
 			}
-			if (args[0].equalsIgnoreCase("przeladuj")) {
+			if (args[0].equalsIgnoreCase("przeladuj") && (sender.isOp() || 
+					pr.has(p, "multiworld.przeladuj"))) {
 				
 				reloadConfig();
 				sender.sendMessage(green + "Konfiguracja przeladowana.");
 				return true;
 			}
-			
-			
 			else {
 				
-				sender.sendMessage(red + "Nie masz uprawnien aby to robic!");
+				sender.sendMessage(red + "Nie masz uprawnien aby tego dokonac!");
 				return true;
 			}
 		}
