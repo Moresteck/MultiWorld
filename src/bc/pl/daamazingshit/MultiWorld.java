@@ -18,13 +18,13 @@ public class MultiWorld extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		saveConfig();
-		log.info("[MultiWorld] MultiWorld v0.0 wylaczony");
+		log.info("[MultiWorld] MultiWorld v0.1 wylaczony");
 		
 	}
 
 	@Override
 	public void onEnable() {
-		log.info("[MultiWorld] MultiWorld v0.0 wlaczony");
+		log.info("[MultiWorld] MultiWorld v0.1 wlaczony");
 		loadConfig();
 		
 	}
@@ -74,10 +74,11 @@ public class MultiWorld extends JavaPlugin {
 						   white  + "-"   + green + " Wysyla cie na wybrany swiat");
 				sender.sendMessage(gold  + "  /mw wyslij " + blue  + "<gracz> <swiat> " + 
 						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
-				sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + 
-						   white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
+				//sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
 				sender.sendMessage(gold  + "  /mw lista "                               + 
 						   white  + "-"   + green + " Ukazuje liste swiatów");
+				sender.sendMessage(gold  + "  /mw przeladuj"                            +
+						   white + "-"    + green + " Przeladowuje konfiguracje");
 				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + 
 						   yellow + "2017");
 				return true;
@@ -178,14 +179,23 @@ public class MultiWorld extends JavaPlugin {
 				
 				if (target != null) {
 					
-					Location spawn = getServer().getWorld(args[2]).getSpawnLocation();
-					
 					if (getConfig().getProperty(args[2]) != null) {
+						
+						Location spawn = getServer().getWorld(args[2]).getSpawnLocation();
 						target.teleportTo(spawn);
 						sender.sendMessage(green + "Teleportacja gracza " + yellow + 
-								   target.getName() + green + " do swiata " + yellow + 
-								   target.getWorld() + green + ".");
-						return true;
+								   target.getName() + green + " do swiata " + gold + 
+								   args[2] + green + ".");
+						if (sender == p) {
+							target.sendMessage(yellow + p.getDisplayName() + green + 
+									" wyslal Cie na swiat " + gold + args[2] + 
+									green + ".");
+							return true;
+						} else {
+							target.sendMessage(yellow + "*Konsola* " + green + "wyslala Cie na swiat " +
+						            gold + args[2] + green + ".");
+							return true;
+						}
 					} else {
 						sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + 
 								   args[2] + red + ")!");
@@ -201,7 +211,7 @@ public class MultiWorld extends JavaPlugin {
 			}
 			if (args[0].equalsIgnoreCase("lista")) {
 				
-				sender.sendMessage(green + "Lista swiatow: ");
+				sender.sendMessage(green + "Lista swiatów: ");
 				sender.sendMessage(getServer().getWorlds().toString());
 				return true;
 			}
