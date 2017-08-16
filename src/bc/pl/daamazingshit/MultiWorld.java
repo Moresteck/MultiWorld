@@ -158,6 +158,12 @@ public class MultiWorld extends JavaPlugin {
 				sender.sendMessage(getServer().getWorlds().toString());
 				return true;
 			}
+			if (args[0].equalsIgnoreCase("przeladuj") {
+				getConfig().save();
+				getConfig().load();
+				sender.sendMessage(green + "Konfiguracja przeladowana.");
+				return true;
+			}
 			
 			
 			else {
