@@ -30,13 +30,17 @@ public class MultiWorld extends JavaPlugin {
 		return getConfiguration();
 	}
 	
+	public void reloadConfig() {
+		getConfig().save();
+		getConfig().load();
+	}
 	
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String str, String[] args) {
-		//
+		
 		Player p         = (Player)sender;
-		//
+		
 		ChatColor red    = ChatColor.RED;
 		ChatColor green  = ChatColor.GREEN;
 		ChatColor gold   = ChatColor.GOLD;
@@ -45,11 +49,11 @@ public class MultiWorld extends JavaPlugin {
 		ChatColor black  = ChatColor.BLACK;
 		ChatColor daqua  = ChatColor.DARK_AQUA;
 		ChatColor yellow = ChatColor.YELLOW;
-		//
+		
 		if (cmd.getName().equalsIgnoreCase("mw")) {
-			//
+			
 			if (args.length == 0) {
-				//
+				
 				sender.sendMessage(red   + "Za malo argumentów! Pomoc:");
 				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + white  + "-"   + green + " Stwarza nowy swiat");
 				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + white  + "-"   + green + " Usuwa swiat");
@@ -61,12 +65,15 @@ public class MultiWorld extends JavaPlugin {
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("stworz") && sender.isOp()) {
+				
 				if (args.length == 1 || args.length == 2) {
+					
 					sender.sendMessage(red  + "Za malo argumentów! Pomoc:");
 					sender.sendMessage(gold + "  /mw stworz " + blue + "<swiat> (typ)");
 					return true;
 				}
 				if (args[2].equalsIgnoreCase("nether")) {
+					
 					getServer().broadcastMessage(gold + "Tworzenie nowego swiata - nazwa: " + yellow + args[1] + gold + ", typ: " + yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NETHER);
 					getConfig().setProperty(args[1], "nether");
@@ -76,6 +83,7 @@ public class MultiWorld extends JavaPlugin {
 					return true;
 				}
 				if (args[2].equalsIgnoreCase("normalny")) {
+					
 					getServer().broadcastMessage(gold  + "Tworzenie nowego swiata - nazwa: " + yellow + args[1] + gold + ", typ: " + yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NORMAL);
 					getConfig().setProperty(args[1], "normalny");
@@ -84,51 +92,63 @@ public class MultiWorld extends JavaPlugin {
 					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
 					return true;
 				} else {
+					
 					sender.sendMessage(red    + "Dopuszczalne typy swiata:");
 					sender.sendMessage(green  + " normalny");
 					sender.sendMessage(yellow + " nether");
 					return true;
 				}
-				//
+				
 			}
 			if (args[0].equalsIgnoreCase("usun") && sender.isOp()) {
+				
 				if (args.length == 1) {
+					
 					sender.sendMessage(red  + "Za malo argumentów! Pomoc:");
 					sender.sendMessage(gold + "  /mw usun " + blue + "<swiat>");
 					return true;
 				}
 				if (getConfig().getProperty(args[1]) != null) {
+					
 					getConfig().removeProperty(args[1]);
 					getConfig().save();
 					getConfig().load();
 					sender.sendMessage(green + "Swiat usuniety pomyslnie! (" + gold + args[1] + green + ")!");
 					return true;
 				} else {
+					
 					sender.sendMessage(red + "Taki swiat nie istnieje (" + gold + args[1] + red + ")!");
 					return true;
 				}
 			}
 			if (args[0].equalsIgnoreCase("idz") && sender.isOp()) {
+				
 				if (!(sender instanceof Player)) {
+					
 					sender.sendMessage("Takie rzeczy tylko w grze!");
 				}
 				if (args.length == 1) {
+					
 					sender.sendMessage(red  + "Za malo argumentów! Pomoc:");
 					sender.sendMessage(gold + "  /mw idz " + blue + "<swiat>");
 					return true;
 				}
 				if (getConfig().getProperty(args[1]) != null) {
+					
 					Location spawn = getServer().getWorld(args[1]).getSpawnLocation();
 					p.teleportTo(spawn);
 					p.sendMessage(ChatColor.GRAY + "Teleportacja do swiata " + gold + args[1] + ChatColor.GRAY + ".");
 					return true;
 				} else {
+					
 					sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + args[2] + red + ")!");
 					return true;
 				}
 			}
 			if (args[0].equalsIgnoreCase("wyslij") && sender.isOp()) {
+				
 				if (args.length == 1 || args.length == 2) {
+					
 					sender.sendMessage(red  + "Za malo argumentów! Pomoc:");
 					sender.sendMessage(gold + "  /mw wyslij " + blue + "<gracz> <swiat>");
 					return true;
@@ -148,33 +168,32 @@ public class MultiWorld extends JavaPlugin {
 						return true;
 					}
 				} else {
+					
 					sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + gold + " istnieje!");
 					return true;
 				}
 				
 			}
 			if (args[0].equalsIgnoreCase("lista")) {
+				
 				sender.sendMessage(green + "Lista swiatow: ");
 				sender.sendMessage(getServer().getWorlds().toString());
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("przeladuj") {
-				getConfig().save();
-				getConfig().load();
+				
+				reloadConfig();
 				sender.sendMessage(green + "Konfiguracja przeladowana.");
 				return true;
 			}
 			
 			
 			else {
+				
 				sender.sendMessage(red + "Nie masz uprawnien aby to robic!");
 				return true;
 			}
-			//
 		}
-		//
 		return true;
 	}
-	//
-
 }
