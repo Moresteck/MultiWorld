@@ -19,7 +19,7 @@ public class MultiWorld extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		// TODO Auto-generated method stub
+		getConfig().load();
 		
 	}
 	
@@ -67,6 +67,7 @@ public class MultiWorld extends JavaPlugin {
 					getServer().broadcastMessage(gold + "Tworzenie nowego swiata - nazwa: " + yellow + args[1] + gold + ", typ: " + yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NETHER);
 					getConfig().setProperty(args[1], "nether");
+					getConfig().save();
 					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
 					return true;
 				}
@@ -74,6 +75,7 @@ public class MultiWorld extends JavaPlugin {
 					getServer().broadcastMessage(gold  + "Tworzenie nowego swiata - nazwa: " + yellow + args[1] + gold + ", typ: " + yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NORMAL);
 					getConfig().setProperty(args[1], "normalny");
+					getConfig().save();
 					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
 					return true;
 				} else {
@@ -92,6 +94,7 @@ public class MultiWorld extends JavaPlugin {
 				}
 				if (getConfig().getProperty(args[1]) != null) {
 					getConfig().removeProperty(args[1]);
+					getConfig().save();
 					sender.sendMessage(green + "Swiat usuniety pomyslnie! (" + gold + args[1] + green + ")!");
 					return true;
 				} else {
