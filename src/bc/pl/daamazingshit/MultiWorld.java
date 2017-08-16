@@ -11,14 +11,17 @@ import org.bukkit.util.config.Configuration;
 
 public class MultiWorld extends JavaPlugin {
 	
+	public static final Logger log = Logger.getLogger("Minecraft");
+	
 	@Override
 	public void onDisable() {
-		// TODO Auto-generated method stub
+		log.info("[MultiWorld] MultiWorld v0.0 wylaczony");
 		
 	}
 
 	@Override
 	public void onEnable() {
+		log.info("[MultiWorld] MultiWorld v0.0 wlaczony");
 		getConfig().load();
 		
 	}
