@@ -15,6 +15,7 @@ public class MultiWorld extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		saveConfig();
 		log.info("[MultiWorld] MultiWorld v0.0 wylaczony");
 		
 	}
@@ -32,6 +33,10 @@ public class MultiWorld extends JavaPlugin {
 	
 	public void loadConfig() {
 		getConfig().load();
+	}
+	
+	public void saveConfig() {
+		getConfig().save();
 	}
 	
 	public void reloadConfig() {
