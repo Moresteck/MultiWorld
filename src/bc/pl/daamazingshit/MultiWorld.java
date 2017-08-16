@@ -1,5 +1,7 @@
 package bc.pl.daamazingshit;
 
+import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
@@ -203,7 +205,7 @@ public class MultiWorld extends JavaPlugin {
 				sender.sendMessage(getServer().getWorlds().toString());
 				return true;
 			}
-			if (args[0].equalsIgnoreCase("przeladuj") {
+			if (args[0].equalsIgnoreCase("przeladuj")) {
 				
 				reloadConfig();
 				sender.sendMessage(green + "Konfiguracja przeladowana.");
