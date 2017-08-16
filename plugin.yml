@@ -1,0 +1,9 @@
+name: MultiWorld
+main: bc.pl.daamazingshit.MultiWorld
+version: 0.0
+author: DaAmazingShit
+description: Pozwala do posiadania wiecej niz jednego swiata na serwerze
+commands:
+    mw:
+        usage: /<command>
+        description: Zarzadzanie pluginem
