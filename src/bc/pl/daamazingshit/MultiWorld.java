@@ -204,29 +204,31 @@ public class MultiWorld extends JavaPlugin {
 						
 						Location spawn = getServer().getWorld(args[2]).getSpawnLocation();
 						target.teleportTo(spawn);
-					        sender.sendMessage(green + "Teleportacja gracza " + yellow + 
-								   target.getName() + green + " do swiata " + gold + 
-								   args[2] + green + ".");
-					}
-					
-					if (sender == p) {
+						sender.sendMessage(green + "Teleportacja gracza " + yellow + 
+								target.getName() + green + " do swiata " + gold + 
+								args[2] + green + ".");
 						
-						target.sendMessage(yellow + p.getDisplayName() + green + 
-								" wyslal Cie na swiat " + gold + args[2] + 
-								green + ".");
+						if (sender == p) {
+							
+							target.sendMessage(yellow + p.getDisplayName() + green + 
+									" wyslal Cie na swiat " + gold + args[2] + 
+									green + ".");
+							return true;
+						}
+						if (sender != p) {
+							
+							target.sendMessage(yellow + "*Konsola* " + green + "wyslala Cie na swiat " +
+						            gold + args[2] + green + ".");
+							return true;
+						}
 						return true;
 					}
-					if (sender != p) {
-						
-						target.sendMessage(yellow + "*Konsola* " + green + "wyslala Cie na swiat " +
-					            gold + args[2] + green + ".");
-						return true;
-					}
-                                        else {
 					
-					        sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
+					else {
+					
+						sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
 					            gold + " istnieje!");
-					        return true;
+						return true;
 					}
 				} else {
 					sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + 
