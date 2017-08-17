@@ -21,6 +21,7 @@ public class MultiWorld extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		
 		saveConfig();
 		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " wylaczony");
 		
@@ -28,24 +29,30 @@ public class MultiWorld extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		
 		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " wlaczony");
 		loadConfig();
+		log.info("[MultiWorld] Konfiguracja zaladowana.");
 		
 	}
 	
 	public Configuration getConfig() {
+		
 		return getConfiguration();
 	}
 	
 	public void loadConfig() {
+		
 		getConfig().load();
 	}
 	
 	public void saveConfig() {
+		
 		getConfig().save();
 	}
 	
 	public void reloadConfig() {
+		
 		getConfig().save();
 		getConfig().load();
 	}
@@ -68,23 +75,32 @@ public class MultiWorld extends JavaPlugin {
 		if (cmd.getName().equalsIgnoreCase("mw")) {
 			
 			if (args.length == 0) {
-				
+				//------------------------------------------------------------------------------
 				sender.sendMessage(red   + "Za malo argumentow! Pomoc:");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + 
 						   white  + "-"   + green + " Stwarza nowy swiat");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + 
 						   white  + "-"   + green + " Usuwa swiat");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw idz "    + blue  + "<swiat> "         + 
 						   white  + "-"   + green + " Wysyla cie na wybrany swiat");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw wyslij " + blue  + "<gracz> <swiat> " + 
 						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
+				//------------------------------------------------------------------------------
 				//sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw lista "                               + 
 						   white  + "-"   + green + " Ukazuje liste swiatow");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw przeladuj"                            +
 						   white + "-"    + green + " Przeladowuje konfiguracje");
+				//------------------------------------------------------------------------------
 				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + 
 						   yellow + "2017");
+				//------------------------------------------------------------------------------
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("stworz") && (sender.isOp() || pr.has(p, "multiworld.stworz"))) {
@@ -179,37 +195,39 @@ public class MultiWorld extends JavaPlugin {
 					sender.sendMessage(gold + "  /mw wyslij " + blue + "<gracz> <swiat>");
 					return true;
 				}
-				Player target = getServer().getPlayer(args[1]);
 				
-				//if (target != null) {
+				Player target = getServer().getPlayer(args[1]);
 					
 				if (getConfig().getProperty(args[2]) != null) {
 					
 					if (target != null) {
+						
 						Location spawn = getServer().getWorld(args[2]).getSpawnLocation();
 						target.teleportTo(spawn);
-					    sender.sendMessage(green + "Teleportacja gracza " + yellow + 
+					        sender.sendMessage(green + "Teleportacja gracza " + yellow + 
 								   target.getName() + green + " do swiata " + gold + 
 								   args[2] + green + ".");
 					}
 					
 					if (sender == p) {
+						
 						target.sendMessage(yellow + p.getDisplayName() + green + 
 								" wyslal Cie na swiat " + gold + args[2] + 
 								green + ".");
 						return true;
 					}
 					if (sender != p) {
+						
 						target.sendMessage(yellow + "*Konsola* " + green + "wyslala Cie na swiat " +
 					            gold + args[2] + green + ".");
 						return true;
 					}
-                    else {
+                                        else {
 					
-					sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
-							   gold + " istnieje!");
-					return true;
-				}
+					        sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
+					            gold + " istnieje!");
+					        return true;
+					}
 				} else {
 					sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + 
 							   args[2] + red + ")!");
