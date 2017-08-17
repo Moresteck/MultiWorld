@@ -69,7 +69,7 @@ public class MultiWorld extends JavaPlugin {
 			
 			if (args.length == 0) {
 				
-				sender.sendMessage(red   + "Za malo argument體! Pomoc:");
+				sender.sendMessage(red   + "Za malo argument贸w! Pomoc:");
 				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + 
 						   white  + "-"   + green + " Stwarza nowy swiat");
 				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + 
@@ -80,7 +80,7 @@ public class MultiWorld extends JavaPlugin {
 						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
 				//sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
 				sender.sendMessage(gold  + "  /mw lista "                               + 
-						   white  + "-"   + green + " Ukazuje liste swiat體");
+						   white  + "-"   + green + " Ukazuje liste swiat贸w");
 				sender.sendMessage(gold  + "  /mw przeladuj"                            +
 						   white + "-"    + green + " Przeladowuje konfiguracje");
 				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + 
@@ -91,7 +91,7 @@ public class MultiWorld extends JavaPlugin {
 				
 				if (args.length == 1 || args.length == 2) {
 					
-					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
 					sender.sendMessage(gold + "  /mw stworz " + blue + "<swiat> (typ)");
 					return true;
 				}
@@ -129,7 +129,7 @@ public class MultiWorld extends JavaPlugin {
 				
 				if (args.length == 1) {
 					
-					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
 					sender.sendMessage(gold + "  /mw usun " + blue + "<swiat>");
 					return true;
 				}
@@ -154,7 +154,7 @@ public class MultiWorld extends JavaPlugin {
 				}
 				if (args.length == 1) {
 					
-					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
 					sender.sendMessage(gold + "  /mw idz " + blue + "<swiat>");
 					return true;
 				}
@@ -175,7 +175,7 @@ public class MultiWorld extends JavaPlugin {
 				
 				if (args.length == 1 || args.length == 2) {
 					
-					sender.sendMessage(red  + "Za malo argument體! Pomoc:");
+					sender.sendMessage(red  + "Za malo argument贸w! Pomoc:");
 					sender.sendMessage(gold + "  /mw wyslij " + blue + "<gracz> <swiat>");
 					return true;
 				}
@@ -204,12 +204,12 @@ public class MultiWorld extends JavaPlugin {
 					            gold + args[2] + green + ".");
 						return true;
 					}
-                    else {
+                                        else {
 					
 					sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
 							   gold + " istnieje!");
 					return true;
-				}
+					}
 				} else {
 					sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + 
 							   args[2] + red + ")!");
@@ -220,7 +220,7 @@ public class MultiWorld extends JavaPlugin {
 			}
 			if (args[0].equalsIgnoreCase("lista") && (sender.isOp() || pr.has(p, "multiworld.lista"))) {
 				
-				sender.sendMessage(green + "Lista swiat體: ");
+				sender.sendMessage(green + "Lista swiat贸w: ");
 				sender.sendMessage(getServer().getWorlds().toString());
 				return true;
 			}
