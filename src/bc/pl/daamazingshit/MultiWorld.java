@@ -58,7 +58,12 @@ public class MultiWorld extends JavaPlugin {
     private void createConf() {
 		conf.load();
 		
-		conf.setProperty("Worlds.world.type", "normal");;
+		List<String> w = new LinkedList<String>();
+		w.add("world");
+		
+		conf.setProperty("Worlds.world.type", "normal");
+		conf.setProperty("list", w);
+		conf.save();
 	}
 
 	public static void createOne() {
@@ -184,7 +189,7 @@ public class MultiWorld extends JavaPlugin {
 								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NETHER);
 					conf.setProperty("Worlds."+args[1], "nether");
-					reloadConfigs();
+					conf.save();
 					getServer().broadcastMessage(green + Lang.created);
 					return true;
 				}
@@ -195,7 +200,7 @@ public class MultiWorld extends JavaPlugin {
 								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NORMAL);
 					conf.setProperty("Worlds." + args[1] + ".type", "normal");
-					reloadConfigs();
+					conf.save();
 					getServer().broadcastMessage(green + Lang.created);
 					return true;
 				} else {
@@ -218,7 +223,7 @@ public class MultiWorld extends JavaPlugin {
 				if (conf.getProperty("Worlds."+args[1]) != null) {
 					
 					conf.removeProperty("Worlds."+args[1]);
-					reloadConfigs();
+					conf.save();
 					sender.sendMessage(green + Lang.removed + " (\"" + 
 							   gold + args[1] + green + "\")!");
 					return true;
@@ -243,7 +248,7 @@ public class MultiWorld extends JavaPlugin {
 						
 						if (conf.getProperty("Worlds."+args[1]) != null) {
 							conf.removeProperty("Worlds."+args[1]);
-							reloadConfigs();
+							conf.save();
 						}
 						sender.sendMessage(green + Lang.worldErasedSuccessfully + "(\"" + 
 								   gold + args[1] + green + "\")!");
@@ -276,7 +281,7 @@ public class MultiWorld extends JavaPlugin {
 					
 					Location spawn = getServer().getWorld(args[1]).getSpawnLocation();
 					p.teleportTo(spawn);
-					p.sendMessage(gray + Lang.tpToWorld + gold + 
+					p.sendMessage(gray + Lang.tpToWorld +" "+ gold + 
 						      args[1] + gray + ".");
 					return true;
 				} else {
@@ -303,7 +308,7 @@ public class MultiWorld extends JavaPlugin {
 						Location spawn = getServer().getWorld(args[2]).getSpawnLocation();
 						target.teleportTo(spawn);
 						sender.sendMessage(green + Lang.tp +" "+ yellow + 
-								target.getName() + green + " " + Lang.to + gold + 
+								target.getName() + green + " " + Lang.to+" " + gold + 
 								args[2] + green + ".");
 						
 						if (sender == p) {
@@ -345,12 +350,12 @@ public class MultiWorld extends JavaPlugin {
 			if (args[0].equalsIgnoreCase("reload") && (sender.isOp() || 
 					Permissions.Security.has(p, "multiworld.reload"))) {
 				
-				reloadConfigs();
+				conf.load();
 				sender.sendMessage(green + Lang.reloaded);
 				return true;
 			}
 			
-			if (args[0].equalsIgnoreCase("who") && (sender.isOp() || Permissions.Security.has(p, "multiworld.kto"))) {
+			if (args[0].equalsIgnoreCase("who") && (sender.isOp() || Permissions.Security.has(p, "multiworld.who"))) {
 				if (args.length == 1) {
 					if (sender instanceof ConsoleCommandSender) {
 						sender.sendMessage(red + "[MultiWorld] Choose worldname!");
@@ -359,8 +364,8 @@ public class MultiWorld extends JavaPlugin {
 					List<Player> players = new LinkedList<Player>();
 					players.add(player.get(p.getWorld().getName()));
 					for (Player p1 : players) {
-						p.sendMessage(gold + Lang.playersIn + p.getWorld().getName());
-						p.sendMessage(green + p1.toString());
+						p.sendMessage(gold + Lang.playersIn +" "+ p.getWorld().getName());
+						p.sendMessage(green + p1.getName().toString());
 						return true;
 					}
 					
