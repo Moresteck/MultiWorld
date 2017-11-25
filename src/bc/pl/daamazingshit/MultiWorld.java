@@ -1,5 +1,6 @@
 package bc.pl.daamazingshit;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,38 +29,108 @@ public class MultiWorld extends JavaPlugin {
 	public void onDisable() {
 		
 		saveConfig();
-		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " wylaczony");
+		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " disabled");
 		
 	}
 
 	@Override
 	public void onEnable() {
 		
-		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " wlaczony");
+		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " enabled");
 		loadConfig();
-		log.info("[MultiWorld] Konfiguracja zaladowana.");
+		if (!getLangConfigFile().exists()) {
+			createOne();
+		}
+		loadLang();
+		log.info("[MultiWorld] Configuration has been loaded.");
 		
 	}
 	
-	public Configuration getConfig() {
+	public static File getConfigFile() {
 		
-		return getConfiguration();
+		return new File("plugins/MultiWorld", "config.yml");
 	}
 	
-	public void loadConfig() {
+	public static Configuration getConfig() {
+		
+		return new Configuration(getConfigFile());
+	}
+	
+    public static File getLangConfigFile() {
+		
+		return new File("plugins/MultiWorld", "lang.txt");
+	}
+    
+    public static void createOne() {
+    	
+    	loadLang();
+    	getLangConfig().setProperty("lang.notEnough", "Not enough arguments!");
+    	getLangConfig().setProperty("lang.worldErasedSuccessfully", "World erased successfully!");
+    	getLangConfig().setProperty("lang.couldNotErase", "Could not erase world!");
+    	getLangConfig().setProperty("lang.inGameOnly", "Only players can do this!");
+    	getLangConfig().setProperty("lang.tpToWorld", "Teleporting to");
+    	getLangConfig().setProperty("lang.nonExistingWorld", "Non-existent world specified");
+    	getLangConfig().setProperty("lang.nonExistingPlayer", "Non-existent player specified");
+    	getLangConfig().setProperty("lang.to", "to");
+    	getLangConfig().setProperty("lang.tp", "Teleporting");
+    	getLangConfig().setProperty("lang.sendTo", "send you to");
+    	getLangConfig().setProperty("lang.console", "*Console*");
+    	getLangConfig().setProperty("lang.worldList", "World list");
+    	getLangConfig().setProperty("lang.reloaded", "Reloaded.");
+    	getLangConfig().setProperty("lang.playersIn", "Players in world");
+    	getLangConfig().setProperty("lang.noPermission", "You have no permission to do this!");
+    	getLangConfig().setProperty("lang.creating", "Creating new world -");
+    	getLangConfig().setProperty("lang.type", "type");
+    	getLangConfig().setProperty("lang.created", "Created new world.");
+    	getLangConfig().setProperty("lang.types", "Available types of worlds");
+    	getLangConfig().setProperty("lang.removed", "Removed world successfully");
+    	getLangConfig().save();
+    }
+    
+    public static Configuration getLangConfig() {
+		
+		return new Configuration(getLangConfigFile());
+	}
+	
+	public static void loadConfig() {
 		
 		getConfig().load();
 	}
 	
-	public void saveConfig() {
+	public static void loadLang() {
+		
+		getLangConfig().load();
+		Lang.notEnough = getLangConfig().getString("lang.notEnough", Lang.notEnough);
+    	Lang.worldErasedSuccessfully = getLangConfig().getString("lang.worldErasedSuccessfully", Lang.worldErasedSuccessfully);
+    	Lang.couldNotErase = getLangConfig().getString("lang.couldNotErase", Lang.couldNotErase);
+    	Lang.inGameOnly = getLangConfig().getString("lang.inGameOnly", Lang.inGameOnly);
+    	Lang.tpToWorld = getLangConfig().getString("lang.tpToWorld", Lang.tpToWorld);
+    	Lang.nonExistingWorld = getLangConfig().getString("lang.nonExistingWorld", Lang.nonExistingWorld);
+    	Lang.nonExistingPlayer = getLangConfig().getString("lang.nonExistingPlayer", Lang.nonExistingPlayer);
+    	Lang.to = getLangConfig().getString("lang.to", Lang.to);
+    	Lang.tp = getLangConfig().getString("lang.tp", Lang.tp);
+    	Lang.sendTo = getLangConfig().getString("lang.sendTo", Lang.sendTo);
+    	Lang.console = getLangConfig().getString("lang.console", Lang.console);
+    	Lang.worldList = getLangConfig().getString("lang.worldList", Lang.worldList);
+    	Lang.reloaded = getLangConfig().getString("lang.reloaded", Lang.reloaded);
+    	Lang.playersIn = getLangConfig().getString("lang.playersIn", Lang.playersIn);
+    	Lang.noPermission = getLangConfig().getString("lang.noPermission", Lang.noPermission);
+    	Lang.creating = getLangConfig().getString("lang.creating", Lang.creating);
+    	Lang.type = getLangConfig().getString("lang.type", Lang.type);
+    	Lang.created = getLangConfig().getString("lang.created", Lang.created);
+    	Lang.types = getLangConfig().getString("lang.types", Lang.types);
+    	Lang.removed = getLangConfig().getString("lang.removed", Lang.removed);
+	}
+	
+	public static void saveConfig() {
 		
 		getConfig().save();
 	}
 	
-	public void reloadConfig() {
+	public static void reloadConfig() {
 		
-		getConfig().save();
 		getConfig().load();
+		getLangConfig().load();
 	}
 	
 	
@@ -76,129 +147,165 @@ public class MultiWorld extends JavaPlugin {
 		ChatColor black  = ChatColor.BLACK;
 		ChatColor daqua  = ChatColor.DARK_AQUA;
 		ChatColor yellow = ChatColor.YELLOW;
+		ChatColor gray   = ChatColor.GRAY;
 		
 		if (cmd.getName().equalsIgnoreCase("mw")) {
 			
 			if (args.length == 0) {
 				//------------------------------------------------------------------------------
-				sender.sendMessage(red   + "Za malo argumentow! Pomoc:");
+				sender.sendMessage(red   + Lang.notEnough);
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw stworz " + blue  + "<swiat> (typ) "   + 
-						   white  + "-"   + green + " Stwarza nowy swiat");
+				sender.sendMessage(gold  + "  /mw create " + blue  + "<world> (type) "   + 
+						   white  + "-"   + green + " Creates new world");
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw usun "   + blue  + "<swiat> "         + 
-						   white  + "-"   + green + " Usuwa swiat");
+				sender.sendMessage(gold  + "  /mw delete "   + blue  + "<world> "         + 
+						   white  + "-"   + green + " Removes world from database (keeps files)");
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw idz "    + blue  + "<swiat> "         + 
-						   white  + "-"   + green + " Wysyla cie na wybrany swiat");
+				sender.sendMessage(gold  + "  /mw erase "   + blue  + "<world> "         + 
+						   white  + "-"   + green + " Erases world's FILES from database");
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw wyslij " + blue  + "<gracz> <swiat> " + 
-						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
+				sender.sendMessage(gold  + "  /mw go "    + blue  + "<world> "         + 
+						   white  + "-"   + green + " Sends you to specyfied world");
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         +
-				           white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
+				sender.sendMessage(gold  + "  /mw send " + blue  + "<player> <world> " + 
+						   white  + "-"   + green + " Sends someone to specyfied world");
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw lista "                               + 
-						   white  + "-"   + green + " Ukazuje liste swiatow");
+				sender.sendMessage(gold  + "  /mw who "    + blue  + "(world) "         +
+				           white  + "-"   + green + " Who's playing in that world?");
 				//------------------------------------------------------------------------------
-				sender.sendMessage(gold  + "  /mw przeladuj"                            +
-						   white + "-"    + green + " Przeladowuje konfiguracje");
+				sender.sendMessage(gold  + "  /mw list "                               + 
+						   white  + "-"   + green + " Shows worldlist");
+				//------------------------------------------------------------------------------
+				sender.sendMessage(gold  + "  /mw reload"                            +
+						   white + "-"    + green + " Reloads the configuration");
 				//------------------------------------------------------------------------------
 				sender.sendMessage(black + " Copyright "   + daqua + "BetaCraftNet "    + 
 						   yellow + "2017");
 				//------------------------------------------------------------------------------
 				return true;
 			}
-			if (args[0].equalsIgnoreCase("stworz") && (sender.isOp() || Permissions.Security.has(p, "multiworld.stworz"))) {
+			if (args[0].equalsIgnoreCase("create") && (sender.isOp() || Permissions.Security.has(p, "multiworld.create"))) {
 				
 				if (args.length == 1 || args.length == 2) {
 					
-					sender.sendMessage(red  + "Za malo argumentow! Pomoc:");
-					sender.sendMessage(gold + "  /mw stworz " + blue + "<swiat> (typ)");
+					sender.sendMessage(red  + Lang.notEnough);
+					sender.sendMessage(gold + "  /mw create " + blue + "<world> (type)");
 					return true;
 				}
 				if (args[2].equalsIgnoreCase("nether")) {
 					
-					getServer().broadcastMessage(gold + "Tworzenie nowego swiata - nazwa: " + 
-								     yellow + args[1] + gold + ", typ: " + 
+					getServer().broadcastMessage(gold + Lang.creating + " " + 
+								     yellow + args[1] + gold + ", " + Lang.type + " - " + 
 								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NETHER);
 					getConfig().setProperty(args[1], "nether");
 					reloadConfig();
-					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
+					getServer().broadcastMessage(green + Lang.created);
 					return true;
 				}
-				if (args[2].equalsIgnoreCase("normalny")) {
+				if (args[2].equalsIgnoreCase("normal")) {
 					
-					getServer().broadcastMessage(gold  + "Tworzenie nowego swiata - nazwa: " + 
-								     yellow + args[1] + gold + ", typ: " + 
+					getServer().broadcastMessage(gold  + Lang.creating + " " + 
+								     yellow + args[1] + gold + ", " + Lang.type + " - " + 
 								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NORMAL);
-					getConfig().setProperty(args[1], "normalny");
+					getConfig().setProperty(args[1], "normal");
 					reloadConfig();
-					getServer().broadcastMessage(green + "Stworzono nowy swiat!");
+					getServer().broadcastMessage(green + Lang.created);
 					return true;
 				} else {
 					
-					sender.sendMessage(red    + "Dopuszczalne typy swiata:");
-					sender.sendMessage(green  + " normalny");
+					sender.sendMessage(red    + Lang.types + ":");
+					sender.sendMessage(green  + " normal");
 					sender.sendMessage(yellow + " nether");
 					return true;
 				}
 				
 			}
-			if (args[0].equalsIgnoreCase("usun") && (sender.isOp() || Permissions.Security.has(p, "multiworld.usun"))) {
+			if (args[0].equalsIgnoreCase("delete") && (sender.isOp() || Permissions.Security.has(p, "multiworld.delete"))) {
 				
 				if (args.length == 1) {
 					
-					sender.sendMessage(red  + "Za malo argumentow! Pomoc:");
-					sender.sendMessage(gold + "  /mw usun " + blue + "<swiat>");
+					sender.sendMessage(red  + Lang.notEnough);
+					sender.sendMessage(gold + "  /mw delete " + blue + "<world>");
 					return true;
 				}
 				if (getConfig().getProperty(args[1]) != null) {
 					
 					getConfig().removeProperty(args[1]);
 					reloadConfig();
-					sender.sendMessage(green + "Swiat usuniety pomyslnie! (\"" + 
+					sender.sendMessage(green + Lang.removed + " (\"" + 
 							   gold + args[1] + green + "\")!");
 					return true;
 				} else {
 					
-					sender.sendMessage(red + "Taki swiat nie istnieje (" + gold + args[1] + red + ")!");
+					sender.sendMessage(red + Lang.nonExistingWorld + " (" + gold + args[1] + red + ")!");
 					return true;
 				}
 			}
-			if (args[0].equalsIgnoreCase("idz") && (sender.isOp() || Permissions.Security.has(p, "multiworld.idz"))) {
+            if (args[0].equalsIgnoreCase("erase") && (sender.isOp() || Permissions.Security.has(p, "multiworld.erase"))) {
+            	
+				if (args.length == 1) {
+					
+					sender.sendMessage(red  + Lang.notEnough);
+					sender.sendMessage(gold + "  /mw erase " + blue + "<world>");
+					return true;
+				}
+				File file = new File(args[1]);
+				if (file.exists()) {
+					try {
+						file.delete();
+						
+						if (getConfig().getProperty(args[1]) != null) {
+							getConfig().removeProperty(args[1]);
+							reloadConfig();
+						}
+						sender.sendMessage(green + Lang.worldErasedSuccessfully + "(\"" + 
+								   gold + args[1] + green + "\")!");
+						return true;
+					}
+					catch (Exception ee) {
+						sender.sendMessage(green + Lang.couldNotErase + " (\"" + 
+								   gold + args[1] + green + "\")!");
+					}
+					return true;
+				}
+				else {
+					
+				}
+			}
+			if (args[0].equalsIgnoreCase("go") && (sender.isOp() || Permissions.Security.has(p, "multiworld.go"))) {
 				
 				if (!(sender instanceof Player)) {
 					
-					sender.sendMessage("Takie rzeczy tylko w grze!");
+					sender.sendMessage(Lang.inGameOnly);
+					return true;
 				}
 				if (args.length == 1) {
 					
-					sender.sendMessage(red  + "Za malo argumentow! Pomoc:");
-					sender.sendMessage(gold + "  /mw idz " + blue + "<swiat>");
+					sender.sendMessage(red  + Lang.notEnough);
+					sender.sendMessage(gold + "  /mw go " + blue + "<world>");
 					return true;
 				}
 				if (getConfig().getProperty(args[1]) != null) {
 					
 					Location spawn = getServer().getWorld(args[1]).getSpawnLocation();
 					p.teleportTo(spawn);
-					p.sendMessage(ChatColor.GRAY + "Teleportacja do swiata " + gold + 
-						      args[1] + ChatColor.GRAY + ".");
+					p.sendMessage(gray + Lang.tpToWorld + gold + 
+						      args[1] + gray + ".");
 					return true;
 				} else {
 					
-					sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + args[2] + red + ")!");
+					sender.sendMessage(red + Lang.nonExistingWorld + " (" + gold + args[2] + red + ")!");
 					return true;
 				}
 			}
-			if (args[0].equalsIgnoreCase("wyslij") && (sender.isOp() || Permissions.Security.has(p, "multiworld.wyslij"))) {
+			if (args[0].equalsIgnoreCase("send") && (sender.isOp() || Permissions.Security.has(p, "multiworld.send"))) {
 				
 				if (args.length == 1 || args.length == 2) {
 					
-					sender.sendMessage(red  + "Za malo argumentow! Pomoc:");
-					sender.sendMessage(gold + "  /mw wyslij " + blue + "<gracz> <swiat>");
+					sender.sendMessage(red  + Lang.notEnough);
+					sender.sendMessage(gold + "  /mw send " + blue + "<player> <world>");
 					return true;
 				}
 				
@@ -210,20 +317,20 @@ public class MultiWorld extends JavaPlugin {
 						
 						Location spawn = getServer().getWorld(args[2]).getSpawnLocation();
 						target.teleportTo(spawn);
-						sender.sendMessage(green + "Teleportacja gracza " + yellow + 
-								target.getName() + green + " do swiata " + gold + 
+						sender.sendMessage(green + Lang.tp +" "+ yellow + 
+								target.getName() + green + " " + Lang.to + gold + 
 								args[2] + green + ".");
 						
 						if (sender == p) {
 							
 							target.sendMessage(yellow + p.getDisplayName() + green + 
-									" wyslal Cie na swiat " + gold + args[2] + 
+									" " + Lang.sendTo + " " + gold + args[2] + 
 									green + ".");
 							return true;
 						}
 						if (sender != p) {
 							
-							target.sendMessage(yellow + "*Konsola* " + green + "wyslala Cie na swiat " +
+							target.sendMessage(yellow + Lang.console + " " + green + Lang.sendTo+ " " +
 						            gold + args[2] + green + ".");
 							return true;
 						}
@@ -232,44 +339,42 @@ public class MultiWorld extends JavaPlugin {
 					
 					else {
 					
-						sender.sendMessage(gold + "Gracz " + yellow + args[1] + red + " nie" + 
-					            gold + " istnieje!");
+						sender.sendMessage(gold + Lang.nonExistingPlayer + " (" + args[1] + ").");
 						return true;
 					}
 				} else {
-					sender.sendMessage(red + "Ten swiat nie istnieje (" + gold + 
-							   args[2] + red + ")!");
+					sender.sendMessage(red + Lang.nonExistingWorld + " ("+args[2]+").");
 					return true;
 				}
 				
 				
 			}
-			if (args[0].equalsIgnoreCase("lista") && (sender.isOp() || Permissions.Security.has(p, "multiworld.lista"))) {
+			if (args[0].equalsIgnoreCase("list") && (sender.isOp() || Permissions.Security.has(p, "multiworld.list"))) {
 				List<String> worlds = new LinkedList<String>();
 				worlds.add(getServer().getWorlds().toString());
 				
-				sender.sendMessage(green + "Lista swiatow: ");
+				sender.sendMessage(green + Lang.worldList + ":");
 				sender.sendMessage(worlds.toString());
 				return true;
 			}
-			if (args[0].equalsIgnoreCase("przeladuj") && (sender.isOp() || 
-					Permissions.Security.has(p, "multiworld.przeladuj"))) {
+			if (args[0].equalsIgnoreCase("reload") && (sender.isOp() || 
+					Permissions.Security.has(p, "multiworld.reload"))) {
 				
 				reloadConfig();
-				sender.sendMessage(green + "Konfiguracja przeladowana.");
+				sender.sendMessage(green + Lang.reloaded);
 				return true;
 			}
 			
-			if (args[0].equalsIgnoreCase("kto") && (sender.isOp() || Permissions.Security.has(p, "multiworld.kto"))) {
+			if (args[0].equalsIgnoreCase("who") && (sender.isOp() || Permissions.Security.has(p, "multiworld.kto"))) {
 				if (args.length == 1) {
 					if (sender instanceof ConsoleCommandSender) {
-						sender.sendMessage(red + "[MultiWorld] Wybierz swiat!");
+						sender.sendMessage(red + "[MultiWorld] Choose worldname!");
 						return true;
 					}
 					List<Player> players = new LinkedList<Player>();
 					players.add(player.get(p.getWorld().getName()));
 					for (Player p1 : players) {
-						p.sendMessage(gold + "Na tym swiecie ("+p.getWorld().getName()+") sa gracze:");
+						p.sendMessage(gold + Lang.playersIn + p.getWorld().getName());
 						p.sendMessage(green + p1.toString());
 						return true;
 					}
@@ -279,18 +384,18 @@ public class MultiWorld extends JavaPlugin {
 					List<Player> players = new LinkedList<Player>();
 					players.add(player.get(args[1]));
 					for (Player p1 : players) {
-						sender.sendMessage(gold + "Na tym swiecie ("+p.getWorld().getName()+") sa gracze:");
+						sender.sendMessage(gold + Lang.playersIn + p.getWorld().getName());
 						sender.sendMessage(green + p1.toString());
 						return true;
 					}
 				}
 				else {
-					sender.sendMessage(red + "[MultiWorld] Taki swiat nie istnieje!");
+					sender.sendMessage(red + "[MultiWorld] " + Lang.nonExistingWorld);
 				}
 			}
 			else {
 				
-				sender.sendMessage(red + "Nie masz uprawnien aby tego dokonac!");
+				sender.sendMessage(red + Lang.noPermission);
 				return true;
 			}
 		}
