@@ -1,6 +1,6 @@
 name: MultiWorld
 main: bc.pl.daamazingshit.MultiWorld
-version: 0.3
+version: 0.3.1
 author: DaAmazingShit
 description: Allows to have more than one world on your server
 commands:

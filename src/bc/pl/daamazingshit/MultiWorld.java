@@ -25,10 +25,16 @@ public class MultiWorld extends JavaPlugin {
 	public static HashMap<String, Player> player = new HashMap<String, Player>();
 	public static HashMap<Player, String> player2 = new HashMap<Player, String>();
 	
+	public static File langfile = new File("plugins/MultiWorld", "lang.txt");
+	public static Configuration lang = new Configuration(langfile);
+	
+	public static File confile = new File("plugins/MultiWorld", "config.yml");
+	public static Configuration conf = new Configuration(confile);
+	
 	@Override
 	public void onDisable() {
 		
-		saveConfig();
+		conf.save();
 		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " disabled");
 		
 	}
@@ -37,100 +43,79 @@ public class MultiWorld extends JavaPlugin {
 	public void onEnable() {
 		
 		log.info("[MultiWorld] MultiWorld " + getDescription().getVersion() + " enabled");
-		loadConfig();
-		if (!getLangConfigFile().exists()) {
+		conf.load();
+		if (!langfile.exists()) {
 			createOne();
+		}
+		if (!confile.exists()) {
+			createConf();
 		}
 		loadLang();
 		log.info("[MultiWorld] Configuration has been loaded.");
 		
 	}
-	
-	public static File getConfigFile() {
-		
-		return new File("plugins/MultiWorld", "config.yml");
-	}
-	
-	public static Configuration getConfig() {
-		
-		return new Configuration(getConfigFile());
-	}
-	
-    public static File getLangConfigFile() {
-		
-		return new File("plugins/MultiWorld", "lang.txt");
-	}
     
-    public static void createOne() {
+    private void createConf() {
+		conf.load();
+		
+		conf.setProperty("Worlds.world.type", "normal");;
+	}
+
+	public static void createOne() {
     	
-    	loadLang();
-    	getLangConfig().setProperty("lang.notEnough", "Not enough arguments!");
-    	getLangConfig().setProperty("lang.worldErasedSuccessfully", "World erased successfully!");
-    	getLangConfig().setProperty("lang.couldNotErase", "Could not erase world!");
-    	getLangConfig().setProperty("lang.inGameOnly", "Only players can do this!");
-    	getLangConfig().setProperty("lang.tpToWorld", "Teleporting to");
-    	getLangConfig().setProperty("lang.nonExistingWorld", "Non-existent world specified");
-    	getLangConfig().setProperty("lang.nonExistingPlayer", "Non-existent player specified");
-    	getLangConfig().setProperty("lang.to", "to");
-    	getLangConfig().setProperty("lang.tp", "Teleporting");
-    	getLangConfig().setProperty("lang.sendTo", "send you to");
-    	getLangConfig().setProperty("lang.console", "*Console*");
-    	getLangConfig().setProperty("lang.worldList", "World list");
-    	getLangConfig().setProperty("lang.reloaded", "Reloaded.");
-    	getLangConfig().setProperty("lang.playersIn", "Players in world");
-    	getLangConfig().setProperty("lang.noPermission", "You have no permission to do this!");
-    	getLangConfig().setProperty("lang.creating", "Creating new world -");
-    	getLangConfig().setProperty("lang.type", "type");
-    	getLangConfig().setProperty("lang.created", "Created new world.");
-    	getLangConfig().setProperty("lang.types", "Available types of worlds");
-    	getLangConfig().setProperty("lang.removed", "Removed world successfully");
-    	getLangConfig().save();
+    	lang.load();
+    	lang.setProperty("lang.notEnough", "Not enough arguments!");
+    	lang.setProperty("lang.worldErasedSuccessfully", "World erased successfully!");
+    	lang.setProperty("lang.couldNotErase", "Could not erase world!");
+    	lang.setProperty("lang.inGameOnly", "Only players can do this!");
+    	lang.setProperty("lang.tpToWorld", "Teleporting to");
+    	lang.setProperty("lang.nonExistingWorld", "Non-existent world specified");
+    	lang.setProperty("lang.nonExistingPlayer", "Non-existent player specified");
+    	lang.setProperty("lang.to", "to");
+    	lang.setProperty("lang.tp", "Teleporting");
+    	lang.setProperty("lang.sendTo", "send you to");
+    	lang.setProperty("lang.console", "*Console*");
+    	lang.setProperty("lang.worldList", "World list");
+    	lang.setProperty("lang.reloaded", "Reloaded.");
+    	lang.setProperty("lang.playersIn", "Players in world");
+    	lang.setProperty("lang.noPermission", "You have no permission to do this!");
+    	lang.setProperty("lang.creating", "Creating new world -");
+    	lang.setProperty("lang.type", "type");
+    	lang.setProperty("lang.created", "Created new world.");
+    	lang.setProperty("lang.types", "Available types of worlds");
+    	lang.setProperty("lang.removed", "Removed world successfully");
+    	lang.save();
     }
-    
-    public static Configuration getLangConfig() {
-		
-		return new Configuration(getLangConfigFile());
-	}
-	
-	public static void loadConfig() {
-		
-		getConfig().load();
-	}
 	
 	public static void loadLang() {
 		
-		getLangConfig().load();
-		Lang.notEnough = getLangConfig().getString("lang.notEnough", Lang.notEnough);
-    	Lang.worldErasedSuccessfully = getLangConfig().getString("lang.worldErasedSuccessfully", Lang.worldErasedSuccessfully);
-    	Lang.couldNotErase = getLangConfig().getString("lang.couldNotErase", Lang.couldNotErase);
-    	Lang.inGameOnly = getLangConfig().getString("lang.inGameOnly", Lang.inGameOnly);
-    	Lang.tpToWorld = getLangConfig().getString("lang.tpToWorld", Lang.tpToWorld);
-    	Lang.nonExistingWorld = getLangConfig().getString("lang.nonExistingWorld", Lang.nonExistingWorld);
-    	Lang.nonExistingPlayer = getLangConfig().getString("lang.nonExistingPlayer", Lang.nonExistingPlayer);
-    	Lang.to = getLangConfig().getString("lang.to", Lang.to);
-    	Lang.tp = getLangConfig().getString("lang.tp", Lang.tp);
-    	Lang.sendTo = getLangConfig().getString("lang.sendTo", Lang.sendTo);
-    	Lang.console = getLangConfig().getString("lang.console", Lang.console);
-    	Lang.worldList = getLangConfig().getString("lang.worldList", Lang.worldList);
-    	Lang.reloaded = getLangConfig().getString("lang.reloaded", Lang.reloaded);
-    	Lang.playersIn = getLangConfig().getString("lang.playersIn", Lang.playersIn);
-    	Lang.noPermission = getLangConfig().getString("lang.noPermission", Lang.noPermission);
-    	Lang.creating = getLangConfig().getString("lang.creating", Lang.creating);
-    	Lang.type = getLangConfig().getString("lang.type", Lang.type);
-    	Lang.created = getLangConfig().getString("lang.created", Lang.created);
-    	Lang.types = getLangConfig().getString("lang.types", Lang.types);
-    	Lang.removed = getLangConfig().getString("lang.removed", Lang.removed);
+		lang.load();
+		Lang.notEnough = lang.getString("lang.notEnough", Lang.notEnough);
+    	Lang.worldErasedSuccessfully = lang.getString("lang.worldErasedSuccessfully", Lang.worldErasedSuccessfully);
+    	Lang.couldNotErase = lang.getString("lang.couldNotErase", Lang.couldNotErase);
+    	Lang.inGameOnly = lang.getString("lang.inGameOnly", Lang.inGameOnly);
+    	Lang.tpToWorld = lang.getString("lang.tpToWorld", Lang.tpToWorld);
+    	Lang.nonExistingWorld = lang.getString("lang.nonExistingWorld", Lang.nonExistingWorld);
+    	Lang.nonExistingPlayer = lang.getString("lang.nonExistingPlayer", Lang.nonExistingPlayer);
+    	Lang.to = lang.getString("lang.to", Lang.to);
+    	Lang.tp = lang.getString("lang.tp", Lang.tp);
+    	Lang.sendTo = lang.getString("lang.sendTo", Lang.sendTo);
+    	Lang.console = lang.getString("lang.console", Lang.console);
+    	Lang.worldList = lang.getString("lang.worldList", Lang.worldList);
+    	Lang.reloaded = lang.getString("lang.reloaded", Lang.reloaded);
+    	Lang.playersIn = lang.getString("lang.playersIn", Lang.playersIn);
+    	Lang.noPermission = lang.getString("lang.noPermission", Lang.noPermission);
+    	Lang.creating = lang.getString("lang.creating", Lang.creating);
+    	Lang.type = lang.getString("lang.type", Lang.type);
+    	Lang.created = lang.getString("lang.created", Lang.created);
+    	Lang.types = lang.getString("lang.types", Lang.types);
+    	Lang.removed = lang.getString("lang.removed", Lang.removed);
 	}
 	
-	public static void saveConfig() {
+	public static void reloadConfigs() {
 		
-		getConfig().save();
-	}
-	
-	public static void reloadConfig() {
-		
-		getConfig().load();
-		getLangConfig().load();
+		conf.load();
+		lang.load();
 	}
 	
 	
@@ -198,8 +183,8 @@ public class MultiWorld extends JavaPlugin {
 								     yellow + args[1] + gold + ", " + Lang.type + " - " + 
 								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NETHER);
-					getConfig().setProperty(args[1], "nether");
-					reloadConfig();
+					conf.setProperty("Worlds."+args[1], "nether");
+					reloadConfigs();
 					getServer().broadcastMessage(green + Lang.created);
 					return true;
 				}
@@ -209,8 +194,8 @@ public class MultiWorld extends JavaPlugin {
 								     yellow + args[1] + gold + ", " + Lang.type + " - " + 
 								     yellow + args[2] + gold + "!");
 					getServer().createWorld(args[1], Environment.NORMAL);
-					getConfig().setProperty(args[1], "normal");
-					reloadConfig();
+					conf.setProperty("Worlds." + args[1] + ".type", "normal");
+					reloadConfigs();
 					getServer().broadcastMessage(green + Lang.created);
 					return true;
 				} else {
@@ -230,10 +215,10 @@ public class MultiWorld extends JavaPlugin {
 					sender.sendMessage(gold + "  /mw delete " + blue + "<world>");
 					return true;
 				}
-				if (getConfig().getProperty(args[1]) != null) {
+				if (conf.getProperty("Worlds."+args[1]) != null) {
 					
-					getConfig().removeProperty(args[1]);
-					reloadConfig();
+					conf.removeProperty("Worlds."+args[1]);
+					reloadConfigs();
 					sender.sendMessage(green + Lang.removed + " (\"" + 
 							   gold + args[1] + green + "\")!");
 					return true;
@@ -256,9 +241,9 @@ public class MultiWorld extends JavaPlugin {
 					try {
 						file.delete();
 						
-						if (getConfig().getProperty(args[1]) != null) {
-							getConfig().removeProperty(args[1]);
-							reloadConfig();
+						if (conf.getProperty("Worlds."+args[1]) != null) {
+							conf.removeProperty("Worlds."+args[1]);
+							reloadConfigs();
 						}
 						sender.sendMessage(green + Lang.worldErasedSuccessfully + "(\"" + 
 								   gold + args[1] + green + "\")!");
@@ -287,7 +272,7 @@ public class MultiWorld extends JavaPlugin {
 					sender.sendMessage(gold + "  /mw go " + blue + "<world>");
 					return true;
 				}
-				if (getConfig().getProperty(args[1]) != null) {
+				if (conf.getProperty("Worlds."+args[1]) != null) {
 					
 					Location spawn = getServer().getWorld(args[1]).getSpawnLocation();
 					p.teleportTo(spawn);
@@ -311,7 +296,7 @@ public class MultiWorld extends JavaPlugin {
 				
 				Player target = getServer().getPlayer(args[1]);
 					
-				if (getConfig().getProperty(args[2]) != null) {
+				if (conf.getProperty("Worlds."+args[2]) != null) {
 					
 					if (target != null) {
 						
@@ -360,7 +345,7 @@ public class MultiWorld extends JavaPlugin {
 			if (args[0].equalsIgnoreCase("reload") && (sender.isOp() || 
 					Permissions.Security.has(p, "multiworld.reload"))) {
 				
-				reloadConfig();
+				reloadConfigs();
 				sender.sendMessage(green + Lang.reloaded);
 				return true;
 			}
