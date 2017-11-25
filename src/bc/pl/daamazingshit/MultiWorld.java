@@ -1,5 +1,8 @@
 package bc.pl.daamazingshit;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -7,17 +10,19 @@ import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
-import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class MultiWorld extends JavaPlugin {
 	
-	private PermissionHandler pr;
-	
 	public static final Logger log = Logger.getLogger("Minecraft");
+	
+	public static HashMap<String, Player> player = new HashMap<String, Player>();
+	public static HashMap<Player, String> player2 = new HashMap<Player, String>();
 	
 	@Override
 	public void onDisable() {
@@ -90,7 +95,8 @@ public class MultiWorld extends JavaPlugin {
 				sender.sendMessage(gold  + "  /mw wyslij " + blue  + "<gracz> <swiat> " + 
 						   white  + "-"   + green + " Wysyla kogos na wybrany swiat");
 				//------------------------------------------------------------------------------
-				//sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         + white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
+				sender.sendMessage(gold  + "  /mw kto "    + blue  + "(swiat) "         +
+				           white  + "-"   + green + " Sprawdza kto jest na danym swiecie");
 				//------------------------------------------------------------------------------
 				sender.sendMessage(gold  + "  /mw lista "                               + 
 						   white  + "-"   + green + " Ukazuje liste swiatow");
@@ -103,7 +109,7 @@ public class MultiWorld extends JavaPlugin {
 				//------------------------------------------------------------------------------
 				return true;
 			}
-			if (args[0].equalsIgnoreCase("stworz") && (sender.isOp() || pr.has(p, "multiworld.stworz"))) {
+			if (args[0].equalsIgnoreCase("stworz") && (sender.isOp() || Permissions.Security.has(p, "multiworld.stworz"))) {
 				
 				if (args.length == 1 || args.length == 2) {
 					
@@ -141,7 +147,7 @@ public class MultiWorld extends JavaPlugin {
 				}
 				
 			}
-			if (args[0].equalsIgnoreCase("usun") && (sender.isOp() || pr.has(p, "multiworld.usun"))) {
+			if (args[0].equalsIgnoreCase("usun") && (sender.isOp() || Permissions.Security.has(p, "multiworld.usun"))) {
 				
 				if (args.length == 1) {
 					
@@ -162,7 +168,7 @@ public class MultiWorld extends JavaPlugin {
 					return true;
 				}
 			}
-			if (args[0].equalsIgnoreCase("idz") && (sender.isOp() || pr.has(p, "multiworld.idz"))) {
+			if (args[0].equalsIgnoreCase("idz") && (sender.isOp() || Permissions.Security.has(p, "multiworld.idz"))) {
 				
 				if (!(sender instanceof Player)) {
 					
@@ -187,7 +193,7 @@ public class MultiWorld extends JavaPlugin {
 					return true;
 				}
 			}
-			if (args[0].equalsIgnoreCase("wyslij") && (sender.isOp() || pr.has(p, "multiworld.wyslij"))) {
+			if (args[0].equalsIgnoreCase("wyslij") && (sender.isOp() || Permissions.Security.has(p, "multiworld.wyslij"))) {
 				
 				if (args.length == 1 || args.length == 2) {
 					
@@ -238,18 +244,49 @@ public class MultiWorld extends JavaPlugin {
 				
 				
 			}
-			if (args[0].equalsIgnoreCase("lista") && (sender.isOp() || pr.has(p, "multiworld.lista"))) {
+			if (args[0].equalsIgnoreCase("lista") && (sender.isOp() || Permissions.Security.has(p, "multiworld.lista"))) {
+				List<String> worlds = new LinkedList<String>();
+				worlds.add(getServer().getWorlds().toString());
 				
 				sender.sendMessage(green + "Lista swiatow: ");
-				sender.sendMessage(getServer().getWorlds().toString());
+				sender.sendMessage(worlds.toString());
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("przeladuj") && (sender.isOp() || 
-					pr.has(p, "multiworld.przeladuj"))) {
+					Permissions.Security.has(p, "multiworld.przeladuj"))) {
 				
 				reloadConfig();
 				sender.sendMessage(green + "Konfiguracja przeladowana.");
 				return true;
+			}
+			
+			if (args[0].equalsIgnoreCase("kto") && (sender.isOp() || Permissions.Security.has(p, "multiworld.kto"))) {
+				if (args.length == 1) {
+					if (sender instanceof ConsoleCommandSender) {
+						sender.sendMessage(red + "[MultiWorld] Wybierz swiat!");
+						return true;
+					}
+					List<Player> players = new LinkedList<Player>();
+					players.add(player.get(p.getWorld().getName()));
+					for (Player p1 : players) {
+						p.sendMessage(gold + "Na tym swiecie ("+p.getWorld().getName()+") sa gracze:");
+						p.sendMessage(green + p1.toString());
+						return true;
+					}
+					
+				}
+				if (getServer().getWorld(args[1]) != null) {
+					List<Player> players = new LinkedList<Player>();
+					players.add(player.get(args[1]));
+					for (Player p1 : players) {
+						sender.sendMessage(gold + "Na tym swiecie ("+p.getWorld().getName()+") sa gracze:");
+						sender.sendMessage(green + p1.toString());
+						return true;
+					}
+				}
+				else {
+					sender.sendMessage(red + "[MultiWorld] Taki swiat nie istnieje!");
+				}
 			}
 			else {
 				

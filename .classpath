@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="craftbukkit.jar"/>
 	<classpathentry kind="lib" path="Permissions.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Pioter/Desktop/server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
