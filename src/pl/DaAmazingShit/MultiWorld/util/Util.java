@@ -4,7 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.World.Environment;
+import org.bukkit.craftbukkit.CraftWorld;
 
+import net.minecraft.server.WorldServer;
 import pl.DaAmazingShit.MultiWorld.MultiWorldMain;
 
 public class Util {
@@ -42,5 +44,16 @@ public class Util {
 		
 		MultiWorldMain.config.setProperty("worlds.world.environment", Environment.NORMAL);
 		MultiWorldMain.config.setProperty("worlds.world.load-on-startup", true);
+	}
+	
+	public static void saveWorlds() {
+		List<String> worlds = new LinkedList<String>();
+		worlds = MultiWorldMain.config.getStringList("worldlist", worlds);
+		
+		for (String w : worlds) {
+			CraftWorld wor = (CraftWorld) MultiWorldMain.staticServer.getWorld(w);
+			WorldServer wo = wor.getHandle();
+			wo.A.a(true, null);
+		}
 	}
 }

@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
 import pl.DaAmazingShit.MultiWorld.listeners.MWListener;
+import pl.DaAmazingShit.MultiWorld.util.Util;
 
 public class MultiWorldMain extends JavaPlugin {
 	
@@ -32,11 +33,15 @@ public class MultiWorldMain extends JavaPlugin {
 		version.replaceAll(" (MC: ", "");
 		version.replaceAll(")", "");
 		registerEvents();
+		if (!configFile.exists()) {
+			Util.firstStartup();
+		}
+		Util.loadWorlds();
 	}
 	
 	@Override
 	public void onDisable() {
-		
+		Util.saveWorlds();
 	}
 	
 	private static void registerEvents() {
