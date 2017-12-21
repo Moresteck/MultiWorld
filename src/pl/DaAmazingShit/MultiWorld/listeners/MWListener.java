@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -34,6 +35,22 @@ public class MWListener extends PlayerListener {
 			worldsAndPlayers.remove(from.getName(), e.getPlayer().getName());
 			worldsAndPlayers.put(to.getName(), e.getPlayer().getName());
 		}
+	}
+	
+	@Override
+	public void onPlayerJoin(PlayerEvent e) {
+		World world = e.getPlayer().getWorld();
+		
+		whereIsPlayer.put(e.getPlayer().getName(), world);
+		worldsAndPlayers.put(world.getName(), e.getPlayer().getName());
+	}
+	
+	@Override
+	public void onPlayerQuit(PlayerEvent e) {
+		World world = e.getPlayer().getWorld();
+		
+		whereIsPlayer.remove(e.getPlayer().getName());
+		worldsAndPlayers.remove(world.getName(), e.getPlayer().getName());
 	}
 	
 	@Override
