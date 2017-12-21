@@ -1,9 +1,5 @@
 name: MultiWorld
-version: "1.0-beta" // NOT recommended now, unfinished.
+version: "1.0-beta2"
 main: pl.DaAmazingShit.MultiWorld.MultiWorldMain
-commands:
-    multiworld:
-        usage: /multiworld
-        aliases: [mw]
-        description : |
-            MultiWorld help
+author: DaAmazingShit
+load: startup

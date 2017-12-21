@@ -16,16 +16,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import pl.DaAmazingShit.MultiWorld.MultiWorldMain;
 import pl.DaAmazingShit.MultiWorld.util.Lang;
 import pl.DaAmazingShit.MultiWorld.util.Respond;
+import pl.DaAmazingShit.MultiWorld.util.Util;
 
 public class MWListener extends PlayerListener {
 	
 	public static HashMap<String, World> whereIsPlayer     = new HashMap<String, World>();
 	public static HashMap<String, String> worldsAndPlayers = new HashMap<String, String>();
-	
-	@Override
-	public void onPlayerMove(PlayerMoveEvent e) {
-		
-	}
 	
 	@Override
 	public void onPlayerTeleport(PlayerMoveEvent e) {
@@ -68,7 +64,7 @@ public class MWListener extends PlayerListener {
         	}
         	try {
             	// Great checker: if world exists V
-        	    world = MultiWorldMain.staticServer.getWorld(args[1]);
+        		world = MultiWorldMain.staticServer.getWorld(args[1]);
         		
         		File toRemove = new File(args[1]);
         		toRemove.delete();
@@ -76,6 +72,8 @@ public class MWListener extends PlayerListener {
         		String rem = Respond.removedSuccess.toString();
         		rem.replaceAll("<WORLD>", args[1]);
         		player.sendMessage(Lang.prefix + rem);
+        		
+        		Util.eraseWorld(args[1]);
         	}
         	catch (Exception ex) {
         		player.sendMessage(Lang.prefixWrong + Respond.errorRemove.toString());
@@ -104,6 +102,8 @@ public class MWListener extends PlayerListener {
         		String cr = Respond.createdSuccess.toString();
         		cr.replaceAll("<WORLD>", args[1]);
         		player.sendMessage(Lang.prefix + cr);
+        		
+        		Util.addWorld(args[1], args[2]);
         	}
         	catch (Exception ex) {
         		player.sendMessage(Lang.prefixWrong + Respond.errorCreate.toString());
@@ -132,6 +132,8 @@ public class MWListener extends PlayerListener {
         		String im = Respond.importedSuccess.toString();
         		im.replaceAll("<WORLD>", args[1]);
         		player.sendMessage(Lang.prefix + im);
+        		
+        		Util.addWorld(args[1], args[2]);
         	}
         	catch (Exception ex) {
         		player.sendMessage(Lang.prefixWrong + Respond.errorImport.toString());
