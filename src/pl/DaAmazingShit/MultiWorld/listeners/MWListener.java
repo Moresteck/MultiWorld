@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Entity;
@@ -21,11 +19,25 @@ import pl.DaAmazingShit.MultiWorld.util.Respond;
 
 public class MWListener extends PlayerListener {
 	
-	public static Map<String, String> players = new HashMap<String,String>();
+	public static HashMap<String, World> whereIsPlayer     = new HashMap<String, World>();
+	public static HashMap<String, String> worldsAndPlayers = new HashMap<String, String>();
 	
 	@Override
 	public void onPlayerMove(PlayerMoveEvent e) {
 		
+	}
+	
+	@Override
+	public void onPlayerTeleport(PlayerMoveEvent e) {
+		World from = e.getFrom().getWorld();
+		World to   = e.getTo().getWorld();
+		
+		if (from.getName() != to.getName()) {
+			whereIsPlayer.remove(e.getPlayer().getName());
+			whereIsPlayer.put(e.getPlayer().getName(), to);
+			worldsAndPlayers.remove(from.getName(), e.getPlayer().getName());
+			worldsAndPlayers.put(to.getName(), e.getPlayer().getName());
+		}
 	}
 	
 	@Override
@@ -56,7 +68,7 @@ public class MWListener extends PlayerListener {
         	}
         	try {
             	// Great checker: if world exists V
-        		world = MultiWorldMain.staticServer.getWorld(args[1]);
+        	    world = MultiWorldMain.staticServer.getWorld(args[1]);
         		
         		File toRemove = new File(args[1]);
         		toRemove.delete();
@@ -139,13 +151,13 @@ public class MWListener extends PlayerListener {
         		return;
         	}
         	try {
-        		if (players.get(args[1]) == null) {
+        		if (worldsAndPlayers.get(args[1]) == null) {
         			player.sendMessage(Lang.prefix + "§e" + args[1] + "§f has no players in.");
         			return;
         		}
-        		String pl  = players.get(args[1]);
+        		String pl  = worldsAndPlayers.get(args[1]);
             	String who = Respond.who.toString();
-            	who.replaceAll("<NUM>", Integer.toString(players.size()));
+            	who.replaceAll("<NUM>", Integer.toString(worldsAndPlayers.size()));
             	who.replaceAll("<WORLD>", args[1]);
             	who.replaceAll("<PLAYERS>", pl);
             	player.sendMessage(Lang.prefix + who);
@@ -168,7 +180,7 @@ public class MWListener extends PlayerListener {
         	}
         	try {
         		Player p = MultiWorldMain.staticServer.getPlayer(args[1]);
-        		if (players.get(args[1]) == null) {
+        		if (worldsAndPlayers.get(args[1]) == null) {
         			player.sendMessage(Lang.prefix + "§e" + args[1] + "§f has no players in.");
         			return;
         		}

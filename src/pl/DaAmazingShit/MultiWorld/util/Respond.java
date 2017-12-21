@@ -21,24 +21,5 @@ public enum Respond {
 	help(" §aMultiWorld help (page 1)+ §e/createworld§f <world> <environment>+ §e/importworld§f <world> <environment>+ §e/whoisin§f [world]+ §e/whereis§f <world>+ §e/clearworld§f [world]+ §e/worldinfo§f [world]+ §e/worldtp§f <world> [player]+ See §e/multiworld 2§f for more help."),
 	help2(" §aMultiWorld help (page 2)+ §eEnvironments can be: §anormal §for §cnether§f.+ Plugin created by §bDaAmazingShit§f, §92017§f.+ Version: §6" + MultiWorldMain.mwm.getDescription().getVersion() + "+ §fServer version: §c" + MultiWorldMain.version);
 	
-	private Respond(String str) {
-		
-	}
-	
-	
-	// XXX §+{a,b,c,d,e,f,1,2,3,4,5,6,7,8,9,0}
-	
-	/**
-	 *
-	public static String notEnough        = "Not enough arguments!";
-	public static String notRecognised    = "World could not be recognised!";
-	public static String createdSuccess   = "World §e<WORLD>§f created successfully!";
-	public static String removedSuccess   = "World §e<WORLD>§f removed successfully!";
-	public static String importedSuccess  = "World §e<WORLD>§f imported successfully!";
-	public static String who              = "§e<WORLD>§f has §b<NUM>§f player(s): <PLAYERS>";
-	public static String infoLine1        = "Worldname: §e<WORLD>";
-	public static String infoLine2        = "Environment: §<CC><WORLD>§f";
-	public static String infoLine3        = "Entities on the ground: §a<NUM>§f";
-	*
-	**/
+	private Respond(String str) {}
 }
