@@ -182,8 +182,8 @@ public class MWListener extends PlayerListener {
         	}
         	try {
         		Player p = MultiWorldMain.staticServer.getPlayer(args[1]);
-        		if (worldsAndPlayers.get(args[1]) == null) {
-        			player.sendMessage(Lang.prefix + "§e" + args[1] + "§f has no players in.");
+        		if (whereIsPlayer.get(args[1]) == null) {
+        			player.sendMessage(Lang.prefix + "§e" + args[1] + "§f is not online.");
         			return;
         		}
             	String whe = Respond.where.toString();
