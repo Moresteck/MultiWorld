@@ -23,6 +23,7 @@ import pl.DaAmazingShit.MultiWorld.util.Help;
 import pl.DaAmazingShit.MultiWorld.util.Lang;
 import pl.DaAmazingShit.MultiWorld.util.Respond;
 import pl.DaAmazingShit.MultiWorld.util.Help.Help2;
+import pl.DaAmazingShit.MultiWorld.util.Info;
 import pl.DaAmazingShit.MultiWorld.util.Respond.Error;
 
 public class MultiWorldMain extends JavaPlugin {
@@ -252,6 +253,7 @@ public class MultiWorldMain extends JavaPlugin {
 			            	player.sendMessage(Help2.line4);
 			            	player.sendMessage(Help2.line5);
 			            	player.sendMessage(Help2.line6);
+			            	player.sendMessage(Help2.line7);
 		            		return true;
 		            	}
 		            	catch (Exception ex) {
@@ -298,21 +300,20 @@ public class MultiWorldMain extends JavaPlugin {
 	        				ent.remove();
 	        			}
 	        		}
-	        		
-	            	player.sendMessage(Lang.prefix + Respond.clear(Integer.toString(entities.size()), args[0]));
+    				player.sendMessage(Lang.prefix + Respond.clear(world.getName()));
 	        		return true;
 	        	}
 	        	try {
 	        		List<Entity> entities = new LinkedList<Entity>();
 	        		entities = this.getServer().getWorld(args[0]).getEntities();
 	        		
+    				String lol = args[0];
 	        		for (Entity ent : entities) {
 	        			if ((!(ent instanceof HumanEntity)) || (!(ent instanceof Player))) {
 	        				ent.remove();
 	        			}
 	        		}
-	        		
-	            	player.sendMessage(Lang.prefix + Respond.clear(Integer.toString(entities.size()), args[0]));
+    				player.sendMessage(Lang.prefix + Respond.clear(lol));
 	        	}
 	        	catch (Exception ex) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.unknownError);
@@ -327,32 +328,38 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(infoCmd)) {
-	        	try {
-	        		String[] info = Respond.info.split("+");
-	        		player.sendMessage(info[0]);
-	        		player.sendMessage(info[1]);
-	        		player.sendMessage(info[2]);
-	        		player.sendMessage(info[3]);
+	        	if (args.length == 1) {
+		        	if (loadedWorlds.contains(args[0])) {
+			        	try {
+			        		World w = this.getServer().getWorld(args[0]);
+			        		player.sendMessage(Info.line1(w.getName()));
+			        		if (w.getEnvironment() == Environment.NORMAL) {
+			        			player.sendMessage(Info.line2(w.getName(), "normal"));
+			        		}
+			        		if (w.getEnvironment() == Environment.NETHER) {
+			        			player.sendMessage(Info.line2(w.getName(), "nether"));
+			        		}
+			        		player.sendMessage(Info.line3(Integer.toString(w.getEntities().size())));
+			        		player.sendMessage(Info.line4(MWListener.worldsAndPlayers.get(w.getName())));
+			        		return true;
+			        	}
+			        	catch (Exception ex) {
+			        		player.sendMessage(Lang.prefixWrong + Respond.unknownError);
+			        		ex.printStackTrace();
+			        		return true;
+			        	}
+		        	}
 	        	}
-	        	catch (Exception ex) {
-	        		player.sendMessage(Lang.prefixWrong + Respond.unknownError);
-	        		ex.printStackTrace();
-	        		return true;
-	        	}
-	        }
-	        
-	        /**
-	         * XXX INFO COMMAND
-	         * 
-	         */
-	        
-	        if (cmd.getName().equalsIgnoreCase(infoCmd)) {
 	        	try {
-	        		String[] info = Respond.info.split("+");
-	        		player.sendMessage(info[0]);
-	        		player.sendMessage(info[1]);
-	        		player.sendMessage(info[2]);
-	        		player.sendMessage(info[3]);
+	        		player.sendMessage(Info.line1(player.getWorld().getName()));
+	        		if (player.getWorld().getEnvironment() == Environment.NORMAL) {
+	        			player.sendMessage(Info.line2(player.getWorld().getName(), "normal"));
+	        		}
+	        		if (player.getWorld().getEnvironment() == Environment.NETHER) {
+	        			player.sendMessage(Info.line2(player.getWorld().getName(), "nether"));
+	        		}
+	        		player.sendMessage(Info.line3(Integer.toString(player.getWorld().getEntities().size())));
+	        		player.sendMessage(Info.line4(MWListener.worldsAndPlayers.get(player.getWorld().getName())));
 	        	}
 	        	catch (Exception ex) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.unknownError);

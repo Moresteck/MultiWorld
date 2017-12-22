@@ -11,7 +11,6 @@ public class Respond {
 	public static String removedSuccess     = "World §e<WORLD>§f removed successfully!";
 	public static String importedSuccess    = "World §e<WORLD>§f imported successfully!";
 	public static String who                = "§e<WORLD>§f has §b<NUM>§f player(s): <PLAYERS>";
-	public static String info               = "Worldname: §e<WORLD>§f+Environment: §<CC><WORLD>§f+Entities on the ground: §a<NUM>§f+Players in (§b<NUM>§f): <PLAYERS>";
 	public static String where              = "§e<PLAYER>§f is in §e<WORLD>§f.";
 	public static String errorImport        = "World §e<WORLD>§f could not be imported! See console.";
 	public static String errorRemove        = "World §e<WORLD>§f could not be removed! See console.";
@@ -71,8 +70,8 @@ public class Respond {
 		return "§e" + name + "§f is in §e" + world + "§f.";
 	}
 
-	public static String clear(String num, String world) {
-		return "Cleared §b" + num + "§f entities from §e" + world + "§f.";
+	public static String clear(String world) {
+		return "Cleared entities from §e" + world + "§f.";
 	}
 
 	public static String imported(String world) {

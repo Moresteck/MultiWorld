@@ -8,8 +8,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class MWListener extends PlayerListener {
 	
-	public static HashMap<String, World> whereIsPlayer     = new HashMap<String, World>();
-	public static HashMap<String, String> worldsAndPlayers = new HashMap<String, String>();
+	public static HashMap<String, World>   whereIsPlayer       = new HashMap<String, World>();
+	public static HashMap<String, String>  worldsAndPlayers    = new HashMap<String, String>();
+	public static HashMap<String, Integer> worldsPlayerInteger = new HashMap<String, Integer>();
 	
 	@Override
 	public void onPlayerTeleport(PlayerMoveEvent e) {
@@ -21,6 +22,8 @@ public class MWListener extends PlayerListener {
 			whereIsPlayer.put(e.getPlayer().getName(), to);
 			worldsAndPlayers.remove(from.getName(), e.getPlayer().getName());
 			worldsAndPlayers.put(to.getName(), e.getPlayer().getName());
+			worldsPlayerInteger.remove(from.getName(), e.getPlayer().getName());
+			worldsPlayerInteger.put(to.getName(), 1);
 		}
 	}
 	
@@ -36,7 +39,7 @@ public class MWListener extends PlayerListener {
 	public void onPlayerQuit(PlayerEvent e) {
 		World world = e.getPlayer().getWorld();
 		
-		whereIsPlayer.remove(e.getPlayer().getName());
+		whereIsPlayer.remove(e.getPlayer().getName(), world);
 		worldsAndPlayers.remove(world.getName(), e.getPlayer().getName());
 	}
 }
