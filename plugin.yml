@@ -2,3 +2,41 @@ name: MultiWorld
 version: 1.0-beta3
 main: pl.DaAmazingShit.MultiWorld.MultiWorldMain
 author: DaAmazingShit
+
+commands:
+    multiworld:
+        usage: /<command> [2]
+        aliases: [mw]
+        description: |
+            Shows MultiWorld help.
+    clearworld:
+        usage: /clearworld [world]
+        description: |
+            Clears the world from entities.
+    importworld:
+        usage: /importworld <world> <environment>
+        description: |
+            Imports and world.
+    createworld:
+        usage: /createworld <world> <environment>
+        description: |
+            Creates new world.
+    worldinfo:
+        usage: /worldinfo [world]
+        description: |
+            Shows world's info.
+
+
+
+    whereis:
+        usage: /whereis <player>
+        description: |
+            Prints player's world.
+    removeworld:
+        usage: /removeworld <world>
+        description: |
+            Removes world.
+    whoisin:
+        usage: /whoisin [world]
+        description: |
+            Shows a list of players in defined world.
