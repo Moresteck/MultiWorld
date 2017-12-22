@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import pl.DaAmazingShit.MultiWorld.MultiWorldMain;
+import pl.DaAmazingShit.MultiWorld.util.BukkitCore;
 import pl.DaAmazingShit.MultiWorld.util.Lang;
 import pl.DaAmazingShit.MultiWorld.util.Respond;
 import pl.DaAmazingShit.MultiWorld.util.Util;
@@ -81,7 +82,7 @@ public class MWListener extends PlayerListener {
         	}
         	try {
             	// Great checker: if world exists V
-        		world = MultiWorldMain.staticServer.getWorld(args[1]);
+        		world = BukkitCore.a().getWorld(args[1]);
         		
         		File toRemove = new File(args[1]);
         		toRemove.delete();
@@ -114,7 +115,7 @@ public class MWListener extends PlayerListener {
         		return;
         	}
         	try {
-        		MultiWorldMain.staticServer.createWorld(args[1], Environment.valueOf(args[2]));
+        		BukkitCore.a().createWorld(args[1], Environment.valueOf(args[2]));
         		
         		String cr = Respond.createdSuccess.toString();
         		cr.replaceAll("<WORLD>", args[1]);
@@ -144,7 +145,7 @@ public class MWListener extends PlayerListener {
         		return;
         	}
         	try {
-        		MultiWorldMain.staticServer.createWorld(args[1], Environment.valueOf(args[2]));
+        		BukkitCore.a().createWorld(args[1], Environment.valueOf(args[2]));
         		
         		String im = Respond.importedSuccess.toString();
         		im.replaceAll("<WORLD>", args[1]);
@@ -198,7 +199,7 @@ public class MWListener extends PlayerListener {
         		return;
         	}
         	try {
-        		Player p = MultiWorldMain.staticServer.getPlayer(args[1]);
+        		Player p = BukkitCore.a().getPlayer(args[1]);
         		if (whereIsPlayer.get(args[1]) == null) {
         			player.sendMessage(Lang.prefix + "§e" + args[1] + "§f is not online.");
         			return;
@@ -265,7 +266,7 @@ public class MWListener extends PlayerListener {
         	if (args[1] == null) {
             	World world = player.getWorld();
         		List<Entity> entities = new LinkedList<Entity>();
-        		entities = MultiWorldMain.staticServer.getWorld(world.getName()).getEntities();
+        		entities = BukkitCore.a().getWorld(world.getName()).getEntities();
         		
         		for (Entity ent : entities) {
         			if ((!(ent instanceof HumanEntity)) || (!(ent instanceof Player))) {
@@ -281,7 +282,7 @@ public class MWListener extends PlayerListener {
         	}
         	try {
         		List<Entity> entities = new LinkedList<Entity>();
-        		entities = MultiWorldMain.staticServer.getWorld(args[1]).getEntities();
+        		entities = BukkitCore.a().getWorld(args[1]).getEntities();
         		
         		for (Entity ent : entities) {
         			if ((!(ent instanceof HumanEntity)) || (!(ent instanceof Player))) {

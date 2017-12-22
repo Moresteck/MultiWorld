@@ -17,11 +17,13 @@ public class Util {
 		List<String> worlds = new LinkedList<String>();
 		worlds.add(worldname);
 		MultiWorldMain.config.setProperty("worldlist", worlds);
+		MultiWorldMain.config.save();
 	}
 	
 	public static void eraseWorld(String worldname) {
 		MultiWorldMain.config.removeProperty("worlds." + worldname);
 		MultiWorldMain.config.removeProperty("worldlist." + worldname);
+		MultiWorldMain.config.save();
 	}
 	
 	public static void loadWorlds() {
@@ -31,8 +33,10 @@ public class Util {
 		for (String w : worlds) {
 			if ((boolean)MultiWorldMain.config.getProperty("worlds." + w + ".load-on-startup")) {
 				// do try{}
-				Environment env = Environment.valueOf((String) MultiWorldMain.config.getProperty("worlds." + w + ".environment"));
-				MultiWorldMain.staticServer.createWorld(w, env);
+				String nulll = null;
+				nulll = MultiWorldMain.config.getString("worlds." + w + ".environment", nulll);
+				Environment env = Environment.valueOf(nulll);
+				BukkitCore.a().createWorld(w, env);
 			}
 		}
 	}
@@ -42,8 +46,9 @@ public class Util {
 		worlds.add("world");
 		MultiWorldMain.config.setProperty("worldlist", worlds);
 		
-		MultiWorldMain.config.setProperty("worlds.world.environment", Environment.NORMAL);
+		MultiWorldMain.config.setProperty("worlds.world.environment", Environment.NORMAL.toString());
 		MultiWorldMain.config.setProperty("worlds.world.load-on-startup", true);
+		MultiWorldMain.config.save();
 	}
 	
 	public static void saveWorlds() {
@@ -51,9 +56,10 @@ public class Util {
 		worlds = MultiWorldMain.config.getStringList("worldlist", worlds);
 		
 		for (String w : worlds) {
-			CraftWorld wor = (CraftWorld) MultiWorldMain.staticServer.getWorld(w);
+			CraftWorld wor = (CraftWorld) BukkitCore.a().getWorld(w);
 			WorldServer wo = wor.getHandle();
 			wo.A.a(true, null);
 		}
+		MultiWorldMain.config.save();
 	}
 }

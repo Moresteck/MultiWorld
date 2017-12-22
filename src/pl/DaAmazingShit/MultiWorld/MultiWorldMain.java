@@ -2,7 +2,6 @@ package pl.DaAmazingShit.MultiWorld;
 
 import java.io.File;
 
-import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -15,8 +14,7 @@ import pl.DaAmazingShit.MultiWorld.util.Util;
 
 public class MultiWorldMain extends JavaPlugin {
 	
-	public static MultiWorldMain mwm;
-	public static Server staticServer = mwm.getServer();
+	//public static Server staticServer;
 	
 	// Configuration & stuff
 	public static File configFile = new File("plugins/MultiWorld", "configuration.yml");
@@ -25,18 +23,27 @@ public class MultiWorldMain extends JavaPlugin {
 	public static Configuration permissions = new Configuration(permFile);
 	public static Configuration config = new Configuration(configFile);
 	
-	public static String version = staticServer.getVersion();
+	public static String version;
+	public static String pluginVersion = "1.0-beta3";
 	
 	@Override
 	public void onEnable() {
-		version.replaceAll(CraftServer.class.getPackage().getImplementationVersion(), "");
-		version.replaceAll(" (MC: ", "");
-		version.replaceAll(")", "");
-		registerEvents();
-		if (!configFile.exists()) {
-			Util.firstStartup();
+		System.out.println("Enabling MultiWorld...");
+		try {
+			version = this.getServer().getVersion();
+			version.replaceAll(CraftServer.class.getPackage().getImplementationVersion(), "");
+			version.replace(" (MC: ", "");
+			version.replace(")", "");
+			registerEvents();
+			if (!configFile.exists()) {
+				Util.firstStartup();
+			}
+			Util.loadWorlds();
 		}
-		Util.loadWorlds();
+		catch (Exception ex) {
+			System.out.println("Could not enable MultiWorld! This is a bug!");
+			ex.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -44,11 +51,11 @@ public class MultiWorldMain extends JavaPlugin {
 		Util.saveWorlds();
 	}
 	
-	private static void registerEvents() {
+	private void registerEvents() {
 		
-		PluginManager pm = staticServer.getPluginManager();
-		pm.registerEvent(Type.PLAYER_MOVE, new MWListener(), Priority.Monitor, mwm);
-		pm.registerEvent(Type.PLAYER_COMMAND, new MWListener(), Priority.Monitor, mwm);
-		pm.registerEvent(Type.PLAYER_TELEPORT, new MWListener(), Priority.Monitor, mwm);
+		PluginManager pm = this.getServer().getPluginManager();
+		pm.registerEvent(Type.PLAYER_MOVE, new MWListener(), Priority.Monitor, this);
+		pm.registerEvent(Type.PLAYER_COMMAND, new MWListener(), Priority.Monitor, this);
+		pm.registerEvent(Type.PLAYER_TELEPORT, new MWListener(), Priority.Monitor, this);
 	}
 }

@@ -19,7 +19,7 @@ public enum Respond {
 	where("§e<PLAYER>§f is in §e<WORLD>§f."),
 	info("Worldname: §e<WORLD>§f+Environment: §<CC><WORLD>§f+Entities on the ground: §a<NUM>§f+Players in (§b<NUM>§f): <PLAYERS>"),
 	help(" §aMultiWorld help (page 1)+ §e/createworld§f <world> <environment>+ §e/importworld§f <world> <environment>+ §e/whoisin§f [world]+ §e/whereis§f <world>+ §e/clearworld§f [world]+ §e/worldinfo§f [world]+ §e/worldtp§f <world> [player]+ See §e/multiworld 2§f for more help."),
-	help2(" §aMultiWorld help (page 2)+ §eEnvironments can be: §anormal §for §cnether§f.+ Plugin created by §bDaAmazingShit§f, §92017§f.+ Version: §6" + MultiWorldMain.mwm.getDescription().getVersion() + "+ §fServer version: §c" + MultiWorldMain.version);
+	help2(" §aMultiWorld help (page 2)+ §eEnvironments can be: §anormal §for §cnether§f.+ Plugin created by §bDaAmazingShit§f, §92017§f.+ Version: §6" + MultiWorldMain.pluginVersion + "+ §fServer version: §c" + MultiWorldMain.version);
 	
 	private Respond(String str) {}
 }
