@@ -1,6 +1,13 @@
 package pl.DaAmazingShit.MultiWorld;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -109,8 +116,9 @@ public class MultiWorldMain extends JavaPlugin {
 	            	// Great checker: if world exists V
 	        		world = this.getServer().getWorld(args[0]);
 	        		
-	        		File toRemove = new File(args[0]);
-	        		toRemove.delete();
+	        		
+	        		Path file = Paths.get(args[0]);
+	        		MultiWorldMain.deleteFileOrFolder(file);
 	        		
 	        		player.sendMessage(Lang.prefix + Respond.removed(args[0]));
 	        		
@@ -203,8 +211,11 @@ public class MultiWorldMain extends JavaPlugin {
 	        			player.sendMessage(Lang.prefix + "§e" + args[0] + "§f has no players in.");
 	        			return true;
 	        		}
-	        		String pl  = MWListener.worldsAndPlayers.get(args[0]);
-	            	player.sendMessage(Lang.prefix + Respond.who(pl, Integer.toString(MWListener.worldsAndPlayers.size()), args[0]));
+	        		List<String> players = new LinkedList<String>();
+	        		players.add(MWListener.worldsAndPlayers.get(args[0]));
+	        		
+	        		String pl  = players.toString();
+	            	player.sendMessage(Lang.prefix + Respond.who(pl, Integer.toString(players.size()), args[0]));
 	        	}
 	        	catch (Exception ex) {
 	        		player.sendMessage(Lang.prefixWrong + Error.unknown());
@@ -223,12 +234,11 @@ public class MultiWorldMain extends JavaPlugin {
 	        		return true;
 	        	}
 	        	try {
-	        		Player p = this.getServer().getPlayer(args[0]);
 	        		if (MWListener.whereIsPlayer.get(args[0]) == null) {
 	        			player.sendMessage(Lang.prefix + "§e" + args[0] + "§f is not online.");
 	        			return true;
 	        		}
-	            	player.sendMessage(Lang.prefix + Respond.where(p.getName(), p.getWorld().getName()));
+	            	player.sendMessage(Lang.prefix + Respond.where(args[0], MWListener.whereIsPlayer.get(args[0]).getName()));
 	        	}
 	        	catch (Exception ex) {
 	        		player.sendMessage(Lang.prefixWrong + Error.unknown());
@@ -450,4 +460,30 @@ public class MultiWorldMain extends JavaPlugin {
 		MultiWorldMain.config.setProperty("worlds.world.load-on-startup", true);
 		MultiWorldMain.config.save();
 	}
+	
+	public static void deleteFileOrFolder(final Path path) throws IOException {
+		  Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
+		  @Override public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs)
+		      throws IOException {
+		      Files.delete(file);
+		      return FileVisitResult.CONTINUE;
+		  }
+
+		  @Override public FileVisitResult visitFileFailed(final Path file, final IOException e) {
+		      return handleException(e);
+		  }
+
+		  private FileVisitResult handleException(final IOException e) {
+		      e.printStackTrace();
+		      return FileVisitResult.TERMINATE;
+		  }
+
+		  @Override public FileVisitResult postVisitDirectory(final Path dir, final IOException e)
+		      throws IOException {
+		      if(e!=null)return handleException(e);
+		      Files.delete(dir);
+		      return FileVisitResult.CONTINUE;
+		  }
+	    });
+	};
 }
