@@ -99,7 +99,47 @@ public class MultiWorldMain extends JavaPlugin {
 	        String importCmd = Lang.importCommand;
 	        String whereCmd  = Lang.whereCommand;
 	        String clearCmd  = Lang.clearCommand;
+	        String tpCmd     = Lang.teleportCommand;
 	        
+	        
+	        /**
+	         * XXX TELEPORT COMMAND
+	         * 
+	         */
+	        
+	        if (cmd.getName().equalsIgnoreCase(tpCmd)) {
+	        	if (args.length == 0) {
+	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
+	        		return true;
+	        	} 
+	        	if (args.length == 2) {
+	        		try {
+		        		Player p = this.getServer().getPlayer(args[1]);
+		        		World w  = this.getServer().getWorld(args[0]);
+		        		p.teleportTo(w.getSpawnLocation());
+		        		p.sendMessage(Lang.prefix + "You have been teleported to §e" + w.getName() + " §fby §a" + player.getName());
+		        		player.sendMessage(Lang.prefix + "You have teleported §a" + p.getName() + " §fto §e" + w.getName());
+		        		return true;
+	        		}
+	        		catch (Exception ex) {
+	        			ex.printStackTrace();
+	        			return true;
+	        		}
+	        	}
+	        	else {
+		        	try {
+		        		World w  = this.getServer().getWorld(args[0]);
+		        		player.teleportTo(w.getSpawnLocation());
+		        		player.sendMessage(Lang.prefix + "You have teleported yourself to §e" + w.getName());
+		        		return true;
+		        	}
+		        	catch (Exception ex) {
+		        		player.sendMessage(Lang.prefixWrong + Respond.Error.unknown());
+		        		ex.printStackTrace();
+		        		return true;
+		        	}
+	        	}
+	        }
 	        
 	        /**
 	         * XXX REMOVE COMMAND

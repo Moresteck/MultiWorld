@@ -12,5 +12,5 @@ public class Lang {
 	public static String infoCommand     = "worldinfo";     //  <WORLD>
 	public static String whereCommand    = "whereis";       //  [PLAYER]
 	public static String clearCommand    = "clearworld";    //  [WORLD]
-	public static String teleportCommand = "worldteleport"; //  <WORLD> [PLAYER]
+	public static String teleportCommand = "worldtp"; //  <WORLD> [PLAYER]
 }

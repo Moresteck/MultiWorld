@@ -25,9 +25,10 @@ commands:
         usage: /worldinfo [world]
         description: |
             Shows world's info.
-
-
-
+    worldtp:
+        usage: /worldtp <world> [player]
+        description: |
+            Teleports to a different world.
     whereis:
         usage: /whereis <player>
         description: |
