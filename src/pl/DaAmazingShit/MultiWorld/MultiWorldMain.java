@@ -52,11 +52,6 @@ public class MultiWorldMain extends JavaPlugin {
 	public static String version       = "git-Bukkit-0.0.0-428-g51dd641-rcmB9-b53jnks";
 	public static String mcVersion     = "1.2_02";
 	
-	
-	public MultiWorldMain() {
-		
-	}
-	
 	@Override
 	public void onEnable() {
 		System.out.println("Enabling MultiWorld...");
