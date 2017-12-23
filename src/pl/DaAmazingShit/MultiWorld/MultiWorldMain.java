@@ -212,9 +212,8 @@ public class MultiWorldMain extends JavaPlugin {
 	        		return true;
 	        	}
 	        	try {
-	            	// Great checker: if world exists V
+	            	// Checker: if world exists V
 	        		world = this.getServer().getWorld(args[0]);
-	        		
 	        		
 	        		Path file = Paths.get(args[0]);
 	        		MultiWorldMain.deleteFileOrFolder(file);
@@ -535,6 +534,8 @@ public class MultiWorldMain extends JavaPlugin {
 		worlds.add(worldname);
 		MultiWorldMain.config.setProperty("worldlist", worlds);
 		MultiWorldMain.config.save();
+		
+		loadedWorlds.add(worldname);
 	}
 	
 	public void eraseWorld(String worldname) {
@@ -565,6 +566,12 @@ public class MultiWorldMain extends JavaPlugin {
 		MultiWorldMain.config.save();
 	}
 	
+	/**
+	 * Copied, because i'm not so good at these Java methods
+	 * 
+	 * @param path
+	 * @throws IOException
+	 */
 	public static void deleteFileOrFolder(final Path path) throws IOException {
 		  Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
 		  @Override public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs)
