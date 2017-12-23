@@ -561,6 +561,7 @@ public class MultiWorldMain extends JavaPlugin {
 		
 		MultiWorldMain.config.setProperty("worlds.world.environment", Environment.NORMAL.toString());
 		MultiWorldMain.config.setProperty("worlds.world.load-on-startup", true);
+		MultiWorldMain.config.setProperty("main", "world");
 		MultiWorldMain.config.save();
 	}
 	
