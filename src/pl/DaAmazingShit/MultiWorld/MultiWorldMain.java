@@ -11,6 +11,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
@@ -103,6 +104,36 @@ public class MultiWorldMain extends JavaPlugin {
 	        
 	        
 	        /**
+	         * XXX SETSPAWN COMMAND
+	         * 
+	         */
+	        
+	        if (cmd.getName().equalsIgnoreCase("setspawnmw")) {
+		        try {
+		        	World w  = player.getWorld();
+		        	int x       = (int) player.getLocation().getX();
+		        	int y       = (int) player.getLocation().getY();
+		        	int z       = (int) player.getLocation().getZ();
+		        	float pitch = player.getLocation().getPitch();
+		        	float yaw   = player.getLocation().getYaw();
+		        	
+		        	config.setProperty("worlds."+w.getName()+".spawn.x", x);
+		        	config.setProperty("worlds."+w.getName()+".spawn.y", y);
+		        	config.setProperty("worlds."+w.getName()+".spawn.z", z);
+		        	config.setProperty("worlds."+w.getName()+".spawn.pi", pitch);
+		        	config.setProperty("worlds."+w.getName()+".spawn.ya", yaw);
+		        	
+		        	player.sendMessage(Lang.prefix + "Changed spawn location");
+		        	return true;
+		        }
+		        catch (Exception ex) {
+		        	player.sendMessage(Lang.prefixWrong + Respond.Error.unknown());
+		        	ex.printStackTrace();
+		        	return true;
+		        }
+	        }
+	        
+	        /**
 	         * XXX TELEPORT COMMAND
 	         * 
 	         */
@@ -116,7 +147,21 @@ public class MultiWorldMain extends JavaPlugin {
 	        		try {
 		        		Player p = this.getServer().getPlayer(args[1]);
 		        		World w  = this.getServer().getWorld(args[0]);
-		        		p.teleportTo(w.getSpawnLocation());
+		        		
+		        		int x    = 0;
+		        		int y    = 0;
+		        		int z    = 0;
+		        		float pi = 0;
+		        		float ya = 0;
+		        		x = config.getInt("worlds."+w.getName()+".spawn.x", x);
+		        		y = config.getInt("worlds."+w.getName()+".spawn.y", y);
+		        		z = config.getInt("worlds."+w.getName()+".spawn.z", z);
+		        		pi = config.getInt("worlds."+w.getName()+".spawn.pi", (int) pi);
+		        		ya = config.getInt("worlds."+w.getName()+".spawn.ya", (int) ya);
+		        		
+		        		Location toTp = new Location(w, x, y, z, pi, ya);
+		        		
+		        		p.teleportTo(toTp);
 		        		p.sendMessage(Lang.prefix + "You have been teleported to §e" + w.getName() + " §fby §a" + player.getName());
 		        		player.sendMessage(Lang.prefix + "You have teleported §a" + p.getName() + " §fto §e" + w.getName());
 		        		return true;
@@ -129,7 +174,21 @@ public class MultiWorldMain extends JavaPlugin {
 	        	else {
 		        	try {
 		        		World w  = this.getServer().getWorld(args[0]);
-		        		player.teleportTo(w.getSpawnLocation());
+		        		
+		        		int x    = 0;
+		        		int y    = 0;
+		        		int z    = 0;
+		        		float pi = 0;
+		        		float ya = 0;
+		        		x = config.getInt("worlds."+w.getName()+".spawn.x", x);
+		        		y = config.getInt("worlds."+w.getName()+".spawn.y", y);
+		        		z = config.getInt("worlds."+w.getName()+".spawn.z", z);
+		        		pi = config.getInt("worlds."+w.getName()+".spawn.pi", (int) pi);
+		        		ya = config.getInt("worlds."+w.getName()+".spawn.ya", (int) ya);
+		        		
+		        		Location toTp = new Location(w, x, y, z, pi, ya);
+		        		
+		        		player.teleportTo(toTp);
 		        		player.sendMessage(Lang.prefix + "You have teleported yourself to §e" + w.getName());
 		        		return true;
 		        	}
@@ -465,6 +524,10 @@ public class MultiWorldMain extends JavaPlugin {
 	
 	public void addWorld(String worldname, String environment) {
 		MultiWorldMain.config.load();
+		
+		if (loadedWorlds.contains(worldname)) {
+			return;
+		}
 		MultiWorldMain.config.setProperty("worlds." + worldname + ".environment", environment);
 		MultiWorldMain.config.setProperty("worlds." + worldname + ".load-on-startup", true);
 		List<String> worlds = new LinkedList<String>();
