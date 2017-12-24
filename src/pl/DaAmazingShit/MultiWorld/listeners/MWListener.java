@@ -14,8 +14,6 @@ import pl.DaAmazingShit.MultiWorld.MultiWorldMain;
 
 public class MWListener extends PlayerListener {
 	
-	Server server;
-	
 	public static HashMap<String, World>   whereIsPlayer       = new HashMap<String, World>();
 	public static HashMap<String, String>  worldsAndPlayers    = new HashMap<String, String>();
 	public static HashMap<String, Integer> worldsPlayerInteger = new HashMap<String, Integer>();
@@ -52,7 +50,7 @@ public class MWListener extends PlayerListener {
 		pi = MultiWorldMain.config.getInt("worlds."+mainworld+".spawn.pi", (int) pi);
 		ya = MultiWorldMain.config.getInt("worlds."+mainworld+".spawn.ya", (int) ya);
 		
-		World main = server.getWorld((String)MultiWorldMain.config.getProperty("main"));
+		World main         = MultiWorldMain.instance.getServer().getWorld((String)MultiWorldMain.config.getProperty("main"));
 		Location toRespawn = new Location(main, x, y, z, pi, ya);
 		
 		e.setRespawnLocation(toRespawn);
