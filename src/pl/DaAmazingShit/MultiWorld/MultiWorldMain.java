@@ -45,7 +45,7 @@ public class MultiWorldMain extends JavaPlugin {
 	public static Configuration permissions = new Configuration(permFile);
 	public static Configuration config = new Configuration(configFile);
 	
-	public Plugin that = this;
+	public static Plugin instance;
 	public static List<String> loadedWorlds = new LinkedList<String>();
 	
 	public static String pluginVersion = "1.0-beta3";
@@ -55,6 +55,7 @@ public class MultiWorldMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		System.out.println("Enabling MultiWorld...");
+		instance = this;
 		try {
 			registerEvents();
 			if (!configFile.exists()) {
