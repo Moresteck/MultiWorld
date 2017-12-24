@@ -18,10 +18,11 @@ public class Help {
 		
 		public static String line1 = " §aMultiWorld help (page 2)";
 		public static String line2 = " §e/removeworld§f <world>";
-		public static String line3 = " §eEnvironments can be: §anormal §for §cnether§f.";
-		public static String line4 = " Plugin created by §bDaAmazingShit§f, §92017§f.";
-		public static String line5 = " Version: §6" + MultiWorldMain.pluginVersion;
-		public static String line6 = " Server version: §c" + MultiWorldMain.mcVersion;
-		public static String line7 = " Server build: §c" + MultiWorldMain.version;
+		public static String line3 = " §e/togglemw§f";
+		public static String line4 = " §eEnvironments can be: §anormal §for §cnether§f.";
+		public static String line5 = " Plugin created by §bDaAmazingShit§f, §92017§f.";
+		public static String line6 = " Version: §6" + MultiWorldMain.pluginVersion;
+		public static String line7 = " Server version: §c" + MultiWorldMain.mcVersion;
+		public static String line8 = " Server build: §c" + MultiWorldMain.version;
 	}
 }

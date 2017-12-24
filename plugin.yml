@@ -5,7 +5,7 @@ author: DaAmazingShit
 
 commands:
     multiworld:
-        usage: /<command> [2]
+        usage: /<command> [next]
         aliases: [mw]
         description: |
             Shows MultiWorld help.
@@ -21,6 +21,14 @@ commands:
         usage: /createworld <world> <environment>
         description: |
             Creates new world.
+    setspawnmw:
+        usage: /setspawnmw
+        description: |
+            Sets the spawnpoint of world to your current position.
+    togglemw:
+        usage: /togglemw
+        description: |
+            Toggles functionality of the plugin.
     worldinfo:
         usage: /worldinfo [world]
         description: |

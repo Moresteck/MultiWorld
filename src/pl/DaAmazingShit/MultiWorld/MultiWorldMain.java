@@ -52,6 +52,8 @@ public class MultiWorldMain extends JavaPlugin {
 	public static String version       = "git-Bukkit-0.0.0-428-g51dd641-rcmB9-b53jnks";
 	public static String mcVersion     = "1.2_02";
 	
+	private static Boolean enabled = true;
+	
 	@Override
 	public void onEnable() {
 		System.out.println("Enabling MultiWorld...");
@@ -67,11 +69,12 @@ public class MultiWorldMain extends JavaPlugin {
 			System.out.println("Could not enable MultiWorld! This is a bug!");
 			ex.printStackTrace();
 		}
+		System.out.println("Enabled MultiWorld.");
 	}
 	
 	@Override
 	public void onDisable() {
-		
+		System.out.println("Disabled MultiWorld.");
 	}
 	
 	private void registerEvents() {
@@ -82,29 +85,62 @@ public class MultiWorldMain extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_TELEPORT, new MWListener(), Priority.Monitor, this);
 	}
 	
+	public static Boolean enabled() {
+		return enabled;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String str, String[] args) {
 		if (cs instanceof Player) {
 	        Player player = (Player) cs;
 	        
 	        
-	        String helpCmd   = Lang.helpCommand;
-	        String createCmd = Lang.createCommand;
-	        String removeCmd = Lang.removeCommand;
-	        String infoCmd   = Lang.infoCommand;
-	        String whoCmd    = Lang.whoCommand;
-	        String importCmd = Lang.importCommand;
-	        String whereCmd  = Lang.whereCommand;
-	        String clearCmd  = Lang.clearCommand;
-	        String tpCmd     = Lang.teleportCommand;
+	        String helpCmd     = Lang.helpCommand;
+	        String createCmd   = Lang.createCommand;
+	        String removeCmd   = Lang.removeCommand;
+	        String infoCmd     = Lang.infoCommand;
+	        String whoCmd      = Lang.whoCommand;
+	        String importCmd   = Lang.importCommand;
+	        String whereCmd    = Lang.whereCommand;
+	        String clearCmd    = Lang.clearCommand;
+	        String tpCmd       = Lang.teleportCommand;
+	        String setspawnCmd = Lang.setspawnCommand;
+	        String toggleCmd   = Lang.toggleCommand;
 	        
+	        
+	        /**
+	         * XXX TOGGLE COMMAND
+	         * 
+	         */
+	        
+	        if (cmd.getName().equalsIgnoreCase(toggleCmd)) {
+		        try {
+		        	if (enabled) {
+		        		enabled = false;
+		        		player.sendMessage(Lang.prefixWrong + "Disabled functionality.");
+		        	}
+		        	if (enabled == false) {
+		        		enabled = true;
+		        		player.sendMessage(Lang.prefixWrong + "Enabled functionality.");
+		        	}
+		        	return true;
+		        }
+		        catch (Exception ex) {
+		        	player.sendMessage(Lang.prefixWrong + Respond.Error.unknown());
+		        	ex.printStackTrace();
+		        	return true;
+		        }
+	        }
 	        
 	        /**
 	         * XXX SETSPAWN COMMAND
 	         * 
 	         */
 	        
-	        if (cmd.getName().equalsIgnoreCase("setspawnmw")) {
+	        if (cmd.getName().equalsIgnoreCase(setspawnCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 		        try {
 		        	World w  = player.getWorld();
 		        	int x       = (int) player.getLocation().getX();
@@ -135,6 +171,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(tpCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	if (args.length == 0) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
 	        		return true;
@@ -202,6 +241,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(removeCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	World world = null;
 	        	if (args.length == 0) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
@@ -231,6 +273,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(createCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	if (args.length == 0 || args.length == 1) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
 	        		return true;
@@ -265,6 +310,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(importCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	if (args.length == 0 || args.length == 1) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
 	        		return true;
@@ -296,6 +344,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(whoCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	if (args.length == 0) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
 	        		return true;
@@ -323,6 +374,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         * 
 	         */
 	        if (cmd.getName().equalsIgnoreCase(whereCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	if (args.length == 0) {
 	        		player.sendMessage(Lang.prefixWrong + Respond.notEnoughArguments);
 	        		return true;
@@ -347,6 +401,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(helpCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	
 	        	if (args.length == 1) {
 		        	if (args[0].equalsIgnoreCase("next")) {
@@ -393,6 +450,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(clearCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 
 	        	if (args.length == 0) {
 	            	World world = player.getWorld();
@@ -432,6 +492,9 @@ public class MultiWorldMain extends JavaPlugin {
 	         */
 	        
 	        if (cmd.getName().equalsIgnoreCase(infoCmd)) {
+	        	if (MultiWorldMain.enabled() == false) {
+	        		return true;
+	        	}
 	        	if (args.length == 1) {
 		        	if (loadedWorlds.contains(args[0])) {
 			        	try {
