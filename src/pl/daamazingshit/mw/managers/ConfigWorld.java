@@ -43,18 +43,14 @@ public class ConfigWorld {
 	}
 
 	public static Boolean getAllow(PropertyType type, String world) {
-		Boolean result;
-		if (type == PropertyType.ANIMALS) {
-			result = getAllowSpawnAnimals(world);
-		}
-		if (type == PropertyType.MONSTERS) {
+		Boolean result = false;
+		switch (type) {
+		case MONSTERS:
 			result = getAllowSpawnMonsters(world);
-		}
-		if (type == PropertyType.PVP) {
+		case ANIMALS:
+			result = getAllowSpawnAnimals(world);
+		case PVP:
 			result = getAllowPVP(world);
-		}
-		else {
-			result = false;
 		}
 		return result;
 	}
@@ -98,10 +94,10 @@ public class ConfigWorld {
 
 	public static Boolean add(String world, Environment environment, boolean allowPvp, boolean allowMonsters, boolean allowAnimals, long seed) {
 		if (db.getProperty("worlds."+world) == null) {
-			if (environment == Environment.NORMAL) {
-				db.setProperty("worlds."+world+".environment", "NORMAL");
-			}
-			if (environment == Environment.NETHER) {
+			switch (environment) {
+			case NORMAL:
+			    db.setProperty("worlds."+world+".environment", "NORMAL");
+			case NETHER:
 				db.setProperty("worlds."+world+".environment", "NETHER");
 			}
 			db.setProperty("worlds."+world+".pvp", allowPvp);
