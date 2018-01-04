@@ -1,5 +1,6 @@
 package pl.daamazingshit.mw;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -7,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.daamazingshit.mw.managers.Help;
 import pl.daamazingshit.mw.managers.WorldManager;
+import pl.daamazingshit.mw.util.Sender;
 
 public class MultiWorld extends JavaPlugin {
 
@@ -22,6 +24,7 @@ public class MultiWorld extends JavaPlugin {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdalias, String[] args) {
+		Sender s = new Sender(sender);
 		if (cmd.getName().equalsIgnoreCase("mw")) {
 			if (args.length == 0) {
 				Help.showHelp(sender);
@@ -55,17 +58,31 @@ public class MultiWorld extends JavaPlugin {
 						wm = new WorldManager(args[1], Environment.valueOf(args[2].toUpperCase()), Long.parseLong(args[3]));
 					}
 					catch (Exception ex) {
-						sender.sendMessage("Invalid format.");
+						if (s.isPlayer())
+						    sender.sendMessage("§cInvalid format.");
+						if (!s.isPlayer())
+						    sender.sendMessage("Invalid format.");
 						Help.showHelp(sender);
 						return true;
 					}
 				}
 				if (wm == null) {
-					sender.sendMessage("Something went wrong! Please try again.");
+					if (s.isPlayer())
+					    sender.sendMessage("§cSomething went wrong! Please try again.");
+					if (!s.isPlayer())
+					    sender.sendMessage("Something went wrong! Please try again.");
 					return true;
 				}
+				if (s.isPlayer())
+					Bukkit.getServer().broadcastMessage("§aTrying to create a new world: " + args[1]);
+				if (!s.isPlayer())
+					Bukkit.getServer().broadcastMessage("§aTrying to create a new world: " + args[1]);
+					sender.sendMessage("Trying to create a new world: " + args[1]);
 				boolean done = wm.create();
-				sender.sendMessage(done == true ? "Complete." : "Something went wrong!");
+				if (s.isPlayer())
+					sender.sendMessage(done == true ? "§aComplete." : "§cSomething went wrong!");
+				if (!s.isPlayer())
+					sender.sendMessage(done == true ? "Complete." : "Something went wrong!");
 				return true;
 			}
 		}

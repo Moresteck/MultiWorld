@@ -9,3 +9,8 @@ commands:
         aliases: [multiworld]
         description: |
             Shows MultiWorld help.
+    worldsettings:
+        usage: /<command>
+        aliases: [ws]
+        description: |
+            Manages world settings.
