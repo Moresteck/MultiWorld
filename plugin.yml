@@ -1,51 +1,11 @@
 name: MultiWorld
-version: 1.0-beta5
-main: pl.DaAmazingShit.MultiWorld.MultiWorldMain
+version: 1.0-beta6
+main: pl.daamazingshit.mw.MultiWorld
 author: DaAmazingShit
 
 commands:
-    multiworld:
-        usage: /<command> [next]
-        aliases: [mw]
+    mw:
+        usage: /<command>
+        aliases: [multiworld]
         description: |
             Shows MultiWorld help.
-    clearworld:
-        usage: /clearworld [world]
-        description: |
-            Clears the world from entities.
-    importworld:
-        usage: /importworld <world> <environment>
-        description: |
-            Imports and world.
-    createworld:
-        usage: /createworld <world> <environment>
-        description: |
-            Creates new world.
-    setspawnmw:
-        usage: /setspawnmw
-        description: |
-            Sets the spawnpoint of world to your current position.
-    togglemw:
-        usage: /togglemw
-        description: |
-            Toggles functionality of the plugin.
-    worldinfo:
-        usage: /worldinfo [world]
-        description: |
-            Shows world's info.
-    worldtp:
-        usage: /worldtp <world> [player]
-        description: |
-            Teleports to a different world.
-    whereis:
-        usage: /whereis <player>
-        description: |
-            Prints player's world.
-    removeworld:
-        usage: /removeworld <world>
-        description: |
-            Removes world.
-    whoisin:
-        usage: /whoisin [world]
-        description: |
-            Shows a list of players in defined world.
