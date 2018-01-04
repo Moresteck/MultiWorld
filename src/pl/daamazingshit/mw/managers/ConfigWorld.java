@@ -60,7 +60,7 @@ public class ConfigWorld {
 			Boolean allowed = true; allowed = db.getBoolean("worlds."+world+".monsters", allowed);
 			return allowed;
 		}
-		return null;
+		return false;
 	}
 
 	private static Boolean getAllowSpawnAnimals(String world) {
@@ -68,7 +68,7 @@ public class ConfigWorld {
 			Boolean allowed = true; allowed = db.getBoolean("worlds."+world+".animals", allowed);
 			return allowed;
 		}
-		return null;
+		return false;
 	}
 
 	private static Boolean getAllowPVP(String world) {
@@ -76,7 +76,47 @@ public class ConfigWorld {
 			Boolean allowed = true; allowed = db.getBoolean("worlds."+world+".pvp", allowed);
 			return allowed;
 		}
-		return null;
+		return false;
+	}
+
+	public static Boolean setAllow(PropertyType type, String world, boolean set) {
+		if (!exists(world)) {
+			return false;
+		}
+		Boolean result = false;
+		switch (type) {
+		case MONSTERS:
+			result = setAllowSpawnMonsters(world, set);
+		case ANIMALS:
+			result = setAllowSpawnAnimals(world, set);
+		case PVP:
+			result = setAllowPVP(world, set);
+		}
+		return result;
+	}
+
+	private static Boolean setAllowSpawnMonsters(String world, boolean set) {
+		if (db.getProperty("worlds."+world) != null) {
+			db.setProperty("worlds."+world+".monsters", set);
+			return true;
+		}
+		return false;
+	}
+
+	private static Boolean setAllowSpawnAnimals(String world, boolean set) {
+		if (db.getProperty("worlds."+world) != null) {
+			db.setProperty("worlds."+world+".animals", set);
+			return true;
+		}
+		return false;
+	}
+
+	private static Boolean setAllowPVP(String world, boolean set) {
+		if (db.getProperty("worlds."+world) != null) {
+			db.setProperty("worlds."+world+".pvp", set);
+			return true;
+		}
+		return false;
 	}
 
 	public static Boolean remove(String world) {
@@ -107,5 +147,9 @@ public class ConfigWorld {
 			return true;
 		}
 		return false;
+	}
+
+	public static Boolean exists(String world) {
+		return db.getProperty("worlds."+world) != null;
 	}
 }

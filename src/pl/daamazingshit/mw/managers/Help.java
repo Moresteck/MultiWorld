@@ -5,19 +5,25 @@ import pl.daamazingshit.mw.util.Sender;
 
 public class Help {
 // §
-	public static void showHelp(CommandSender cs) {
-		Sender s = new Sender(cs);
+	public static void showHelp(CommandSender sender) {
+		Sender s = new Sender(sender);
+		if (sender == null)
+			return;
 		if (s.isPlayer()) {
-			cs.sendMessage("§e  MultiWorld help");
-			cs.sendMessage("§b /mw create <world> [environment | seed] [seed]");
-			cs.sendMessage("§b /mw remove <world>");
-			cs.sendMessage("§b /worldsettings");
+			sender.sendMessage("§e  MultiWorld help");
+			sender.sendMessage("§b /mw create <world> [environment | seed] [seed]");
+			sender.sendMessage("§b /mw remove <world>");
+			sender.sendMessage("§b /worldsettings");
 		}
 		else {
-			cs.sendMessage("  MultiWorld help");
-			cs.sendMessage(" /mw create <world> [environment | seed] [seed]");
-			cs.sendMessage(" /mw remove <world>");
-			cs.sendMessage(" /worldsettings");
+			sender.sendMessage("  MultiWorld help");
+			sender.sendMessage(" /mw create <world> [environment | seed] [seed]");
+			sender.sendMessage(" /mw remove <world>");
+			sender.sendMessage(" /worldsettings");
 		}
+	}
+
+	public static void showSettingsHelp(CommandSender sender) {
+		
 	}
 }
