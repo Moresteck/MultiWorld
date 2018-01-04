@@ -5,8 +5,12 @@ import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.Event.Type;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pl.daamazingshit.mw.listeners.Entities;
 import pl.daamazingshit.mw.managers.ConfigWorld;
 import pl.daamazingshit.mw.managers.Help;
 import pl.daamazingshit.mw.managers.WorldManager;
@@ -22,7 +26,10 @@ public class MultiWorld extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		System.out.print("MultiWorld enabled.");
 		
+		PluginManager pm = this.getServer().getPluginManager();
+		pm.registerEvent(Type.CREATURE_SPAWN, new Entities(), Priority.Highest, this);
 	}
 	
 	@Override
