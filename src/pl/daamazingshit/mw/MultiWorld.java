@@ -36,6 +36,9 @@ public class MultiWorld extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdalias, String[] args) {
 		Sender s = new Sender(sender);
 		if (cmd.getName().equalsIgnoreCase("mw")) {
+			if (!s.isAuthorized()) {
+				return true;
+			}
 			if (args.length == 0) {
 				Help.showHelp(sender);
 				return true;
@@ -101,6 +104,9 @@ public class MultiWorld extends JavaPlugin {
 			}
 		}
 		if (cmd.getName().equalsIgnoreCase("worldsettings")) {
+			if (!s.isAuthorized()) {
+				return true;
+			}
 			if (args.length == 0) {
 				Help.showSettingsHelp(sender);
 				return true;
@@ -117,8 +123,10 @@ public class MultiWorld extends JavaPlugin {
 				boolean animals = Boolean.parseBoolean(args[1].toLowerCase());
 				if (args.length == 3) {
 					boolean done = ConfigWorld.setAllow(PropertyType.ANIMALS, args[2], animals);
-					// TODO: Check for player
-					sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§banimals§f' to '§c" + animals + "§f' in world '§a"+args[2]+"§f'" : "§cSomething went wrong!");
+					if (s.isPlayer()) {
+					    sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§banimals§f' to '§c" + animals + "§f' in world '§a"+args[2]+"§f'" : "§cSomething went wrong!"); }
+					if (!s.isPlayer()) {
+					    sender.sendMessage(done == true ? "Success! Set the property 'animals' to '" + animals + "' in world '"+args[2]+"'" : "Something went wrong!"); }
 					return true;
 				}
 				if (args.length == 2) {
@@ -127,8 +135,66 @@ public class MultiWorld extends JavaPlugin {
 						return true; }
 					String world = ((Player)sender).getWorld().getName();
 					boolean done = ConfigWorld.setAllow(PropertyType.ANIMALS, world, animals);
-					// TODO: Check for player
-					sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§banimals§f' to '§c" + animals + "§f' in world '§a"+world+"§f'" : "§cSomething went wrong!");
+					if (s.isPlayer()) {
+					    sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§banimals§f' to '§c" + animals + "§f' in world '§a"+world+"§f'" : "§cSomething went wrong!"); }
+					if (!s.isPlayer()) {
+						sender.sendMessage(done == true ? "Success! Set the property 'animals' to '" + animals + "' in world '"+world+"'" : "Something went wrong!"); }
+					return true;
+				}
+			}
+			if (args[0].equalsIgnoreCase("monsters")) {
+				if (args.length == 1) {
+					if (s.isPlayer()) {
+					    sender.sendMessage("§cNot enough arguments.");
+					} if (!s.isPlayer()) {
+					    sender.sendMessage("Not enough arguments"); }
+					Help.showSettingsHelp(sender);
+					return true;
+				}
+				boolean monsters = Boolean.parseBoolean(args[1].toLowerCase());
+				if (args.length == 3) {
+					boolean done = ConfigWorld.setAllow(PropertyType.MONSTERS, args[2], monsters);
+					if (s.isPlayer()) {
+					    sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§bmonsters§f' to '§c" + monsters + "§f' in world '§a"+args[2]+"§f'" : "§cSomething went wrong!"); }
+					if (!s.isPlayer()) {
+					    sender.sendMessage(done == true ? "Success! Set the property 'monsters' to '" + monsters + "' in world '"+args[2]+"'" : "Something went wrong!"); }
+					return true;
+				}
+				if (args.length == 2) {
+					if (!s.isPlayer()) {
+						sender.sendMessage("Not enough arguments");
+						return true; }
+					String world = ((Player)sender).getWorld().getName();
+					boolean done = ConfigWorld.setAllow(PropertyType.MONSTERS, world, monsters);
+					sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§bmonsters§f' to '§c" + monsters + "§f' in world '§a"+world+"§f'" : "§cSomething went wrong!");
+					return true;
+				}
+			}
+			if (args[0].equalsIgnoreCase("pvp")) {
+				if (args.length == 1) {
+					if (s.isPlayer()) {
+					    sender.sendMessage("§cNot enough arguments.");
+					} if (!s.isPlayer()) {
+					    sender.sendMessage("Not enough arguments"); }
+					Help.showSettingsHelp(sender);
+					return true;
+				}
+				boolean pvp = Boolean.parseBoolean(args[1].toLowerCase());
+				if (args.length == 3) {
+					boolean done = ConfigWorld.setAllow(PropertyType.PVP, args[2], pvp);
+					if (s.isPlayer()) {
+					    sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§bpvp§f' to '§c" + pvp + "§f' in world '§a"+args[2]+"§f'" : "§cSomething went wrong!"); }
+					if (!s.isPlayer()) {
+					    sender.sendMessage(done == true ? "Success! Set the property 'pvp' to '" + pvp + "' in world '"+args[2]+"'" : "Something went wrong!"); }
+					return true;
+				}
+				if (args.length == 2) {
+					if (!s.isPlayer()) {
+						sender.sendMessage("Not enough arguments");
+						return true; }
+					String world = ((Player)sender).getWorld().getName();
+					boolean done = ConfigWorld.setAllow(PropertyType.PVP, world, pvp);
+					sender.sendMessage(done == true ? "§aSuccess! §fSet the property '§bpvp§f' to '§c" + pvp + "§f' in world '§a"+world+"§f'" : "§cSomething went wrong!");
 					return true;
 				}
 			}

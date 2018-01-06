@@ -24,6 +24,20 @@ public class Help {
 	}
 
 	public static void showSettingsHelp(CommandSender sender) {
-		
+		Sender s = new Sender(sender);
+		if (sender == null)
+			return;
+		if (s.isPlayer()) {
+			sender.sendMessage("§e  WorldSettings help (MultiWorld)");
+			sender.sendMessage("§b /ws pvp <true | false> [world]");
+			sender.sendMessage("§b /ws animals <true | false> [world]");
+			sender.sendMessage("§b /ws monsters <true | false> [world]");
+		}
+		else {
+			sender.sendMessage("  WorldSettings help (MultiWorld)");
+			sender.sendMessage(" /ws pvp <true | false> [world]");
+			sender.sendMessage(" /ws animals <true | false> [world]");
+			sender.sendMessage(" /ws monsters <true | false> [world]");
+		}
 	}
 }

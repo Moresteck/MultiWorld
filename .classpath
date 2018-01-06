@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/DaAmazingShit/Desktop/bc1.3/test/test1.jar" sourcepath="/BC1.3_01reaktywacja"/>
+	<classpathentry kind="lib" path="C:/Users/DaAmazingShit/Desktop/bc1.3/test/test.jar" sourcepath="/BC1.3_01reaktywacja"/>
+	<classpathentry kind="lib" path="C:/Users/DaAmazingShit/Desktop/bc1.3/test/plugins/Permissions.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
