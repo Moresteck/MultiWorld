@@ -1,0 +1,16 @@
+name: MultiWorld
+version: 1.0-beta6
+main: pl.daamazingshit.mw.MultiWorld
+author: DaAmazingShit
+
+commands:
+    mw:
+        usage: /<command>
+        aliases: [multiworld]
+        description: |
+            Shows MultiWorld help.
+    worldsettings:
+        usage: /<command>
+        aliases: [ws]
+        description: |
+            Manages world settings.
