@@ -97,7 +97,7 @@ public class WorldManager {
 	}
 
 	public Long seed() {
-		return this.world().getSeed();
+		return this.world().getId();
 	}
 
 	public String name() {
