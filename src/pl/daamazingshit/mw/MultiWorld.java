@@ -1,12 +1,14 @@
 package pl.daamazingshit.mw;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,10 +21,12 @@ import pl.daamazingshit.mw.util.Sender;
 
 public class MultiWorld extends JavaPlugin {
 
+	public static Plugin instance;
 	public void onDisable() {}
 
 	@Override
 	public void onEnable() {
+		instance = this;
 		System.out.print("MultiWorld enabled.");
 		
 		loadWorlds();
@@ -34,8 +38,12 @@ public class MultiWorld extends JavaPlugin {
 	}
 
 	public static void loadWorlds() {
+		World w = instance.getServer().getWorld("world");
+		if (ConfigWorld.getWorldList() == null) {
+			ConfigWorld.add("world", Environment.NORMAL, true, true, true, w.getId());
+		}
 		for (WorldManager world: ConfigWorld.getWorldList()) {
-			world.create();
+			world.setup();
 		}
 	}
 
@@ -43,14 +51,14 @@ public class MultiWorld extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdalias, String[] args) {
 		Sender s = new Sender(sender);
 		if (cmd.getName().equalsIgnoreCase("mw")) {
-			if (!s.isAuthorized()) {
-				return true;
-			}
 			if (args.length == 0) {
 				Help.showHelp(sender);
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("create")) {
+				if (!s.isAuthorized("multiworld.manage.create")) {
+					return true;
+				}
 				if (args.length == 1) {
 					Help.showHelp(sender);
 					return true;
@@ -105,13 +113,19 @@ public class MultiWorld extends JavaPlugin {
 					sender.sendMessage(done == true ? "Complete." : "Something went wrong!"); }
 				return true;
 			}
+			if (args[0].equalsIgnoreCase("remove")) {
+				if (args.length == 1) {
+					return true;
+				}
+				
+			}
 			else {
 				Help.showHelp(sender);
 				return true;
 			}
 		}
 		if (cmd.getName().equalsIgnoreCase("worldsettings")) {
-			if (!s.isAuthorized()) {
+			if (!s.isAuthorized("multiworld.settings")) {
 				return true;
 			}
 			if (args.length == 0) {

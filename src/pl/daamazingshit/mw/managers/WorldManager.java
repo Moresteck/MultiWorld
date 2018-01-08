@@ -63,6 +63,13 @@ public class WorldManager {
 		}
 	}
 
+	/**
+	 * Used for loading worlds.
+	 */
+	public void setup() {
+		Bukkit.getServer().createWorld(name, env, seed);
+	}
+
 	public World createWorld() {
 		ConfigWorld.add(name, env, true, true, true, seed);
 		return Bukkit.getServer().createWorld(name, env, seed);

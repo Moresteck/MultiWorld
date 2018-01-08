@@ -4,7 +4,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
-
+/**
+ * Gets information about sender.
+ */
 public class Sender {
 
 	private CommandSender cs;
@@ -17,10 +19,10 @@ public class Sender {
 		return (cs instanceof Player) ? true : false;
 	}
 
-	public Boolean isAuthorized() {
+	public Boolean isAuthorized(String permission) {
 		if (this.isPlayer()) {
 			Player p = (Player)cs;
-			if (p.isOp() || Permissions.Security.has(p, "multiworld.manage")) {
+			if (p.isOp() || Permissions.Security.has(p, permission)) {
 				return true;
 			}
 			else {

@@ -36,6 +36,10 @@ public class ConfigWorld {
 		return null;
 	}
 
+	public static Configuration getDatabase() {
+		return db;
+	}
+
 	public static Long getSeed(String world) {
 		db.load();
 		if (db.getProperty("worlds."+world) != null) {
