@@ -2,17 +2,22 @@ package pl.daamazingshit.mw.listeners;
 
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityListener;
 
 import com.garbagemule.MobArena.ArenaManager;
 
 import pl.daamazingshit.mw.managers.ConfigWorld;
+import pl.daamazingshit.mw.util.Explode;
 import pl.daamazingshit.mw.util.PropertyType;
 
 public class Entities extends EntityListener {
@@ -88,6 +93,56 @@ public class Entities extends EntityListener {
 		}
 		else {
 			return;
+		}
+	}
+
+	@Override public void onEntityExplode(EntityExplodeEvent e) {
+		if (e.isCancelled()) {
+			return;
+		}
+		Entity entity = e.getEntity();
+		if (entity instanceof TNTPrimed) {
+			boolean allowed = ConfigWorld.allowExplode(Explode.TNT, entity.getWorld().getName());
+			if (allowed) {
+				allowed = false;
+			}
+			if (!allowed) {
+				allowed = true;
+			}
+			e.setCancelled(allowed);
+			return;
+		}
+		if (entity instanceof Creeper) {
+			boolean allowed = ConfigWorld.allowExplode(Explode.CREEPER, entity.getWorld().getName());
+			if (allowed) {
+				allowed = false;
+			}
+			if (!allowed) {
+				allowed = true;
+			}
+			e.setCancelled(allowed);
+			return;
+		}
+		if (entity instanceof Fireball) {
+			boolean allowed = ConfigWorld.allowExplode(Explode.OTHER, entity.getWorld().getName());
+			if (allowed) {
+				allowed = false;
+			}
+			if (!allowed) {
+				allowed = true;
+			}
+			e.setCancelled(allowed);
+			return;
+		}
+		else {
+			boolean allowed = ConfigWorld.allowExplode(Explode.CUSTOM, entity.getWorld().getName());
+			if (allowed) {
+				allowed = false;
+			}
+			if (!allowed) {
+				allowed = true;
+			}
+			e.setCancelled(allowed);
 		}
 	}
 }

@@ -19,19 +19,26 @@ import pl.daamazingshit.mw.util.Sender;
 
 public class MultiWorld extends JavaPlugin {
 
-	@Override
-	public void onDisable() {
-		
-	}
+	public void onDisable() {}
 
 	@Override
 	public void onEnable() {
 		System.out.print("MultiWorld enabled.");
 		
+		loadWorlds();
+		
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvent(Type.CREATURE_SPAWN, new Entities(), Priority.Highest, this);
+		pm.registerEvent(Type.ENTITY_DAMAGE, new Entities(), Priority.Highest, this);
+		pm.registerEvent(Type.ENTITY_EXPLODE, new Entities(), Priority.Highest, this);
 	}
-	
+
+	public static void loadWorlds() {
+		for (WorldManager world: ConfigWorld.getWorldList()) {
+			world.create();
+		}
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdalias, String[] args) {
 		Sender s = new Sender(sender);

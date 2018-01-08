@@ -136,7 +136,7 @@ public class WorldManager {
 	public List<Entity> entities() {
 		List<Entity> ret = new LinkedList<Entity>();
 		ret.addAll(this.world().getEntities());
-		for (Entity ent : ret) {
+		for (Entity ent: ret) {
 			if (!(ent instanceof Item)) {
 				ret.remove(ent);
 			}
@@ -147,7 +147,7 @@ public class WorldManager {
 	public List<Entity> living() {
 		List<Entity> ret = new LinkedList<Entity>();
 		ret.addAll(this.world().getLivingEntities());
-		for (Entity ent : ret) {
+		for (Entity ent: ret) {
 			if (!(ent instanceof LivingEntity)) {
 				ret.remove(ent);
 			}
