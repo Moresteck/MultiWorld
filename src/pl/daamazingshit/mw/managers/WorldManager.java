@@ -1,6 +1,7 @@
 package pl.daamazingshit.mw.managers;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,15 +12,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.world.WorldSaveEvent;
 
+import net.minecraft.server.IProgressUpdate;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.WorldServer;
+import pl.daamazingshit.mw.mw;
 import pl.daamazingshit.mw.util.PropertyType;
 
 public class WorldManager {
@@ -54,8 +61,8 @@ public class WorldManager {
 
 	public Boolean create() {
 		try {
-			Bukkit.getServer().createWorld(name, env, seed);
-			ConfigWorld.add(name, env, true, true, true, seed);
+			mw.instance.getServer().createWorld(name, env, seed);
+			ConfigWorld.add(name, env, true, true, true, true, "true", true, true, true, seed);
 			return true;
 		}
 		catch (Exception ex) {
@@ -67,12 +74,12 @@ public class WorldManager {
 	 * Used for loading worlds.
 	 */
 	public void setup() {
-		Bukkit.getServer().createWorld(name, env, seed);
+		mw.instance.getServer().createWorld(name, env, seed);
 	}
 
 	public World createWorld() {
-		ConfigWorld.add(name, env, true, true, true, seed);
-		return Bukkit.getServer().createWorld(name, env, seed);
+		ConfigWorld.add(name, env, true, true, true, true, "true", true, true, true, seed);
+		return mw.instance.getServer().createWorld(name, env, seed);
 	}
 
 	public void remove() throws IOException {
@@ -116,7 +123,7 @@ public class WorldManager {
 	}
 
 	public World world() {
-		World ret = Bukkit.getServer().getWorld(name);
+		World ret = mw.instance.getServer().getWorld(name);
 		return ret == null ? null : ret;
 	}
 
@@ -130,10 +137,6 @@ public class WorldManager {
 
 	public Boolean allowPVP() {
 		return ConfigWorld.getAllow(PropertyType.PVP, name);
-	}
-
-	public Long id() {
-		return this.world().getId();
 	}
 
 	public List<Player> players() {
@@ -174,5 +177,64 @@ public class WorldManager {
 		catch (Exception ex) {
 			return false;
 		}
+	}
+
+	// Code borrowed from Craftbukkit https://github.com/Bukkit/CraftBukkit
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean unloadWorld(boolean save) {
+		World world = world();
+        if (world == null) {
+            return false;
+        }
+
+        WorldServer handle = ((CraftWorld) world).getHandle();
+
+        if (!(console().worlds.contains(handle))) {
+            return false;
+        }
+
+        if (!(handle.dimension > 1)) {
+            return false;
+        }
+
+        if (handle.b.size() > 0) {
+            return false;
+        }
+
+        if (save) {
+        	WorldSaveEvent e = new WorldSaveEvent(world);
+        	mw.instance.getServer().getPluginManager().callEvent(e);
+        	
+            handle.a(true, (IProgressUpdate) null);
+            handle.r();
+        }
+
+        mw.instance.getServer().getWorlds().remove(world.getName().toLowerCase());
+        console().worlds.remove(console().worlds.indexOf(handle));
+
+        return true;
+    }
+	// End of borrowed code
+
+	public MinecraftServer console() {
+		CraftServer cs = (CraftServer) mw.instance.getServer();
+		
+		Field f;
+		try {
+			f = CraftServer.class.getDeclaredField("console");
+		}
+		catch (Exception ex) {
+			return null;
+		}
+		
+		MinecraftServer ms;
+		try {
+			f.setAccessible(true);
+			ms = (MinecraftServer) f.get(cs);
+		}
+		catch (Exception ex) {
+			return null;
+		}
+		return ms;
 	}
 }

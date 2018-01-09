@@ -11,8 +11,9 @@ public class Help {
 			return;
 		if (s.isPlayer()) {
 			sender.sendMessage("§e  MultiWorld help");
-			sender.sendMessage("§b /mw create <world> [environment | seed] [seed]");
+			sender.sendMessage("§b /mw create <world> [environment] [seed]");
 			sender.sendMessage("§b /mw remove <world>");
+			sender.sendMessage("§b /mw tp <world> [player]");
 			sender.sendMessage("§b /worldsettings");
 		}
 		else {

@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityListener;
 
 import com.garbagemule.MobArena.ArenaManager;
 
+import pl.daamazingshit.mw.mw;
 import pl.daamazingshit.mw.managers.ConfigWorld;
 import pl.daamazingshit.mw.util.Explode;
 import pl.daamazingshit.mw.util.PropertyType;
@@ -84,9 +85,12 @@ public class Entities extends EntityListener {
 			Player damager = (Player)entityDamager;
 			Player damaged = (Player)entityDamaged;
 			if (!ConfigWorld.getAllow(PropertyType.PVP, damager.getWorld().getName())) {
-				if (ArenaManager.playerSet.contains(damager) && ArenaManager.playerSet.contains(damaged)) {
-					return;
+				if (mw.mobarenaEnabled) {
+					if (ArenaManager.playerSet.contains(damager) || ArenaManager.playerSet.contains(damaged)) {
+						return;
+					}
 				}
+				
 				e.setCancelled(true);
 				e.setDamage(0);
 			}

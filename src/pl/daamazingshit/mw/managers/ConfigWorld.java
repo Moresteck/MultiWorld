@@ -229,9 +229,9 @@ public class ConfigWorld {
 		return false;
 	}
 
-	public static Boolean add(String world, Environment environment, boolean allowPvp, boolean allowMonsters, boolean allowAnimals, long seed) {
+	public static Boolean add(String world, Environment environment, boolean allowPvp, boolean allowMonsters, boolean allowAnimals, boolean creeperEx, String allEx, boolean tntEx, boolean otherEx, boolean customEx, long seed) {
 		db.load();
-		if (db.getProperty("worlds."+world) == null) {
+		if (db.getProperty("worlds."+world) != null) {
 			switch (environment) {
 			case NORMAL:
 			    db.setProperty("worlds."+world+".environment", "NORMAL");
@@ -242,11 +242,11 @@ public class ConfigWorld {
 			db.setProperty("worlds."+world+".monsters", allowMonsters);
 			db.setProperty("worlds."+world+".animals", allowAnimals);
 			db.setProperty("worlds."+world+".seed", seed);
-			db.setProperty("worlds."+world+".explosions.all", true);
-			db.setProperty("worlds."+world+".explosions.other", true);
-			db.setProperty("worlds."+world+".explosions.tnt", true);
-			db.setProperty("worlds."+world+".explosions.creeper", true);
-			db.setProperty("worlds."+world+".explosions.custom", true);
+			db.setProperty("worlds."+world+".explosions.all", allEx);
+			db.setProperty("worlds."+world+".explosions.other", otherEx);
+			db.setProperty("worlds."+world+".explosions.tnt", tntEx);
+			db.setProperty("worlds."+world+".explosions.creeper", creeperEx);
+			db.setProperty("worlds."+world+".explosions.custom", customEx);
 			db.save();
 			return true;
 		}
@@ -256,5 +256,36 @@ public class ConfigWorld {
 	public static Boolean exists(String world) {
 		db.load();
 		return db.getProperty("worlds."+world) != null;
+	}
+
+	public static Boolean rename(String world, String renamed) {
+		db.load();
+		if (db.getProperty("worlds."+world) != null) {
+			String name = renamed;
+			Environment env = getEnvironment(world);
+			boolean allowPvp = getAllow(PropertyType.PVP, world);
+			boolean allowMonsters = getAllow(PropertyType.MONSTERS, world);
+			boolean allowAnimals = getAllow(PropertyType.ANIMALS, world);
+			long seed = getSeed(world);
+			boolean creeper = allowExplode(Explode.CREEPER, world);
+			boolean tnt = allowExplode(Explode.TNT, world);
+			boolean other = allowExplode(Explode.OTHER, world);
+			boolean custom = allowExplode(Explode.CUSTOM, world);
+			String exAll = getExplodeAll(world);
+			
+			WorldManager old = new WorldManager(world, env, seed);
+			add(name, env, allowPvp, allowMonsters, allowAnimals, creeper, exAll, tnt, other, custom, seed);
+			old.unloadWorld(true);
+			
+			File rename = new File(world);
+			rename.renameTo(new File(renamed));
+			
+			WorldManager wm = new WorldManager(name, env, seed);
+			wm.createWorld();
+			db.removeProperty("worlds."+world);
+			db.save();
+			return true;
+		}
+		return false;
 	}
 }

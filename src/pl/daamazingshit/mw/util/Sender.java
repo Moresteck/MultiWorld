@@ -21,6 +21,7 @@ public class Sender {
 
 	public Boolean isAuthorized(String permission) {
 		if (this.isPlayer()) {
+			
 			Player p = (Player)cs;
 			if (p.isOp() || Permissions.Security.has(p, permission)) {
 				return true;
@@ -31,6 +32,15 @@ public class Sender {
 		}
 		else {
 			return true;
+		}
+	}
+
+	public String getName() {
+		if (isPlayer()) {
+			return ((Player)cs).getName();
+		}
+		else {
+			return "Console";
 		}
 	}
 }
