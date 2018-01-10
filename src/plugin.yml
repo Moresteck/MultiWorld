@@ -2,7 +2,7 @@ name: MultiWorld
 version: 1.0-SNAPSHOT
 main: pl.daamazingshit.mw.MultiWorld
 author: DaAmazingShit
-depend: [Permissions]
+
 commands:
     mw:
         usage: /<command>
