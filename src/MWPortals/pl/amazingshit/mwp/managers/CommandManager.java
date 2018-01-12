@@ -63,5 +63,28 @@ public class CommandManager {
 				return;
 			}
 		}
+		if (args[0].equalsIgnoreCase("remove")) {
+			if (args.length == 1) {
+				sender.sendMessage("Not enough arguments.");
+				return;
+			}
+			if (PortalManager.allPortals().contains(args[1])) {
+				PortalManager.removePortal(args[1]);
+				sender.sendMessage("Removed portal '" + args[1] + "'");
+				return;
+			}
+			sender.sendMessage("Non-existent portal specified.");
+			return;
+		}
+		if (args[0].equalsIgnoreCase("list")) {
+			sender.sendMessage("Portal list:");
+			if (PortalManager.allPortals().isEmpty()) {
+				return;
+			}
+			for (String portal: PortalManager.allPortals()) {
+				sender.sendMessage(" - " + portal);
+			}
+			return;
+		}
 	}
 }

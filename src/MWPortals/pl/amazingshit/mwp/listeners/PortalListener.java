@@ -46,6 +46,9 @@ public class PortalListener extends PlayerListener {
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getPlayer().getInventory().getItemInHand().getType() == PortalManager.material()) {
+				if (!Permissions.Security.has(e.getPlayer(), "mwp.create")) {
+					return;
+				}
 				if (pos1.get(e.getPlayer()) != null) {
 					if (pos1.get(e.getPlayer()).getWorld().getName() != e.getClickedBlock().getLocation().getWorld().getName()) {
 						pos1.remove(e.getPlayer());
