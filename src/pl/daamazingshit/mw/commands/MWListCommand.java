@@ -21,10 +21,10 @@ public class MWListCommand {
 				if (wm.dimension() == Environment.NETHER) {
 					color = "§c";
 				}
-				sender.sendMessage(color + world);
+				sender.sendMessage(" - " + color + world);
 			}
 			else {
-				sender.sendMessage(world);
+				sender.sendMessage(" - " + world);
 			}
 		}
 	}
