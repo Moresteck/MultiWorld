@@ -13,8 +13,10 @@ public class MWRemoveCommand {
 		if (!sender.isAuthorized("multiworld.manage.remove")) {
 			return;
 		}
-		World world = mw.instance.getServer().getWorld(arguments[1]) != null ? mw.instance.getServer().getWorld(arguments[1]) : null;
-		if (world == null) {
+		if (arguments.length == 1) {
+			return;
+		}
+		if (mw.instance.getServer().getWorld(arguments[1]) == null) {
 			if (sender.isPlayer()) {
 				cmdsender.sendMessage("§cWorld with given name doesn't exists: §e" + arguments[1]);
 			}
@@ -23,6 +25,7 @@ public class MWRemoveCommand {
 			}
 			return;
 		}
+		World world = mw.instance.getServer().getWorld(arguments[1]);
 		WorldManager wm = new WorldManager(world.getName(), world.getEnvironment(), world.getId());
 		boolean done = false;
 		try {

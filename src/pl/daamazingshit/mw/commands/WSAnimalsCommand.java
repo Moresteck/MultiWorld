@@ -36,7 +36,7 @@ public class WSAnimalsCommand {
 			if (!sender.isPlayer()) {
 				cmdsender.sendMessage("Not enough arguments");
 				return; }
-			String world = ((Player)sender).getWorld().getName();
+			String world = ((Player)cmdsender).getWorld().getName();
 			boolean done = ConfigWorld.setAllow(PropertyType.ANIMALS, world, animals);
 			if (sender.isPlayer()) {
 			    cmdsender.sendMessage(done == true ? "§aSuccess! §fSet the property '§banimals§f' to '§c" + animals + "§f' in world '§a"+world+"§f'" : "§cSomething went wrong!"); }

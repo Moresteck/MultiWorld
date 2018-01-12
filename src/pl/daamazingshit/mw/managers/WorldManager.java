@@ -1,13 +1,6 @@
 package pl.daamazingshit.mw.managers;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -32,29 +25,29 @@ import pl.daamazingshit.mw.util.PropertyType;
 public class WorldManager {
 
     private long seed;
-    private String name;
+    private static String name;
     private Environment env;
 
 	public WorldManager(String worldname) {
-		this.name = worldname;
+		name = worldname;
 		this.seed = (new Random()).nextLong();
 		this.env  = Environment.NORMAL;
 	}
 
 	public WorldManager(String worldname, long seed) {
-		this.name = worldname;
+		name = worldname;
 		this.seed = seed;
 		this.env  = Environment.NORMAL;
 	}
 
 	public WorldManager(String worldname, Environment environment) {
-		this.name = worldname;
+		name = worldname;
 		this.seed = (new Random()).nextLong();
 		this.env  = environment;
 	}
 
 	public WorldManager(String worldname, Environment environment, long seed) {
-		this.name = worldname;
+		name = worldname;
 		this.seed = seed;
 		this.env  = environment;
 	}
@@ -82,32 +75,9 @@ public class WorldManager {
 		return mw.instance.getServer().createWorld(name, env, seed);
 	}
 
-	public void remove() throws IOException {
-		Path path = Paths.get(name);
-		Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
-			@Override public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs)
-					throws IOException {
-				Files.delete(file);
-				return FileVisitResult.CONTINUE;
-				}
-			
-			@Override public FileVisitResult visitFileFailed(final Path file, final IOException e) {
-				return handleException(e);
-				}
-			
-			private FileVisitResult handleException(final IOException e) {
-				e.printStackTrace();
-				return FileVisitResult.TERMINATE;
-				}
-			
-			@Override public FileVisitResult postVisitDirectory(final Path dir, final IOException e)
-					throws IOException {
-				if(e!=null)return handleException(e);
-				Files.delete(dir);
-				return FileVisitResult.CONTINUE;
-				}
-		});
+	public void remove() {
 		ConfigWorld.remove(name);
+		this.unloadWorld(true);
 	}
 
 	public Long seed() {

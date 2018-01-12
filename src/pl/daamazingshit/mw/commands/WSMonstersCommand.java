@@ -36,7 +36,7 @@ public class WSMonstersCommand {
 			if (!sender.isPlayer()) {
 				cmdsender.sendMessage("Not enough arguments");
 				return; }
-			String world = ((Player)sender).getWorld().getName();
+			String world = ((Player)cmdsender).getWorld().getName();
 			boolean done = ConfigWorld.setAllow(PropertyType.MONSTERS, world, monsters);
 			cmdsender.sendMessage(done == true ? "§aSuccess! §fSet the property '§bmonsters§f' to '§c" + monsters + "§f' in world '§a"+world+"§f'" : "§cSomething went wrong!");
 			return;

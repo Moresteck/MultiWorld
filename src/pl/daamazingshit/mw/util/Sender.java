@@ -16,7 +16,7 @@ public class Sender {
 	}
 
 	public Boolean isPlayer() {
-		return (cs instanceof Player) ? true : false;
+		return (cs instanceof Player);
 	}
 
 	public Boolean isAuthorized(String permission) {

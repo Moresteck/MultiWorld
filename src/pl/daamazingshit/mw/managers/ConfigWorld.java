@@ -23,7 +23,14 @@ public class ConfigWorld {
 			WorldManager wm = new WorldManager(all, getEnvironment(all), getSeed(all));
 			ret.add(wm);
 		}
-		return ret.isEmpty() ? null : ret;
+		return ret;
+	}
+
+	public static List<String> getWorldStringList() {
+		db.load();
+		List<String> worlds = new LinkedList<String>();
+		worlds = db.getKeys("worlds");
+		return worlds;
 	}
 
 	public static Environment getEnvironment(String world) {
@@ -52,14 +59,15 @@ public class ConfigWorld {
 
 	public static Boolean getAllow(PropertyType type, String world) {
 		Boolean result = false;
-		switch (type) {
-		case MONSTERS:
+		if (type == PropertyType.MONSTERS)
 			result = getAllowSpawnMonsters(world);
-		case ANIMALS:
+		
+		if (type == PropertyType.ANIMALS)
 			result = getAllowSpawnAnimals(world);
-		case PVP:
+		
+		if (type == PropertyType.PVP)
 			result = getAllowPVP(world);
-		}
+		
 		return result;
 	}
 
@@ -95,14 +103,15 @@ public class ConfigWorld {
 			return false;
 		}
 		Boolean result = false;
-		switch (type) {
-		case MONSTERS:
+		if (type == PropertyType.MONSTERS)
 			result = setAllowSpawnMonsters(world, set);
-		case ANIMALS:
+		
+		if (type == PropertyType.ANIMALS)
 			result = setAllowSpawnAnimals(world, set);
-		case PVP:
+		
+		if (type == PropertyType.PVP)
 			result = setAllowPVP(world, set);
-		}
+		
 		return result;
 	}
 
@@ -143,23 +152,25 @@ public class ConfigWorld {
 			return false;
 		}
 		else if (getExplodeAll(world) == "ignore") {
-			switch (ex) {
-			case TNT:
+			if (ex == Explode.TNT) {
 				if (getExplodeTNT(world)) {
 					return true;
 				}
 				return false;
-			case OTHER:
+			}
+			if (ex == Explode.CREEPER) {
 				if (getExplodeOther(world)) {
 					return true;
 				}
 				return false;
-			case CREEPER:
+				}
+			if (ex == Explode.CREEPER) {
 				if (getExplodeCreeper(world)) {
 					return true;
 				}
 				return false;
-			case CUSTOM:
+			}
+			if (ex == Explode.CUSTOM) {
 				if (getExplodePlugin(world)) {
 					return true;
 				}
@@ -231,26 +242,23 @@ public class ConfigWorld {
 
 	public static Boolean add(String world, Environment environment, boolean allowPvp, boolean allowMonsters, boolean allowAnimals, boolean creeperEx, String allEx, boolean tntEx, boolean otherEx, boolean customEx, long seed) {
 		db.load();
-		if (db.getProperty("worlds."+world) != null) {
-			switch (environment) {
-			case NORMAL:
-			    db.setProperty("worlds."+world+".environment", "NORMAL");
-			case NETHER:
-				db.setProperty("worlds."+world+".environment", "NETHER");
-			}
-			db.setProperty("worlds."+world+".pvp", allowPvp);
-			db.setProperty("worlds."+world+".monsters", allowMonsters);
-			db.setProperty("worlds."+world+".animals", allowAnimals);
-			db.setProperty("worlds."+world+".seed", seed);
-			db.setProperty("worlds."+world+".explosions.all", allEx);
-			db.setProperty("worlds."+world+".explosions.other", otherEx);
-			db.setProperty("worlds."+world+".explosions.tnt", tntEx);
-			db.setProperty("worlds."+world+".explosions.creeper", creeperEx);
-			db.setProperty("worlds."+world+".explosions.custom", customEx);
-			db.save();
-			return true;
+		if (environment == Environment.NETHER) {
+			db.setProperty("worlds."+world+".environment", "NETHER");
 		}
-		return false;
+		if (environment == Environment.NORMAL) {
+			db.setProperty("worlds."+world+".environment", "NORMAL");
+		}
+		db.setProperty("worlds."+world+".pvp", allowPvp);
+		db.setProperty("worlds."+world+".monsters", allowMonsters);
+		db.setProperty("worlds."+world+".animals", allowAnimals);
+		db.setProperty("worlds."+world+".seed", seed);
+		db.setProperty("worlds."+world+".explosions.all", allEx);
+		db.setProperty("worlds."+world+".explosions.other", otherEx);
+		db.setProperty("worlds."+world+".explosions.tnt", tntEx);
+		db.setProperty("worlds."+world+".explosions.creeper", creeperEx);
+		db.setProperty("worlds."+world+".explosions.custom", customEx);
+		db.save();
+		return true;
 	}
 
 	public static Boolean exists(String world) {

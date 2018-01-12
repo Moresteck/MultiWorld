@@ -12,9 +12,11 @@ public class Plugins extends ServerListener {
 		Plugin plugin = e.getPlugin();
 		if (plugin.getDescription().getName().equalsIgnoreCase("Permissions")) {
 			mw.permissionsEnabled = true;
+			mw.log.info("[MultiWorld] Linked with Permissions.");
 		}
 		if (plugin.getDescription().getName().equalsIgnoreCase("MobArena")) {
 			mw.mobarenaEnabled = true;
+			mw.log.info("[MultiWorld] Linked with MobArena.");
 		}
 	}
 }

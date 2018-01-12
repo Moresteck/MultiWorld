@@ -7,7 +7,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.WaterMob;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -34,7 +36,17 @@ public class Entities extends EntityListener {
 				e.setCancelled(true);
 			}
 		}
+		if (ent instanceof WaterMob) {
+			if (!ConfigWorld.getAllow(PropertyType.ANIMALS, w.getName())) {
+				e.setCancelled(true);
+			}
+		}
 		if (ent instanceof Monster) {
+			if (!ConfigWorld.getAllow(PropertyType.MONSTERS, w.getName())) {
+				e.setCancelled(true);
+			}
+		}
+		if (ent instanceof Slime) {
 			if (!ConfigWorld.getAllow(PropertyType.MONSTERS, w.getName())) {
 				e.setCancelled(true);
 			}

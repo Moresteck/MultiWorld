@@ -44,7 +44,7 @@ public class MultiWorld extends JavaPlugin {
 
 	public static void loadWorlds() {
 		World w = instance.getServer().getWorld("world");
-		if (ConfigWorld.getWorldList() == null) {
+		if (!ConfigWorld.exists("world") || ConfigWorld.getWorldStringList().isEmpty()) {
 			ConfigWorld.add("world", Environment.NORMAL, true, true, true, true, "true", true, true, true, w.getId());
 		}
 		for (WorldManager world: ConfigWorld.getWorldList()) {

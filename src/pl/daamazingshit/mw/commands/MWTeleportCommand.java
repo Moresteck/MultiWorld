@@ -26,7 +26,7 @@ public class MWTeleportCommand {
 				cmdsender.sendMessage("You cannot teleport console.");
 				return;
 			}
-			Player toTp = (Player)sender;
+			Player toTp = (Player)cmdsender;
 			if (!ConfigWorld.exists(arguments[1])) {
 				cmdsender.sendMessage("§cWorld could not be recognised.");
 				return;
