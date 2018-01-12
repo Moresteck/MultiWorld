@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
 
+import MWPortals.pl.amazingshit.mwp.mwp;
 import MWPortals.pl.amazingshit.mwp.managers.PortalManager;
 
 public class PortalListener extends PlayerListener {
@@ -19,6 +20,9 @@ public class PortalListener extends PlayerListener {
 	public static HashMap<Player, Location> pos2 = new HashMap<Player, Location>();
 
 	@Override public void onPlayerMove(PlayerMoveEvent e) {
+		if (mwp.enabled == false) {
+			return;
+		}
 		Location tomove = e.getTo();
 		if (PortalManager.enteredPortal(tomove)) {
 			e.getPlayer().teleport(PortalManager.getPortalDefaultLoc(PortalManager.getPortalNameAtLocation(tomove)));
@@ -26,6 +30,9 @@ public class PortalListener extends PlayerListener {
 	}
 
 	@Override public void onPlayerInteract(PlayerInteractEvent e) {
+		if (mwp.enabled == false) {
+			return;
+		}
 		if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			if (e.getPlayer().getInventory().getItemInHand().getType() == PortalManager.material()) {
 				if (!Permissions.Security.has(e.getPlayer(), "mwp.create")) {

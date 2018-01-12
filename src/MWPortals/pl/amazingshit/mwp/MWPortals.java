@@ -23,6 +23,7 @@ public class MWPortals extends JavaPlugin {
 	public static boolean enabled = false;
 	public static Plugin instance = null;
 
+	@Override
 	public void onEnable() {
 		instance = this;
 		List<String> pllist = new LinkedList<String>();
@@ -31,6 +32,10 @@ public class MWPortals extends JavaPlugin {
 		}
 		if (pllist.contains("MultiWorld")) {
 			enabled = true;
+		}
+		if (enabled == false) {
+			log.info("[MWPortals] MultiWorld hasn't been detected! Disabling!");
+			this.getServer().getPluginManager().disablePlugin(this);
 		}
 		
 		if (!PortalManager.exists()) {
@@ -43,7 +48,11 @@ public class MWPortals extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_MOVE, new PortalListener(), Priority.Monitor, this);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
+		if (!enabled) {
+			return true;
+		}
 		CommandManager.handleCommand(sender, args, alias);
 		return true;
 	}
