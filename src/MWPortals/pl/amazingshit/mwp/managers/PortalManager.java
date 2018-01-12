@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 
 import MWPortals.pl.amazingshit.mwp.mwp;
 import pl.amazingshit.mw.util.ConfigUtil;
@@ -182,6 +183,23 @@ public class PortalManager {
 			return true;
 		}
 		return false;
+	}
+
+	public static void printDestination(String portal, CommandSender sender) {
+		config.load();
+		int x1 = config.getInt("portals." + portal + ".x1", 0);
+		int y1 = config.getInt("portals." + portal + ".y1", 0);
+		int z1 = config.getInt("portals." + portal + ".z1", 0);
+		
+		int x2 = config.getInt("portals." + portal + ".x2", 0);
+		int y2 = config.getInt("portals." + portal + ".y2", 0);
+		int z2 = config.getInt("portals." + portal + ".z2", 0);
+		String destination = config.getString("portals." + portal + ".destination.world", null) != null ? config.getString("portals." + portal + ".destination.world", null) : config.getString("portals." + portal + ".destination.portal", null);
+		sender.sendMessage("Portal " + portal + " info");
+		sender.sendMessage("Destination: " + destination);
+		sender.sendMessage("First position: x" + x1 + ", y" + y1 + ", z" + z1);
+		sender.sendMessage("Second position: x" + x2 + ", y" + y2 + ", z" + z2);
+		return;
 	}
 
 	public static Material material() {

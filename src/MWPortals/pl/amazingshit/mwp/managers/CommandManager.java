@@ -86,5 +86,17 @@ public class CommandManager {
 			}
 			return;
 		}
+		if (args[0].equalsIgnoreCase("info")) {
+			if (args.length == 1) {
+				sender.sendMessage("Not enough arguments.");
+				return;
+			}
+			if (PortalManager.allPortals().contains(args[1])) {
+				PortalManager.printDestination(args[1], sender);
+				return;
+			}
+			sender.sendMessage("Non-existent portal specified.");
+			return;
+		}
 	}
 }
