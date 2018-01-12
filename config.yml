@@ -7,7 +7,7 @@ worlds:
         pvp: true
         explosions:
             # If you type 'ignore' here, the plugin will get used to properties below, if 'false' - plugin will block all explosions, if 'true' - plugin will allow all explosions to happen.
-            all: ignore
+            all: 'ignore'
             creeper: true
             tnt: true
             other: true

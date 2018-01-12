@@ -18,5 +18,9 @@ public class Plugins extends ServerListener {
 			mw.mobarenaEnabled = true;
 			mw.log.info("[MultiWorld] Linked with MobArena.");
 		}
+		if (plugin.getDescription().getName().equalsIgnoreCase("MWPortals")) {
+			mw.mwportalsEnabled = true;
+			mw.log.info("[MultiWorld] Linked with MWPortals.");
+		}
 	}
 }

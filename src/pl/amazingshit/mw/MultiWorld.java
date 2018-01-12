@@ -24,6 +24,7 @@ public class MultiWorld extends JavaPlugin {
 
 	public static Plugin instance;
 	public static Boolean permissionsEnabled = false;
+	public static Boolean mwportalsEnabled = false;
 	public static Boolean mobarenaEnabled = false;
 	public void onDisable() {}
 
