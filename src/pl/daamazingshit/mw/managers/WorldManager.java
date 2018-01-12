@@ -93,8 +93,11 @@ public class WorldManager {
 	}
 
 	public World world() {
+		if (mw.instance.getServer().getWorld(name) == null) {
+			return null;
+		}
 		World ret = mw.instance.getServer().getWorld(name);
-		return ret == null ? null : ret;
+		return ret;
 	}
 
 	public Boolean allowMonsters() {
