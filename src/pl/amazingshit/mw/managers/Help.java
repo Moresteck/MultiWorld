@@ -1,7 +1,8 @@
-package pl.daamazingshit.mw.managers;
+package pl.amazingshit.mw.managers;
 
 import org.bukkit.command.CommandSender;
-import pl.daamazingshit.mw.util.Sender;
+
+import pl.amazingshit.mw.util.Sender;
 
 public class Help {
 // §

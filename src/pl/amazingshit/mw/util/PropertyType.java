@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw.util;
+package pl.amazingshit.mw.util;
 /**
  * Represents configuration property type
  */

@@ -1,13 +1,13 @@
-package pl.daamazingshit.mw.commands;
+package pl.amazingshit.mw.commands;
 
 import java.util.List;
 
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 
-import pl.daamazingshit.mw.managers.ConfigWorld;
-import pl.daamazingshit.mw.managers.WorldManager;
-import pl.daamazingshit.mw.util.Sender;
+import pl.amazingshit.mw.managers.ConfigWorld;
+import pl.amazingshit.mw.managers.WorldManager;
+import pl.amazingshit.mw.util.Sender;
 
 public class MWListCommand {
 

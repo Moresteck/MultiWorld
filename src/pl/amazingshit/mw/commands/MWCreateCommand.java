@@ -1,12 +1,12 @@
-package pl.daamazingshit.mw.commands;
+package pl.amazingshit.mw.commands;
 
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 
-import pl.daamazingshit.mw.mw;
-import pl.daamazingshit.mw.managers.Help;
-import pl.daamazingshit.mw.managers.WorldManager;
-import pl.daamazingshit.mw.util.Sender;
+import pl.amazingshit.mw.mw;
+import pl.amazingshit.mw.managers.Help;
+import pl.amazingshit.mw.managers.WorldManager;
+import pl.amazingshit.mw.util.Sender;
 
 public class MWCreateCommand {
 

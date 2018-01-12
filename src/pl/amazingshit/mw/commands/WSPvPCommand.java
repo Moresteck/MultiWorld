@@ -1,12 +1,12 @@
-package pl.daamazingshit.mw.commands;
+package pl.amazingshit.mw.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pl.daamazingshit.mw.managers.ConfigWorld;
-import pl.daamazingshit.mw.managers.Help;
-import pl.daamazingshit.mw.util.PropertyType;
-import pl.daamazingshit.mw.util.Sender;
+import pl.amazingshit.mw.managers.ConfigWorld;
+import pl.amazingshit.mw.managers.Help;
+import pl.amazingshit.mw.util.PropertyType;
+import pl.amazingshit.mw.util.Sender;
 
 public class WSPvPCommand {
 

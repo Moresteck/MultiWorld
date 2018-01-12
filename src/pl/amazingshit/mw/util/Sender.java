@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw.util;
+package pl.amazingshit.mw.util;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

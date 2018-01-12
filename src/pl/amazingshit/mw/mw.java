@@ -1,2 +1,2 @@
-package pl.daamazingshit.mw;
+package pl.amazingshit.mw;
 public class mw extends MultiWorld {}

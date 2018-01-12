@@ -1,10 +1,10 @@
-package pl.daamazingshit.mw.listeners;
+package pl.amazingshit.mw.listeners;
 
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
-import pl.daamazingshit.mw.mw;
+import pl.amazingshit.mw.mw;
 
 public class Plugins extends ServerListener {
 

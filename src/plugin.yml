@@ -1,6 +1,6 @@
 name: MultiWorld
 version: 1.0.1
-main: pl.daamazingshit.mw.MultiWorld
+main: pl.amazingshit.mw.MultiWorld
 author: DaAmazingShit
 
 commands:

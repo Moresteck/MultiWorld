@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw.util;
+package pl.amazingshit.mw.util;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw;
+package pl.amazingshit.mw;
 
 import java.util.logging.Logger;
 
@@ -12,11 +12,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pl.daamazingshit.mw.listeners.Entities;
-import pl.daamazingshit.mw.listeners.Plugins;
-import pl.daamazingshit.mw.managers.CommandManager;
-import pl.daamazingshit.mw.managers.ConfigWorld;
-import pl.daamazingshit.mw.managers.WorldManager;
+import pl.amazingshit.mw.listeners.Entities;
+import pl.amazingshit.mw.listeners.Plugins;
+import pl.amazingshit.mw.managers.CommandManager;
+import pl.amazingshit.mw.managers.ConfigWorld;
+import pl.amazingshit.mw.managers.WorldManager;
 
 public class MultiWorld extends JavaPlugin {
 

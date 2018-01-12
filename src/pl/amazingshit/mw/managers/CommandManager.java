@@ -1,15 +1,15 @@
-package pl.daamazingshit.mw.managers;
+package pl.amazingshit.mw.managers;
 
 import org.bukkit.command.CommandSender;
 
-import pl.daamazingshit.mw.commands.MWCreateCommand;
-import pl.daamazingshit.mw.commands.MWListCommand;
-import pl.daamazingshit.mw.commands.MWRemoveCommand;
-import pl.daamazingshit.mw.commands.MWTeleportCommand;
-import pl.daamazingshit.mw.commands.WSAnimalsCommand;
-import pl.daamazingshit.mw.commands.WSMonstersCommand;
-import pl.daamazingshit.mw.commands.WSPvPCommand;
-import pl.daamazingshit.mw.util.Sender;
+import pl.amazingshit.mw.commands.MWCreateCommand;
+import pl.amazingshit.mw.commands.MWListCommand;
+import pl.amazingshit.mw.commands.MWRemoveCommand;
+import pl.amazingshit.mw.commands.MWTeleportCommand;
+import pl.amazingshit.mw.commands.WSAnimalsCommand;
+import pl.amazingshit.mw.commands.WSMonstersCommand;
+import pl.amazingshit.mw.commands.WSPvPCommand;
+import pl.amazingshit.mw.util.Sender;
 
 public class CommandManager {
 

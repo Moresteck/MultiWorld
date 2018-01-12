@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw.managers;
+package pl.amazingshit.mw.managers;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -19,8 +19,8 @@ import org.bukkit.event.world.WorldSaveEvent;
 import net.minecraft.server.IProgressUpdate;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
-import pl.daamazingshit.mw.mw;
-import pl.daamazingshit.mw.util.PropertyType;
+import pl.amazingshit.mw.mw;
+import pl.amazingshit.mw.util.PropertyType;
 
 public class WorldManager {
 

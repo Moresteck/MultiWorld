@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw.managers;
+package pl.amazingshit.mw.managers;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.bukkit.World.Environment;
 import org.bukkit.util.config.Configuration;
 
-import pl.daamazingshit.mw.util.Explode;
-import pl.daamazingshit.mw.util.PropertyType;
+import pl.amazingshit.mw.util.Explode;
+import pl.amazingshit.mw.util.PropertyType;
 
 public class ConfigWorld {
 

@@ -1,4 +1,4 @@
-package pl.daamazingshit.mw.listeners;
+package pl.amazingshit.mw.listeners;
 
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
@@ -18,10 +18,10 @@ import org.bukkit.event.entity.EntityListener;
 
 import com.garbagemule.MobArena.ArenaManager;
 
-import pl.daamazingshit.mw.mw;
-import pl.daamazingshit.mw.managers.ConfigWorld;
-import pl.daamazingshit.mw.util.Explode;
-import pl.daamazingshit.mw.util.PropertyType;
+import pl.amazingshit.mw.mw;
+import pl.amazingshit.mw.managers.ConfigWorld;
+import pl.amazingshit.mw.util.Explode;
+import pl.amazingshit.mw.util.PropertyType;
 
 public class Entities extends EntityListener {
 
