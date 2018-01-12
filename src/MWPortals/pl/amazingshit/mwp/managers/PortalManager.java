@@ -82,7 +82,7 @@ public class PortalManager {
 			return false;
 		}
 		List<String> portals = config.getKeys();
-		boolean entered = false;
+		boolean entered = true;
 		for (String portal: portals) {
 			int x1 = config.getInt("portals." + portal + ".x1", 0);
 			int y1 = config.getInt("portals." + portal + ".y1", 0);
@@ -96,21 +96,14 @@ public class PortalManager {
 				return false;
 			}
 			
-			int locx = loc.getBlockX();
-			int locy = loc.getBlockY();
-			int locz = loc.getBlockZ();
-			
-			if (locx == x1 && locy == y1 && locz == z1) {
-				entered = true;
+			if ((loc.getBlockX() < x1) || (loc.getBlockX() > x2)) {
+				entered = false;
 			}
-			if (locx == x2 && locy == y2 && locz == z2) {
-				entered = true;
+			if ((loc.getBlockZ() < z1) || (loc.getBlockZ() > z2)) {
+				entered = false;
 			}
-			if (locx > x2 && locx < x1 && locy > y2 && locy < y1 && locz > z2 && locz < z1) {
-				entered = true;
-			}
-			if (locx < x2 && locx > x1 && locy < y2 && locy > y1 && locz < z2 && locz > z1) {
-				entered = true;
+			if ((loc.getBlockY() < y1) || (loc.getBlockY() > y2)) {
+				entered = false;
 			}
 		}
 		return entered;
