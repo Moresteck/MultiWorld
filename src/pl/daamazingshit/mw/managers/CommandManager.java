@@ -3,6 +3,7 @@ package pl.daamazingshit.mw.managers;
 import org.bukkit.command.CommandSender;
 
 import pl.daamazingshit.mw.commands.MWCreateCommand;
+import pl.daamazingshit.mw.commands.MWListCommand;
 import pl.daamazingshit.mw.commands.MWRemoveCommand;
 import pl.daamazingshit.mw.commands.MWTeleportCommand;
 import pl.daamazingshit.mw.commands.WSAnimalsCommand;
@@ -68,6 +69,9 @@ public class CommandManager {
 			else {
 				Help.showSettingsHelp(cmdsender);
 			}
+		}
+		if (alias.equalsIgnoreCase("worldlist") || alias.equalsIgnoreCase("wl")) {
+			MWListCommand.handle(cmdsender, alias, sender);
 		}
 	}
 }

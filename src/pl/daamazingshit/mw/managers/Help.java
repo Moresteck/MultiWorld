@@ -14,12 +14,14 @@ public class Help {
 			sender.sendMessage("§b /mw create <world> [environment] [seed]");
 			sender.sendMessage("§b /mw remove <world>");
 			sender.sendMessage("§b /mw tp <world> [player]");
+			sender.sendMessage("§b /worldlist");
 			sender.sendMessage("§b /worldsettings");
 		}
 		else {
 			sender.sendMessage("  MultiWorld help");
-			sender.sendMessage(" /mw create <world> [environment | seed] [seed]");
+			sender.sendMessage(" /mw create <world> [environment] [seed]");
 			sender.sendMessage(" /mw remove <world>");
+			sender.sendMessage(" /worldlist");
 			sender.sendMessage(" /worldsettings");
 		}
 	}
@@ -36,9 +38,9 @@ public class Help {
 		}
 		else {
 			sender.sendMessage("  WorldSettings help (MultiWorld)");
-			sender.sendMessage(" /ws pvp <true | false> [world]");
-			sender.sendMessage(" /ws animals <true | false> [world]");
-			sender.sendMessage(" /ws monsters <true | false> [world]");
+			sender.sendMessage(" /ws pvp <true | false> <world>");
+			sender.sendMessage(" /ws animals <true | false> <world>");
+			sender.sendMessage(" /ws monsters <true | false> <world>");
 		}
 	}
 }

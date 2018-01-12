@@ -1,5 +1,5 @@
 name: MultiWorld
-version: 1.0
+version: 1.0.1
 main: pl.daamazingshit.mw.MultiWorld
 author: DaAmazingShit
 
@@ -14,3 +14,8 @@ commands:
         aliases: [ws]
         description: |
             Manages world settings.
+    worldlist:
+        usage: /<command>
+        aliases: [wl]
+        description: |
+            Shows loaded world list.
