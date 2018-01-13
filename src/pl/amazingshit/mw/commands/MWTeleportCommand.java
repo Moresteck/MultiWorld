@@ -32,7 +32,7 @@ public class MWTeleportCommand {
 				return;
 			}
 			WorldManager wm = new WorldManager(arguments[1]);
-			toTp.teleport(wm.world().getSpawnLocation());
+			toTp.teleportTo(wm.world().getSpawnLocation());
 			toTp.sendMessage("§aTeleported to " + arguments[1]);
 		}
 		if (arguments.length == 3) {
@@ -55,7 +55,7 @@ public class MWTeleportCommand {
 				return;
 			}
 			WorldManager wm = new WorldManager(arguments[1]);
-			toTp.teleport(wm.world().getSpawnLocation());
+			toTp.teleportTo(wm.world().getSpawnLocation());
 			toTp.sendMessage("§aTeleported to " + arguments[1] + " by " + sender.getName());
 			if (sender.isPlayer()) {
 				cmdsender.sendMessage("§aTeleported " + arguments[2] + " to " + arguments[1]);

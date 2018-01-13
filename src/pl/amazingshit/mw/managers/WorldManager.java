@@ -14,7 +14,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.world.WorldSaveEvent;
 
 import net.minecraft.server.IProgressUpdate;
 import net.minecraft.server.MinecraftServer;
@@ -24,6 +23,7 @@ import pl.amazingshit.mw.util.PropertyType;
 
 public class WorldManager {
 
+	public List<Player> players = new LinkedList<Player>();
     private long seed;
     private static String name;
     private Environment env;
@@ -54,8 +54,9 @@ public class WorldManager {
 
 	public Boolean create() {
 		try {
-			mw.instance.getServer().createWorld(name, env, seed);
-			ConfigWorld.add(name, env, true, true, true, true, "true", true, true, true, seed);
+			mw.instance.getServer().createWorld(name, env);
+			this.seed = this.seed();
+			ConfigWorld.add(name, env, true, true, true, true, "true", true, true, this.seed());
 			return true;
 		}
 		catch (Exception ex) {
@@ -67,12 +68,13 @@ public class WorldManager {
 	 * Used for loading worlds.
 	 */
 	public void setup() {
-		mw.instance.getServer().createWorld(name, env, seed);
+		mw.instance.getServer().createWorld(name, env);
 	}
 
 	public World createWorld() {
-		ConfigWorld.add(name, env, true, true, true, true, "true", true, true, true, seed);
-		return mw.instance.getServer().createWorld(name, env, seed);
+		ConfigWorld.add(name, env, true, true, true, true, "true", true, true, this.seed());
+		this.seed = this.seed();
+		return mw.instance.getServer().createWorld(name, env);
 	}
 
 	public void remove() {
@@ -96,6 +98,7 @@ public class WorldManager {
 		if (mw.instance.getServer().getWorld(name) == null) {
 			return null;
 		}
+		this.seed = this.seed();
 		World ret = mw.instance.getServer().getWorld(name);
 		return ret;
 	}
@@ -110,10 +113,6 @@ public class WorldManager {
 
 	public Boolean allowPVP() {
 		return ConfigWorld.getAllow(PropertyType.PVP, name);
-	}
-
-	public List<Player> players() {
-		return this.world().getPlayers();
 	}
 
 	public List<Entity> entities() {
@@ -142,9 +141,15 @@ public class WorldManager {
 		return this.world().getSpawnLocation();
 	}
 
+	public List<Player> getPlayers() {
+		return this.players;
+	}
+
 	public Boolean setspawn(Location loc) {
 		try {
-			this.world().setSpawnLocation(loc.getBlockX(), loc.getBlockX(), loc.getBlockZ());
+			this.world().getSpawnLocation().setX(loc.getBlockX());
+			this.world().getSpawnLocation().setY(loc.getBlockY());
+			this.world().getSpawnLocation().setZ(loc.getBlockZ());
 			return true;
 		}
 		catch (Exception ex) {
@@ -166,20 +171,12 @@ public class WorldManager {
             return false;
         }
 
-        if (!(handle.dimension > 1)) {
-            return false;
-        }
-
         if (handle.b.size() > 0) {
             return false;
         }
 
         if (save) {
-        	WorldSaveEvent e = new WorldSaveEvent(world);
-        	mw.instance.getServer().getPluginManager().callEvent(e);
-        	
             handle.a(true, (IProgressUpdate) null);
-            handle.r();
         }
 
         mw.instance.getServer().getWorlds().remove(world.getName().toLowerCase());

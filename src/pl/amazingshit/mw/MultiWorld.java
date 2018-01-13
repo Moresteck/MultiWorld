@@ -13,6 +13,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.amazingshit.mw.listeners.Entities;
+import pl.amazingshit.mw.listeners.Players;
 import pl.amazingshit.mw.listeners.Plugins;
 import pl.amazingshit.mw.managers.CommandManager;
 import pl.amazingshit.mw.managers.ConfigWorld;
@@ -36,17 +37,21 @@ public class MultiWorld extends JavaPlugin {
 		loadWorlds();
 		
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Type.CREATURE_SPAWN, new Entities(), Priority.Highest, this);
-		pm.registerEvent(Type.ENTITY_DAMAGE,  new Entities(), Priority.Highest, this);
-		pm.registerEvent(Type.ENTITY_EXPLODE, new Entities(), Priority.Highest, this);
+		pm.registerEvent(Type.CREATURE_SPAWN,  new Entities(), Priority.Highest, this);
+		pm.registerEvent(Type.ENTITY_DAMAGED,  new Entities(), Priority.Highest, this);
+		pm.registerEvent(Type.ENTITY_EXPLODE,  new Entities(), Priority.Highest, this);
 		
-		pm.registerEvent(Type.PLUGIN_ENABLE,  new Plugins(),  Priority.Monitor, this);
+		pm.registerEvent(Type.PLUGIN_ENABLE,   new Plugins(),  Priority.Monitor, this);
+		
+		pm.registerEvent(Type.PLAYER_QUIT,     new Players(),  Priority.Monitor, this);
+		pm.registerEvent(Type.PLAYER_JOIN,     new Players(),  Priority.Monitor, this);
+		pm.registerEvent(Type.PLAYER_TELEPORT, new Players(),  Priority.Monitor, this);
 	}
 
 	public static void loadWorlds() {
 		World w = instance.getServer().getWorld("world");
 		if (!ConfigWorld.exists("world") || ConfigWorld.getWorldStringList().isEmpty()) {
-			ConfigWorld.add("world", Environment.NORMAL, true, true, true, true, "true", true, true, true, w.getId());
+			ConfigWorld.add("world", Environment.NORMAL, true, true, true, true, "true", true, true, w.getId());
 		}
 		for (WorldManager world: ConfigWorld.getWorldList()) {
 			world.setup();

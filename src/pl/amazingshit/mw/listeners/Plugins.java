@@ -1,6 +1,6 @@
 package pl.amazingshit.mw.listeners;
 
-import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.event.server.PluginEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
@@ -8,7 +8,7 @@ import pl.amazingshit.mw.mw;
 
 public class Plugins extends ServerListener {
 
-	@Override public void onPluginEnable(PluginEnableEvent e) {
+	@Override public void onPluginEnabled(PluginEvent e) {
 		Plugin plugin = e.getPlugin();
 		if (plugin.getDescription().getName().equalsIgnoreCase("Permissions")) {
 			mw.permissionsEnabled = true;

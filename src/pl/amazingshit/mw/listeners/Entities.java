@@ -4,7 +4,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
@@ -139,19 +138,8 @@ public class Entities extends EntityListener {
 			e.setCancelled(allowed);
 			return;
 		}
-		if (entity instanceof Fireball) {
-			boolean allowed = ConfigWorld.allowExplode(Explode.OTHER, entity.getWorld().getName());
-			if (allowed) {
-				allowed = false;
-			}
-			if (!allowed) {
-				allowed = true;
-			}
-			e.setCancelled(allowed);
-			return;
-		}
 		else {
-			boolean allowed = ConfigWorld.allowExplode(Explode.CUSTOM, entity.getWorld().getName());
+			boolean allowed = ConfigWorld.allowExplode(Explode.OTHER, entity.getWorld().getName());
 			if (allowed) {
 				allowed = false;
 			}

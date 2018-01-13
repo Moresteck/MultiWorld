@@ -158,7 +158,7 @@ public class ConfigWorld {
 				}
 				return false;
 			}
-			if (ex == Explode.CREEPER) {
+			if (ex == Explode.OTHER) {
 				if (getExplodeOther(world)) {
 					return true;
 				}
@@ -240,7 +240,7 @@ public class ConfigWorld {
 		return false;
 	}
 
-	public static Boolean add(String world, Environment environment, boolean allowPvp, boolean allowMonsters, boolean allowAnimals, boolean creeperEx, String allEx, boolean tntEx, boolean otherEx, boolean customEx, long seed) {
+	public static Boolean add(String world, Environment environment, boolean allowPvp, boolean allowMonsters, boolean allowAnimals, boolean creeperEx, String allEx, boolean tntEx, boolean otherEx, long seed) {
 		db.load();
 		if (environment == Environment.NETHER) {
 			db.setProperty("worlds."+world+".environment", "NETHER");
@@ -256,7 +256,6 @@ public class ConfigWorld {
 		db.setProperty("worlds."+world+".explosions.other", otherEx);
 		db.setProperty("worlds."+world+".explosions.tnt", tntEx);
 		db.setProperty("worlds."+world+".explosions.creeper", creeperEx);
-		db.setProperty("worlds."+world+".explosions.custom", customEx);
 		db.save();
 		return true;
 	}
@@ -278,11 +277,10 @@ public class ConfigWorld {
 			boolean creeper = allowExplode(Explode.CREEPER, world);
 			boolean tnt = allowExplode(Explode.TNT, world);
 			boolean other = allowExplode(Explode.OTHER, world);
-			boolean custom = allowExplode(Explode.CUSTOM, world);
 			String exAll = getExplodeAll(world);
 			
 			WorldManager old = new WorldManager(world, env, seed);
-			add(name, env, allowPvp, allowMonsters, allowAnimals, creeper, exAll, tnt, other, custom, seed);
+			add(name, env, allowPvp, allowMonsters, allowAnimals, creeper, exAll, tnt, other, seed);
 			old.unloadWorld(true);
 			
 			File rename = new File(world);
