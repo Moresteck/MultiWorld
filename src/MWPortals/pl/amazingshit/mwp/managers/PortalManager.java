@@ -129,13 +129,20 @@ public class PortalManager {
 				return null;
 			}
 			
-			if ((loc.getBlockX() < x1) || (loc.getBlockX() > x2)) {
+			int locx = loc.getBlockX();
+			int locy = loc.getBlockY();
+			int locz = loc.getBlockZ();
+			
+			if (locx == x1 && locy == y1 && locz == z1) {
 				name = portal;
 			}
-			if ((loc.getBlockZ() < z1) || (loc.getBlockZ() > z2)) {
+			if (locx == x2 && locy == y2 && locz == z2) {
 				name = portal;
 			}
-			if ((loc.getBlockY() < y1) || (loc.getBlockY() > y2)) {
+			if (locx > x2 && locx < x1 && locy > y2 && locy < y1 && locz > z2 && locz < z1) {
+				name = portal;
+			}
+			if (locx < x2 && locx > x1 && locy < y2 && locy > y1 && locz < z2 && locz > z1) {
 				name = portal;
 			}
 		}
