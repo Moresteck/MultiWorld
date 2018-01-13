@@ -1,10 +1,15 @@
 package MWPortals.pl.amazingshit.mwp.listeners;
 
 import java.util.HashMap;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import com.nijikokun.bukkit.Permissions.Permissions;
 
 import MWPortals.pl.amazingshit.mwp.mwp;
 import MWPortals.pl.amazingshit.mwp.managers.PortalManager;
@@ -20,11 +25,11 @@ public class PortalListener extends PlayerListener {
 		}
 		Location tomove = e.getTo();
 		if (PortalManager.enteredPortal(tomove)) {
-			e.getPlayer().teleportTo(PortalManager.getPortalDefaultLoc(PortalManager.getPortalNameAtLocation(tomove)));
+			e.getPlayer().teleport(PortalManager.getPortalDefaultLoc(PortalManager.getPortalNameAtLocation(tomove)));
 		}
 	}
 
-	/*@Override public void onPlayerInteract(PlayerInteractEvent e) {
+	@Override public void onPlayerInteract(PlayerInteractEvent e) {
 		if (mwp.enabled == false) {
 			return;
 		}
@@ -64,5 +69,5 @@ public class PortalListener extends PlayerListener {
 				return;
 			}
 		}
-	}*/
+	}
 }

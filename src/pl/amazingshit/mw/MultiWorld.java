@@ -37,7 +37,7 @@ public class MultiWorld extends JavaPlugin {
 		
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvent(Type.CREATURE_SPAWN, new Entities(), Priority.Highest, this);
-		pm.registerEvent(Type.ENTITY_DAMAGED,  new Entities(), Priority.Highest, this);
+		pm.registerEvent(Type.ENTITY_DAMAGE,  new Entities(), Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_EXPLODE, new Entities(), Priority.Highest, this);
 		
 		pm.registerEvent(Type.PLUGIN_ENABLE,  new Plugins(),  Priority.Monitor, this);

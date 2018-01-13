@@ -14,6 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.world.WorldSaveEvent;
 
 import net.minecraft.server.IProgressUpdate;
 import net.minecraft.server.MinecraftServer;
@@ -53,7 +54,7 @@ public class WorldManager {
 
 	public Boolean create() {
 		try {
-			mw.instance.getServer().createWorld(name, env);
+			mw.instance.getServer().createWorld(name, env, seed);
 			ConfigWorld.add(name, env, true, true, true, true, "true", true, true, true, seed);
 			return true;
 		}
@@ -66,12 +67,12 @@ public class WorldManager {
 	 * Used for loading worlds.
 	 */
 	public void setup() {
-		mw.instance.getServer().createWorld(name, env);
+		mw.instance.getServer().createWorld(name, env, seed);
 	}
 
 	public World createWorld() {
 		ConfigWorld.add(name, env, true, true, true, true, "true", true, true, true, seed);
-		return mw.instance.getServer().createWorld(name, env);
+		return mw.instance.getServer().createWorld(name, env, seed);
 	}
 
 	public void remove() {
@@ -111,6 +112,10 @@ public class WorldManager {
 		return ConfigWorld.getAllow(PropertyType.PVP, name);
 	}
 
+	public List<Player> players() {
+		return this.world().getPlayers();
+	}
+
 	public List<Entity> entities() {
 		List<Entity> ret = new LinkedList<Entity>();
 		ret.addAll(this.world().getEntities());
@@ -139,9 +144,7 @@ public class WorldManager {
 
 	public Boolean setspawn(Location loc) {
 		try {
-			this.world().getSpawnLocation().setX(loc.getBlockX());
-			this.world().getSpawnLocation().setY(loc.getBlockY());
-			this.world().getSpawnLocation().setZ(loc.getBlockZ());
+			this.world().setSpawnLocation(loc.getBlockX(), loc.getBlockX(), loc.getBlockZ());
 			return true;
 		}
 		catch (Exception ex) {
@@ -163,12 +166,20 @@ public class WorldManager {
             return false;
         }
 
+        if (!(handle.dimension > 1)) {
+            return false;
+        }
+
         if (handle.b.size() > 0) {
             return false;
         }
 
         if (save) {
+        	WorldSaveEvent e = new WorldSaveEvent(world);
+        	mw.instance.getServer().getPluginManager().callEvent(e);
+        	
             handle.a(true, (IProgressUpdate) null);
+            handle.r();
         }
 
         mw.instance.getServer().getWorlds().remove(world.getName().toLowerCase());

@@ -12,7 +12,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import MWPortals.pl.amazingshit.mwp.listeners.BlockListener12;
 import MWPortals.pl.amazingshit.mwp.listeners.PortalListener;
 import MWPortals.pl.amazingshit.mwp.managers.CommandManager;
 import MWPortals.pl.amazingshit.mwp.managers.PortalManager;
@@ -45,8 +44,7 @@ public class MWPortals extends JavaPlugin {
 		log.info("MWPortals enabled successfully!");
 		
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Type.BLOCK_INTERACT, new BlockListener12(), Priority.Monitor, this);
-		pm.registerEvent(Type.BLOCK_RIGHTCLICKED, new BlockListener12(), Priority.Monitor, this);
+		pm.registerEvent(Type.PLAYER_INTERACT, new PortalListener(), Priority.Monitor, this);
 		pm.registerEvent(Type.PLAYER_MOVE, new PortalListener(), Priority.Monitor, this);
 	}
 
