@@ -43,6 +43,10 @@ public class CommandManager {
 				MWSeedCommand.handle(cmdsender, arguments, sender);
 				return;
 			}
+			if (arguments[0].equalsIgnoreCase("who")) {
+				MWWhoCommand.handle(cmdsender, arguments, sender);
+				return;
+			}
 			else {
 				Help.showHelp(cmdsender);
 			}

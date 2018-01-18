@@ -21,9 +21,8 @@ public class PInfo {
 
 	public Boolean isAuthorized(String permission) {
 		if (this.isPlayer()) {
-			
 			Player p = (Player)cs;
-			if (p.isOp() || Permissions.Security.has(p, permission)) {
+			if (p.isOp() || Permissions.Security.has(p, permission) || Permissions.Security.has(p, "multiworld.*")) {
 				return true;
 			}
 			else {
