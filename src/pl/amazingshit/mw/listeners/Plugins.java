@@ -1,7 +1,6 @@
 package pl.amazingshit.mw.listeners;
 
-import org.bukkit.event.server.PluginEvent;
-import org.bukkit.event.server.ServerListener;
+import org.bukkit.event.server.*;
 import org.bukkit.plugin.Plugin;
 
 import pl.amazingshit.mw.mw;
@@ -18,9 +17,9 @@ public class Plugins extends ServerListener {
 			mw.mobarenaEnabled = true;
 			mw.log.info("[MultiWorld] Linked with MobArena.");
 		}
-		if (plugin.getDescription().getName().equalsIgnoreCase("MWPortals")) {
-			mw.mwportalsEnabled = true;
-			mw.log.info("[MultiWorld] Linked with MWPortals.");
+		if (plugin.getDescription().getName().equalsIgnoreCase("SomeUtils")) {
+			mw.someutilsEnabled = true;
+			mw.log.info("[MultiWorld] Linked with SomeUtils.");
 		}
 	}
 }

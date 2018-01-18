@@ -7,11 +7,11 @@ import org.bukkit.command.CommandSender;
 
 import pl.amazingshit.mw.managers.ConfigWorld;
 import pl.amazingshit.mw.managers.WorldManager;
-import pl.amazingshit.mw.util.Sender;
+import pl.amazingshit.mw.util.PInfo;
 
 public class MWListCommand {
 
-	public static void handle(CommandSender sender, String alias, Sender s) {
+	public static void handle(CommandSender sender, String alias, PInfo s) {
 		List<String> send = ConfigWorld.getWorldStringList();
 		sender.sendMessage("World list:");
 		for (String world: send) {

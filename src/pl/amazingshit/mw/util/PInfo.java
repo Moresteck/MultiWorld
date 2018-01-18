@@ -5,13 +5,13 @@ import org.bukkit.entity.Player;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
 /**
- * Gets information about sender.
+ * Gets information about player.
  */
-public class Sender {
+public class PInfo {
 
 	private CommandSender cs;
 
-	public Sender(CommandSender c) {
+	public PInfo(CommandSender c) {
 		this.cs = c;
 	}
 

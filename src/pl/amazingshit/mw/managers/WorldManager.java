@@ -1,52 +1,47 @@
 package pl.amazingshit.mw.managers;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import net.minecraft.server.IProgressUpdate;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
-import pl.amazingshit.mw.mw;
-import pl.amazingshit.mw.util.PropertyType;
+import pl.amazingshit.mw.*;
+import pl.amazingshit.mw.util.*;
 
 public class WorldManager {
 
 	public List<Player> players = new LinkedList<Player>();
-    private long seed;
-    private static String name;
-    private Environment env;
+    protected long seed;
+    protected static String name;
+    protected World.Environment env;
 
 	public WorldManager(String worldname) {
 		name = worldname;
 		this.seed = (new Random()).nextLong();
-		this.env  = Environment.NORMAL;
+		this.env  = World.Environment.NORMAL;
 	}
 
 	public WorldManager(String worldname, long seed) {
 		name = worldname;
 		this.seed = seed;
-		this.env  = Environment.NORMAL;
+		this.env  = World.Environment.NORMAL;
 	}
 
-	public WorldManager(String worldname, Environment environment) {
+	public WorldManager(String worldname, World.Environment environment) {
 		name = worldname;
 		this.seed = (new Random()).nextLong();
 		this.env  = environment;
 	}
 
-	public WorldManager(String worldname, Environment environment, long seed) {
+	public WorldManager(String worldname, World.Environment environment, long seed) {
 		name = worldname;
 		this.seed = seed;
 		this.env  = environment;
@@ -90,7 +85,7 @@ public class WorldManager {
 		return this.world().getName();
 	}
 
-	public Environment dimension() {
+	public World.Environment dimension() {
 		return this.world().getEnvironment();
 	}
 
@@ -186,7 +181,7 @@ public class WorldManager {
     }
 	// End of borrowed code
 
-	public MinecraftServer console() {
+	private MinecraftServer console() {
 		CraftServer cs = (CraftServer) mw.instance.getServer();
 		
 		Field f;

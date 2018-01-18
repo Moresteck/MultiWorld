@@ -1,6 +1,6 @@
 package pl.amazingshit.mw.util;
 /**
- * Represents configuration property type
+ * Represents configuration property type.
  */
 public enum PropertyType {
 	

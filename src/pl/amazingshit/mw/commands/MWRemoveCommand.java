@@ -5,11 +5,11 @@ import org.bukkit.command.CommandSender;
 
 import pl.amazingshit.mw.mw;
 import pl.amazingshit.mw.managers.WorldManager;
-import pl.amazingshit.mw.util.Sender;
+import pl.amazingshit.mw.util.PInfo;
 
 public class MWRemoveCommand {
 
-	public static void handle(CommandSender cmdsender, String[] arguments, Sender sender) {
+	public static void handle(CommandSender cmdsender, String[] arguments, PInfo sender) {
 		if (!sender.isAuthorized("multiworld.manage.remove")) {
 			return;
 		}

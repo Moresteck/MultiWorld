@@ -1,8 +1,6 @@
 package pl.amazingshit.mw.listeners;
 
-import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
 
 import pl.amazingshit.mw.managers.WorldManager;
 

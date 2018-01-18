@@ -2,26 +2,20 @@ package pl.amazingshit.mw.managers;
 
 import org.bukkit.command.CommandSender;
 
-import pl.amazingshit.mw.commands.MWCreateCommand;
-import pl.amazingshit.mw.commands.MWListCommand;
-import pl.amazingshit.mw.commands.MWRemoveCommand;
-import pl.amazingshit.mw.commands.MWTeleportCommand;
-import pl.amazingshit.mw.commands.WSAnimalsCommand;
-import pl.amazingshit.mw.commands.WSMonstersCommand;
-import pl.amazingshit.mw.commands.WSPvPCommand;
-import pl.amazingshit.mw.util.Sender;
+import pl.amazingshit.mw.commands.*;
+import pl.amazingshit.mw.util.PInfo;
 
 public class CommandManager {
 
 	private CommandSender cmdsender;
-	private Sender sender;
+	private PInfo sender;
 	private String alias;
 	private String[] arguments;
 
 	public String[] args;
 
 	public CommandManager(CommandSender sender, String cmdalias, String[] args) {
-		this.sender    = new Sender(sender);
+		this.sender    = new PInfo(sender);
 		this.cmdsender = sender;
 		this.alias     = cmdalias;
 		this.arguments = args;
@@ -43,6 +37,10 @@ public class CommandManager {
 			}
 			if (arguments[0].equalsIgnoreCase("tp")) {
 				MWTeleportCommand.handle(cmdsender, arguments, sender);
+				return;
+			}
+			if (arguments[0].equalsIgnoreCase("seed")) {
+				MWSeedCommand.handle(cmdsender, arguments, sender);
 				return;
 			}
 			else {

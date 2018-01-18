@@ -1,26 +1,14 @@
 package pl.amazingshit.mw.listeners;
 
 import org.bukkit.World;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.TNTPrimed;
-import org.bukkit.entity.WaterMob;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityListener;
+import org.bukkit.entity.*;
+import org.bukkit.event.entity.*;
 
 import com.garbagemule.MobArena.ArenaManager;
 
 import pl.amazingshit.mw.mw;
 import pl.amazingshit.mw.managers.ConfigWorld;
-import pl.amazingshit.mw.util.Explode;
-import pl.amazingshit.mw.util.PropertyType;
+import pl.amazingshit.mw.util.*;
 
 public class Entities extends EntityListener {
 

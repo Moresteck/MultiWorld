@@ -5,12 +5,12 @@ import org.bukkit.entity.Player;
 
 import pl.amazingshit.mw.managers.ConfigWorld;
 import pl.amazingshit.mw.managers.Help;
+import pl.amazingshit.mw.util.PInfo;
 import pl.amazingshit.mw.util.PropertyType;
-import pl.amazingshit.mw.util.Sender;
 
 public class WSMonstersCommand {
 
-	public static void handle(CommandSender cmdsender, String[] arguments, Sender sender) {
+	public static void handle(CommandSender cmdsender, String[] arguments, PInfo sender) {
 		if (sender.isPlayer() && !(sender.isAuthorized("multiworld.settings.monsters"))) {
 			cmdsender.sendMessage("§cYou don't have permission.");
 			return;

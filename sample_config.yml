@@ -1,0 +1,14 @@
+worlds:
+    <sample_world>:
+        seed: <sample_seed>
+        environment: <NORMAL or NETHER>
+        monsters: <true or false>
+        animals: <true or false>
+        pvp: <true or false>
+        explosions:
+            # If you type 'ignore' here, the plugin will get used to properties below, if 'false' - plugin will block all explosions, if 'true' - plugin will allow all explosions to happen.
+            all: <'ignore', 'false' or 'true'>
+            creeper: <true or false>
+            tnt: <true or false>
+            other: <true or false>
+            custom: <true or false>

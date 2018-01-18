@@ -2,12 +2,12 @@ package pl.amazingshit.mw.managers;
 
 import org.bukkit.command.CommandSender;
 
-import pl.amazingshit.mw.util.Sender;
+import pl.amazingshit.mw.util.PInfo;
 
 public class Help {
 // §
 	public static void showHelp(CommandSender sender) {
-		Sender s = new Sender(sender);
+		PInfo s = new PInfo(sender);
 		if (sender == null)
 			return;
 		if (s.isPlayer()) {
@@ -28,7 +28,7 @@ public class Help {
 	}
 
 	public static void showSettingsHelp(CommandSender sender) {
-		Sender s = new Sender(sender);
+		PInfo s = new PInfo(sender);
 		if (sender == null)
 			return;
 		if (s.isPlayer()) {

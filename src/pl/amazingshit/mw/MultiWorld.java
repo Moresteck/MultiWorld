@@ -3,21 +3,14 @@ package pl.amazingshit.mw;
 import java.util.logging.Logger;
 
 import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.command.*;
+import org.bukkit.event.Event.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pl.amazingshit.mw.listeners.Entities;
-import pl.amazingshit.mw.listeners.Players;
-import pl.amazingshit.mw.listeners.Plugins;
-import pl.amazingshit.mw.managers.CommandManager;
-import pl.amazingshit.mw.managers.ConfigWorld;
-import pl.amazingshit.mw.managers.WorldManager;
+import pl.amazingshit.mw.listeners.*;
+import pl.amazingshit.mw.managers.*;
 
 public class MultiWorld extends JavaPlugin {
 
@@ -25,7 +18,7 @@ public class MultiWorld extends JavaPlugin {
 
 	public static Plugin instance;
 	public static Boolean permissionsEnabled = false;
-	public static Boolean mwportalsEnabled = false;
+	public static Boolean someutilsEnabled = false;
 	public static Boolean mobarenaEnabled = false;
 	public void onDisable() {}
 
@@ -51,7 +44,7 @@ public class MultiWorld extends JavaPlugin {
 	public static void loadWorlds() {
 		World w = instance.getServer().getWorld("world");
 		if (!ConfigWorld.exists("world") || ConfigWorld.getWorldStringList().isEmpty()) {
-			ConfigWorld.add("world", Environment.NORMAL, true, true, true, true, "true", true, true, w.getId());
+			ConfigWorld.add("world", World.Environment.NORMAL, true, true, true, true, "true", true, true, w.getId());
 		}
 		for (WorldManager world: ConfigWorld.getWorldList()) {
 			world.setup();
