@@ -28,6 +28,9 @@ public class MWWhoCommand {
 			}
 			Player p = (Player)cmdsender;
 			List<String> players = SomeUtils.getPlayersManager().getWorldPlayerList(p.getWorld().getName());
+			if (players.isEmpty()) {
+				p.sendMessage("There are no players i world '§b" + p.getWorld().getName() + "§f'");
+			}
 			p.sendMessage("Players in '§a" + p.getWorld().getName() + "§f':");
 			for (String player: players) {
 				p.sendMessage(" - §b" + player);
@@ -39,9 +42,21 @@ public class MWWhoCommand {
 			world = Bukkit.getServer().getWorld(args[1]);
 			List<String> players = SomeUtils.getPlayersManager().getWorldPlayerList(world.getName());
 			if (sender.isPlayer()) {
+				if (players.isEmpty()) {
+					cmdsender.sendMessage("There are no players i world '§b" + world.getName() + "§f'");
+				}
 				cmdsender.sendMessage("Players in '§a" + world.getName() + "§f':");
 				for (String player: players) {
 					cmdsender.sendMessage(" - §b" + player);
+				}
+			}
+			if (!sender.isPlayer()) {
+				if (players.isEmpty()) {
+					cmdsender.sendMessage("There are no players i world '" + world.getName() + "'");
+				}
+				cmdsender.sendMessage("Players in '" + world.getName() + "':");
+				for (String player: players) {
+					cmdsender.sendMessage(" - " + player);
 				}
 			}
 			return;
