@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
 /**
- * Gets information about player.
+ * Gets information about command sender.
  */
 public class PInfo {
 
@@ -22,7 +22,10 @@ public class PInfo {
 	public Boolean isAuthorized(String permission) {
 		if (this.isPlayer()) {
 			Player p = (Player)cs;
-			if (p.isOp() || Permissions.Security.has(p, permission) || Permissions.Security.has(p, "multiworld.*")) {
+			if (mw.permissionsEnabled) {
+				return Permissions.Security.has(p, permission) || Permissions.Security.has(p, "multiworld.*");
+			}
+			if (p.isOp()) {
 				return true;
 			}
 			else {
