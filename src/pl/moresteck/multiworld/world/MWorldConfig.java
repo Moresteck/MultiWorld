@@ -156,7 +156,6 @@ public class MWorldConfig {
 	 */
 	public static boolean getAllowSpawn(String name, Entity type) {
 		worlds.load();
-		// HumanEntities are miscellaneous
 		if (type instanceof Monster || type instanceof Ghast ||
 				type instanceof Slime) {
 			boolean cbool = worlds.getBoolean("worlds." + name + ".monsters.spawn", true);
@@ -175,8 +174,7 @@ public class MWorldConfig {
 				}
 				return false;
 			}
-		} else if (type instanceof Animals || type instanceof WaterMob ||
-				type instanceof org.bukkit.entity.Wolf) { // Wolf at the end, to defeat compatibility errors.
+		} else if (type instanceof Animals || type instanceof WaterMob) {
 			boolean cbool = worlds.getBoolean("worlds." + name + ".animals.spawn", true);
 			List<String> except = worlds.getStringList("worlds." + name + ".animals.exceptfor", null);
 			if (except == null || except.isEmpty()) {
