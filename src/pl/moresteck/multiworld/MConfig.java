@@ -2,7 +2,7 @@ package pl.moresteck.multiworld;
 
 import java.io.File;
 
-import bukkit.util.config.Configuration;
+import org.bukkit.util.config.Configuration;
 
 public class MConfig {
 	private static Configuration config = new Configuration(new File("plugins/MultiWorld", "config.yml"));
@@ -18,7 +18,7 @@ public class MConfig {
 			try {
 				debug = Boolean.parseBoolean(s);
 			} catch (Exception ex) {
-				MultiWorld.log.info("[MultiWorld]  ERROR at 'plugins/MultiWorld/config.yml': 'debug-messages' IS NOT a boolean value.");
+				MultiWorld.log.info("[MultiWorld] ERROR at 'plugins/MultiWorld/config.yml': 'debug-messages' IS NOT a boolean value.");
 				debug = false;
 			}
 		}
@@ -27,7 +27,6 @@ public class MConfig {
 
 	protected static void defaultSetup() {
 		config.load();
-		config.setHeader("# 'debug-messages' - prints some addictional info to the console.");
 		config.setProperty("debug-messages", false);
 		config.save();
 	}

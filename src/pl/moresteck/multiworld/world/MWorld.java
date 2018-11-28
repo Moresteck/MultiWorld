@@ -27,26 +27,30 @@ public class MWorld {
 	}
 
 	public long getSeed() {
-		return MWorldConfig.getSeed(name);
+		return MWorldConfig.getSeed(this.name);
 	}
 
 	public boolean getAllowSpawn(Entity type) {
-		return MWorldConfig.getAllowSpawn(name, type);
+		return MWorldConfig.getAllowSpawn(this.name, type);
 	}
 
 	public boolean getAllowMonsters() {
-		return MWorldConfig.getAllowMonsters(name);
+		return MWorldConfig.getAllowMonsters(this.name);
 	}
 
 	public boolean getAllowAnimals() {
-		return MWorldConfig.getAllowAnimals(name);
+		return MWorldConfig.getAllowAnimals(this.name);
 	}
 
 	public boolean getPvP() {
-		return MWorldConfig.getPvP(name);
+		return MWorldConfig.getPvP(this.name);
 	}
 
 	public Environment getEnvironment() {
-		return MWorldConfig.getEnvironment(name);
+		return MWorldConfig.getEnvironment(this.name);
+	}
+
+	public String getGenerator() {
+		return MWorldConfig.getGenerator(this.name);
 	}
 }

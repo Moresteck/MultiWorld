@@ -1,11 +1,11 @@
 name: MultiWorld
 main: pl.moresteck.multiworld.MultiWorld
-version: 2.0-Pre1
+version: 2.0-Pre2
 description: Provides multi-world support for Bukkit.
 author: Moresteck
 website: https://betacraft.ovh/
-load: postworld
-softdepend: [BukkitVersion]
+load: startup
+softdepend: [BukkitVersion, Permissions]
 
 commands:
     mw:

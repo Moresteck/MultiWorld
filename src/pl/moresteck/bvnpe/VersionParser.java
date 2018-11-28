@@ -10,13 +10,18 @@ public class VersionParser {
 
 	public static String parseVersion(String bver) {
 		if (bver.equals("1.1") || bver.equals("1.2_01")) {
-			// "1.1" may indicate 1.1, 1.1_02 or even 1.2!
-			// 1.2_02 vanilla server never existed.
-			return bver;
+			// "1.1" may indicate b1.1, b1.1_02 or even b1.2!
+			// b1.2_02 vanilla server never existed.
+			return "b" + bver;
 		} else {
 			String[] part = bver.split(" ");
 			String version = part[2].replace(")", "");
-			return version;
+			// Detects 1.0.0 - 1.1.
+			if (version.equals("1.0.0") || version.equals("1.0.1") ||
+					version.equals("1.1")) {
+				return version;
+			}
+			return "b" + version;
 		}
 	}
 }

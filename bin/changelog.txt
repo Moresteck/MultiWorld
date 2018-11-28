@@ -1,0 +1,12 @@
+v2.0-Pre1:
+- Initial release
+v2.0-Pre2:
+- Added '/mw create ...' command
+- Added '/mw tp ...' command
+- Added '/mw setspawn' command
+- Added '/mw help ...' command
+- Command permissions
+- Can hook into Permissions 2.5+
+- Updates to BukkitVersion IE
+- Fixed a compatibility issue
+- Fixed custom worlds not loading after main ones

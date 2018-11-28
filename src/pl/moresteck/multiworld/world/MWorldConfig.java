@@ -12,10 +12,10 @@ import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.WaterMob;
+import org.bukkit.util.config.Configuration;
 
 import pl.moresteck.bvnpe.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
-import bukkit.util.config.Configuration;
 
 public class MWorldConfig {
 	static Configuration worlds = new Configuration(new File("plugins/MultiWorld", "worlds.yml"));
@@ -36,26 +36,47 @@ public class MWorldConfig {
 	protected static void createBasicConfig() {
 		worlds.load();
 		worlds.setProperty("craftbukkits_download", "https://betacraft.ovh/bukkit");
-		worlds.setProperty("worlds.world.environment", "NORMAL");
-		worlds.setProperty("worlds.world.seed", new MWorld("world").getWorld().getId());
-		worlds.setProperty("worlds.world.pvp", true);
-		worlds.setProperty("worlds.world.monsters.spawn", true);
-		worlds.setProperty("worlds.world.animals.spawn", true);
-		worlds.setProperty("worlds.world.monsters.exceptfor", "");
-		worlds.setProperty("worlds.world.animals.exceptfor", "");
-		// 1.6.6 or higher
-		if (BukkitVersion.getVersionId() >= 5) {
-			worlds.setProperty("worlds.world.generator", "");
-			worlds.setProperty("worlds.world_nether.environment", "NETHER");
-			worlds.setProperty("worlds.world_nether.seed", new MWorld("world_nether").getWorld().getId());
-			worlds.setProperty("worlds.world_nether.pvp", true);
-			worlds.setProperty("worlds.world_nether.monsters.spawn", true);
-			worlds.setProperty("worlds.world_nether.animals.spawn", true);
-			worlds.setProperty("worlds.world_nether.monsters.exceptfor", "");
-			worlds.setProperty("worlds.world_nether.animals.exceptfor", "");
-			worlds.setProperty("worlds.world_nether.generator", "");
+		worlds.save();
+
+		createBasicConfig("world", "NORMAL");
+		if (BukkitVersion.getVersionId() >= 9) {
+			createBasicConfig("world_nether", "NETHER");
+		}
+	}
+
+	public static void createBasicConfig(String world, String env) {
+		worlds.load();
+		worlds.setProperty("worlds." + world + ".environment", env);
+		worlds.setProperty("worlds." + world + ".seed", new MWorld(world).getWorld().getId());
+		worlds.setProperty("worlds." + world + ".pvp", true);
+		worlds.setProperty("worlds." + world + ".monsters.spawn", true);
+		worlds.setProperty("worlds." + world + ".animals.spawn", true);
+		worlds.setProperty("worlds." + world + ".monsters.exceptfor", "");
+		worlds.setProperty("worlds." + world + ".animals.exceptfor", "");
+		// b1.6.6+
+		if (BukkitVersion.getVersionId() >= 9) {
+			worlds.setProperty("worlds." + world + ".generator", "");
 		}
 		worlds.save();
+	}
+
+	public static String getGenerator(String name) {
+		if (BukkitVersion.getVersionId() >= 9) {
+			worlds.load();
+			return worlds.getString("worlds." + name + ".generator", "");
+		} else {
+			return "";
+		}
+	}
+
+	public static void setGenerator(String name, String generator) {
+		if (BukkitVersion.getVersionId() >= 9) {
+			worlds.load();
+			worlds.setProperty("worlds." + name + ".generator", generator);
+			worlds.save();
+		} else {
+			return;
+		}
 	}
 
 	/**
@@ -103,8 +124,6 @@ public class MWorldConfig {
 				}
 				numberized = newseed;
 				// Keep in sync with the configuration;
-				// It is very important to save the world's seed somewhere.
-				// MultiVerse didn't and I lost my beautiful world...
 				setSeed(name, newseed.toString());
 			}
 		}
