@@ -22,7 +22,6 @@ import pl.moresteck.multiworld.commands.MHelp;
 import pl.moresteck.multiworld.commands.MSetSpawn;
 import pl.moresteck.multiworld.commands.MTeleport;
 import pl.moresteck.multiworld.listeners.listener;
-import pl.moresteck.multiworld.listeners.pluginlistener;
 import pl.moresteck.multiworld.listeners.worldlistener;
 import pl.moresteck.multiworld.world.MWorld;
 import pl.moresteck.multiworld.world.MWorldConfig;
@@ -43,12 +42,11 @@ public class MultiWorld extends JavaPlugin {
 
 		// b1.3+
 		if (BukkitVersion.getVersionId() >= 2) {
-			server.getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new pluginlistener().new v13(), Priority.Normal, this);
 			server.getPluginManager().registerEvent(Type.WORLD_LOAD, new worldlistener().new v13(), Priority.Normal, this);
 		} else {
-			server.getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new pluginlistener().new v12(), Priority.Normal, this);
 			server.getPluginManager().registerEvent(Type.WORLD_LOADED, new worldlistener().new v12(), Priority.Normal, this);
 		}
+		Perm.setPermissions(server.getPluginManager().getPlugin("Permissions"));
 	}
 
 	public void init() {
@@ -63,12 +61,12 @@ public class MultiWorld extends JavaPlugin {
 			}
 		}
 
-		log.info(" [MultiWorld] Enabled v" + version);
-		log.info(" [MultiWorld] Always use version's latest build of Craftbukkit for the best compatibility!");
-		log.info(" [MultiWorld] Download it here: https://betacraft.ovh/bukkit");
+		log.info("[MultiWorld] Enabled v" + version);
+		log.info("[MultiWorld] Always use version's latest build of Craftbukkit for the best compatibility!");
+		log.info("[MultiWorld] Download it here: https://betacraft.ovh/bukkit");
 		// No compatibility for b1.1 because it doesn't contain any multi-world code to hook in.
 		if (BukkitVersion.getVersionId() == 0) {
-			log.info(" [MultiWorld] No support for Beta 1.1, disabling...");
+			log.info("[MultiWorld] No support for Beta 1.1, disabling...");
 			this.setEnabled(false);
 			return;
 		}
@@ -78,11 +76,11 @@ public class MultiWorld extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		log.info(true, " [MultiWorld] Saving worlds...");
+		log.info(true, "[MultiWorld] Saving worlds...");
 		for (MWorld world: worlds) {
 			saveWorld(world.getWorld());
 		}
-		log.info(" [MultiWorld] Disabled.");
+		log.info("[MultiWorld] Disabled.");
 	}
 
 	@Override
@@ -120,7 +118,7 @@ public class MultiWorld extends JavaPlugin {
 		} else {
 			((CraftWorld)world).getHandle().a(true, null);
 		}
-		log.info(true, " [MultiWorld] \"" + world.getName() + "\" saved.");
+		log.info(true, "[MultiWorld] \"" + world.getName() + "\" saved.");
 	}
 
 	public static MWorld getWorld(String name) {
@@ -144,7 +142,7 @@ public class MultiWorld extends JavaPlugin {
 					gen = arr[0];
 					genargs = arr[1];
 				} catch (Exception ex) {
-					log.info(" [MultiWorld] Generator must be specified as "
+					log.info("[MultiWorld] Generator must be specified as "
 							+ ChatColor.GOLD + "GeneratorName" + ChatColor.WHITE + ":"
 							+ ChatColor.GOLD + "GeneratorArguments" + ChatColor.WHITE + " in " + worldname);
 					return;
@@ -154,18 +152,18 @@ public class MultiWorld extends JavaPlugin {
 					generator = MultiWorld.server.getPluginManager().getPlugin(gen).
 					getDefaultWorldGenerator(worldname, genargs);
 				} catch (Exception ex) {
-					log.info(" [MultiWorld] Wrong generator name or generator arguments in " + worldname);
+					log.info("[MultiWorld] Wrong generator name or generator arguments in " + worldname);
 					return;
 				}
 				World bworld = server.getWorld(worldname) == null ? server.createWorld(worldname, world.getEnvironment(),
 						world.getSeed(), generator) : server.getWorld(worldname);
-				log.info(" [MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
+				log.info("[MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
 				bworld.setSpawnFlags(world.getAllowMonsters(), world.getAllowAnimals());
 				bworld.setPVP(world.getPvP());
 			} else {
 				World bworld = server.getWorld(worldname) == null ? server.createWorld(worldname, world.getEnvironment(),
 						world.getSeed()) : server.getWorld(worldname);
-				log.info(" [MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
+				log.info("[MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
 				bworld.setSpawnFlags(world.getAllowMonsters(), world.getAllowAnimals());
 				bworld.setPVP(world.getPvP());
 			}
@@ -176,7 +174,7 @@ public class MultiWorld extends JavaPlugin {
 				bworld = server.getWorld(worldname) == null ? 
 						server.createWorld(worldname, world.getEnvironment()) :
 						server.getWorld(worldname);
-				log.info(" [MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
+				log.info("[MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
 				// To control PVP
 				if (BukkitVersion.getVersionId() == 2) { // b1.3
 					BukkitVersion.registerEventSafely(this, "ENTITY_DAMAGE", new listener());
@@ -190,7 +188,7 @@ public class MultiWorld extends JavaPlugin {
 				bworld = server.getWorld(worldname) == null ? 
 						server.createWorld(worldname, world.getEnvironment(),
 						world.getSeed()) : server.getWorld(worldname);
-				log.info(" [MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
+				log.info("[MultiWorld] Loaded world \"" + worldname + "\" (Seed: " + world.getSeed() + ")");
 				// If the version is b1.4...
 				if (BukkitVersion.getVersionId() == 3) {
 					// To control spawn flags and PVP

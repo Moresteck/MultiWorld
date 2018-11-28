@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import pl.moresteck.bvnpe.BukkitVersion;
-import pl.moresteck.multiworld.MultiWorld;
 
 public class MHelp extends MCommand {
 

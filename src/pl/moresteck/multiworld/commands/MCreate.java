@@ -32,6 +32,10 @@ public class MCreate extends MCommand {
 			this.displayCommandHelp();
 			return;
 		}
+		if (!Perm.has(this.getSender(), this.perm)) {
+			this.send("No permission!");
+			return;
+		}
 		String name = args[1];
 		if (MultiWorld.server.getWorld(name) != null) {
 			this.send("A world with this name already exists!");
@@ -87,21 +91,21 @@ public class MCreate extends MCommand {
 					bworld = MultiWorld.server.createWorld(name, env, seed, generator);
 					MWorldConfig.createBasicConfig(name, env.name());
 					MWorldConfig.setGenerator(name, args[4]);
-					MultiWorld.log.info(" [MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+					MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
 							+ bworld.getSeed() + ")");
 				}
 			// b1.4 - b1.6.5
 			} else {
 				bworld = MultiWorld.server.createWorld(name, env, seed);
 				MWorldConfig.createBasicConfig(name, env.name());
-				MultiWorld.log.info(" [MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+				MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
 						+ bworld.getSeed() + ")");
 			}
 		// b1.3-
 		} else {
 			bworld = MultiWorld.server.createWorld(name, env);
 			MWorldConfig.createBasicConfig(name, env.name());
-			MultiWorld.log.info(" [MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+			MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
 					+ bworld.getId() + ")");
 		}
 		MultiWorld.worlds.add(new MWorld(name));

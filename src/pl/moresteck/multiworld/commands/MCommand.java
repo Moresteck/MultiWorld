@@ -33,7 +33,7 @@ public abstract class MCommand {
 		if (this.getSender() instanceof Player) {
 			this.getSender().sendMessage(message);
 		} else {
-			this.getSender().sendMessage(" [MultiWorld] " + message);
+			this.getSender().sendMessage("[MultiWorld] " + message);
 		}
 	}
 

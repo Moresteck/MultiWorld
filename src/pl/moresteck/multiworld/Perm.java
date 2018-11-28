@@ -3,22 +3,20 @@ package pl.moresteck.multiworld;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import com.nijikokun.bukkit.Permissions.Permissions;
 /**
  * Supports Permissions 2.5+ (might work on a lower version if you have one)
  */
 public class Perm {
-	public static Permissions permissions = null;
+	public static com.nijikokun.bukkit.Permissions.Permissions permissions = null;
 
-	public void setPermissions(Plugin p) {
+	public static void setPermissions(Plugin p) {
 		try {
-			if (p instanceof Permissions) {
-				permissions = (Permissions) p;
-				MultiWorld.log.info(" [MultiWorld] Found Permissions v" + permissions.getDescription().getVersion() + ". Using it for permissions.");
+			if (p instanceof com.nijikokun.bukkit.Permissions.Permissions) {
+				permissions = (com.nijikokun.bukkit.Permissions.Permissions) p;
+				MultiWorld.log.info("[MultiWorld] Found Permissions v" + permissions.getDescription().getVersion() + ". Using it for permissions.");
 			}
 		} catch (Exception ex) {
-			MultiWorld.log.info(" [MultiWorld] Could not find Permissions. Using OP system.");
+			MultiWorld.log.info("[MultiWorld] Could not find Permissions. Using OP system.");
 			permissions = null;
 		}
 	}

@@ -23,6 +23,10 @@ public class MTeleport extends MCommand {
 		if (!tp) {
 			return;
 		}
+		if (!Perm.has(this.getSender(), this.perm)) {
+			this.send("No permission!");
+			return;
+		}
 		int arg = args.length;
 		if (arg == 1) {
 			this.displayCommandHelp();

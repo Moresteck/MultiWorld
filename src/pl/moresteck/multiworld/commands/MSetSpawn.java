@@ -23,6 +23,10 @@ public class MSetSpawn extends MCommand {
 		if (!setspawn) {
 			return;
 		}
+		if (!Perm.has(this.getSender(), this.perm)) {
+			this.send("No permission!");
+			return;
+		}
 		Player p = null;
 		Location now = null;
 		if (this.getSender() instanceof Player) {
