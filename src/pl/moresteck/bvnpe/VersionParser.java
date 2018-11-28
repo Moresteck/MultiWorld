@@ -16,6 +16,10 @@ public class VersionParser {
 		} else {
 			String[] part = bver.split(" ");
 			String version = part[2].replace(")", "");
+			// Detects b1.9-pre5
+			if (version.equals("Beta 1.9 Prerelease 5")) {
+				return "b1.9";
+			}
 			// Detects 1.0.0 - 1.1.
 			if (version.equals("1.0.0") || version.equals("1.0.1") ||
 					version.equals("1.1")) {

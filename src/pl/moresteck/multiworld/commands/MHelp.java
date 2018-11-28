@@ -25,12 +25,11 @@ public class MHelp extends MCommand {
 			// b1.4 - b1.6.5
 			} else if (BukkitVersion.getVersionId() >= 3) {
 				this.send(ChatColor.BLUE + "/mw create " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment> " + ChatColor.GRAY + "[seed]");
-				this.send(ChatColor.BLUE + "/mw import " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment>");
 			// b1.3-
 			} else {
 				this.send(ChatColor.BLUE + "/mw create " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment>");
-				this.send(ChatColor.BLUE + "/mw import " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment>");
 			}
+			this.send(ChatColor.BLUE + "/mw import " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment>");
 			this.send(ChatColor.BLUE + "/mw remove " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " [-files]");
 			this.send(ChatColor.BLUE + "/mw info " + ChatColor.GRAY + "<world_name>");
 			this.send(ChatColor.BLUE + "/mw list");

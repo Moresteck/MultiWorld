@@ -67,15 +67,17 @@ public class BukkitVersion {
 			return 14;
 		} else if (version.equals("b1.8.1")) {
 			return 15;
-		} else if (version.equals("1.0.0")) {
+		} else if (version.equals("b1.9")) {
 			return 16;
-		} else if (version.equals("1.0.1")) {
+		} else if (version.equals("1.0.0")) {
 			return 17;
-		} else if (version.equals("1.1")) {
+		} else if (version.equals("1.0.1")) {
 			return 18;
+		} else if (version.equals("1.1")) {
+			return 19;
 		} else {
 			// No compatibility for version 1.1-R4 and above.
-			return 19;
+			return 20;
 		}
 	}
 
