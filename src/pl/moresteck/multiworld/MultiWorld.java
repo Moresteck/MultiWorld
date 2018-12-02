@@ -130,21 +130,6 @@ public class MultiWorld extends JavaPlugin {
 		} else if (args.length == 0) {
 			new MHelp(cmd, cs, args).execute();
 		}
-		if (cmd.getName().equalsIgnoreCase("testentity")) {
-			World w = server.getWorld("world");
-			if (args.length == 0) {
-				for (Entity e: w.getEntities()) {
-					cs.sendMessage(getName(e));
-				}
-				return true;
-			}
-			if (args[0].equalsIgnoreCase("xd")) {
-				for (Entity e: w.getEntities()) {
-					e.remove();
-				}
-				return true;
-			}
-		}
 		return true;
 	}
 

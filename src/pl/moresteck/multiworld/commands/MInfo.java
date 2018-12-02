@@ -61,15 +61,15 @@ public class MInfo extends MCommand {
 			this.send(ChatColor.GRAY + "Gen arguments: " + (BukkitVersion.getVersionId() >= 9 ? ChatColor.GOLD + world.getGenerator() : ChatColor.RED + "unavailable"));
 			this.send(" For more info type: " + ChatColor.YELLOW + "/mw info " + world.getName() + " 2");
 		} else if (page.startsWith("2")) {
-			this.send("PVP: " + getColor(world.getPvP()));
-			this.send("Monster spawning: " + getColor(world.getAllowMonsters()));
-			this.send("Animal spawning: " + getColor(world.getAllowAnimals()));
+			this.send(ChatColor.GRAY + "PVP: " + getColor(world.getPvP()));
+			this.send(ChatColor.GRAY + "Monster spawning: " + getColor(world.getAllowMonsters()));
+			this.send(ChatColor.GRAY + "Animal spawning: " + getColor(world.getAllowAnimals()));
 			if (BukkitVersion.getVersionId() >= 4) {
 				String is = (world.getWeather() ? ChatColor.GREEN + "on, " : ChatColor.RED + "off, ");
 				String now = (world.getWorld().isThundering() ? ChatColor.BLUE + "now stormy" : ChatColor.YELLOW + "now sunny");
-				this.send("Weather: " + is + now);
+				this.send(ChatColor.GRAY + "Weather: " + is + now);
 			} else {
-				this.send("Weather: " + ChatColor.RED + "unavailable");
+				this.send(ChatColor.GRAY + "Weather: " + ChatColor.RED + "unavailable");
 			}
 		}
 	}

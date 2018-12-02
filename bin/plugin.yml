@@ -1,6 +1,6 @@
 name: MultiWorld
 main: pl.moresteck.multiworld.MultiWorld
-version: 2.0-Pre3
+version: 2.0
 description: Provides multi-world support for Bukkit.
 author: Moresteck
 website: https://betacraft.ovh/
@@ -11,6 +11,3 @@ commands:
     mw:
         usage: /mw
         description: MultiWorld main command
-    testentity:
-        usage: /<command>
-        description: Shows current entities in world (testing purpose)

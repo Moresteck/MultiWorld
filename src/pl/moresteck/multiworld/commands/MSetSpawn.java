@@ -46,6 +46,7 @@ public class MSetSpawn extends MCommand {
 			world.spawnZ = now.getBlockZ();
 			MultiWorld.saveWorld(p.getWorld());
 		}
+		this.send("New spawn location set!");
 	}
 
 	public void displayCommandHelp() {

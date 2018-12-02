@@ -23,3 +23,7 @@ v2.0-Pre3:
 - Added '/mw unload ...' command
 - Added '/mw list' command
 - Added '/mw info ...' command
+
+v2.0:
+- Changed some chat messages
+- Removed '/testentity ...' command
