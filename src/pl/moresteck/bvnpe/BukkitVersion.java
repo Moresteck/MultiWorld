@@ -1,8 +1,6 @@
 package pl.moresteck.bvnpe;
 
 import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +19,17 @@ public class BukkitVersion {
 
 	public static String getVersion() {
 		return BukkitVersion.version;
+	}
+
+	public static String getBukkitVersion() {
+		return MultiWorld.server.getVersion();
+	}
+
+	public static boolean isVersionHigh() {
+		return getVersionId() > 19 ? true : 
+		getBukkitVersion().startsWith("git-Bukkit-1.1-R4") || 
+		getBukkitVersion().startsWith("git-Bukkit-1.1-R5") || 
+		getBukkitVersion().startsWith("git-Bukkit-1.1-R6");
 	}
 
 	/**
@@ -76,31 +85,40 @@ public class BukkitVersion {
 		} else if (version.equals("1.1")) {
 			return 19;
 		} else {
-			// No compatibility for version 1.1-R4 and above.
+			// TODO check new compatibility.
 			return 20;
 		}
 	}
 
 	/**
-	 * Registers an event, but may result in NPE.
+	 * Registers an event, but may result in an NPE.
+	 *
+	 * You don't have to specify the priority and type if your version is 1.1-R4 or higher.
 	 *
 	 * @param type Type enum to register (e.g. "PLAYER_ITEM", "PLAYER_INTERACT")
+	 * @param priority Priority to register (Lowest, Low, Normal, Monitor, High, Highest)
 	 */
 	public static void registerEvent(JavaPlugin plugin, String type,
-			Listener listener, Priority priority) {
-		plugin.getServer().getPluginManager().registerEvent(Type.valueOf(type), 
-				listener, priority, plugin);
+			Listener listener, String priority) {
+		if (isVersionHigh()) {
+			plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+		} else {
+			plugin.getServer().getPluginManager().registerEvent(org.bukkit.event.Event.Type.valueOf(type), 
+					listener, org.bukkit.event.Event.Priority.valueOf(priority), plugin);
+		}
 	}
 
 	/**
 	 * You still have to do self-check for the Bukkit's version for no warnings.
 	 *
 	 * Safely registers an event with specified Priority.
+	 * You don't have to specify the priority and type if your version is 1.1-R4 or higher.
 	 *
 	 * @param type Type enum to register (e.g. "PLAYER_ITEM", "PLAYER_INTERACT")
+	 * @param priority Priority to register (Lowest, Low, Normal, Monitor, High, Highest)
 	 */
 	public static void registerEventSafely(JavaPlugin plugin, String type,
-			Listener listener, Priority priority) {
+			Listener listener, String priority) {
 		try {
 			registerEvent(plugin, type, listener, priority);
 		} catch (Exception ex) {
@@ -118,6 +136,6 @@ public class BukkitVersion {
 	 */
 	public static void registerEventSafely(JavaPlugin plugin, String type,
 			Listener listener) {
-		registerEventSafely(plugin, type, listener, Priority.Normal);
+		registerEventSafely(plugin, type, listener, "Normal");
 	}
 }

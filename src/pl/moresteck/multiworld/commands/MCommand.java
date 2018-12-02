@@ -30,7 +30,7 @@ public abstract class MCommand {
 	}
 
 	public void send(String message) {
-		if (this.getSender() instanceof Player) {
+		if (this.isPlayer()) {
 			this.getSender().sendMessage(message);
 		} else {
 			this.getSender().sendMessage("[MultiWorld] " + message);
@@ -45,6 +45,10 @@ public abstract class MCommand {
 			help = false;
 		}
 		return help;
+	}
+
+	public boolean isPlayer() {
+		return (this.getSender() instanceof Player);
 	}
 
 	public abstract void execute();

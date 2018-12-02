@@ -55,7 +55,7 @@ public class MTeleport extends MCommand {
 			}
 			world = MultiWorld.getWorld(worldname);
 			if (world == null) {
-				this.send("A world with this name doesn't exist!");
+				this.send("A world with this name isn't loaded: " + ChatColor.RED + worldname);
 				return;
 			}
 			Location toTp = world.getWorld().getSpawnLocation();

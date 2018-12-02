@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityListener;
 
+import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.world.MWorld;
 
 public class listener extends EntityListener {
@@ -15,7 +16,7 @@ public class listener extends EntityListener {
 	@Override
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
 		World world = e.getEntity().getWorld();
-		MWorld mworld = new MWorld(world.getName());
+		MWorld mworld = MultiWorld.getWorld(world.getName());
 
 		if (!mworld.getAllowSpawn(e.getEntity())) {
 			e.setCancelled(true);
@@ -32,7 +33,7 @@ public class listener extends EntityListener {
 			return;
 		}
 		if ((ev.getEntity() instanceof Player) && (ev.getDamager() instanceof Player)) {
-			MWorld world = new MWorld(e.getEntity().getWorld().getName());
+			MWorld world = MultiWorld.getWorld(e.getEntity().getWorld().getName());
 			if (!world.getPvP()) {
 				e.setDamage(0);
 			}

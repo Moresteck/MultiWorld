@@ -1,5 +1,6 @@
 v2.0-Pre1:
 - Initial release
+
 v2.0-Pre2:
 - Added '/mw create ...' command
 - Added '/mw tp ...' command
@@ -9,4 +10,16 @@ v2.0-Pre2:
 - Can hook into Permissions 2.5+
 - Updates to BukkitVersion IE
 - Fixed a compatibility issue
-- Fixed custom worlds not loading after main ones
+- Fixed custom worlds not loading after the main ones
+
+v2.0-Pre3:
+- Fixed applying world settings in create command
+- Fixed MultiWorld not loading in Bukkit lower than b1.6.6
+- Expanded compatibility
+- Added '/mw import ...' command
+- Added '/mw who ...' command
+- Added '/mw save ...' command
+- Added '/mw version' command
+- Added '/mw unload ...' command
+- Added '/mw list' command
+- Added '/mw info ...' command

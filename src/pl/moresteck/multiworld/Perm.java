@@ -21,6 +21,21 @@ public class Perm {
 		}
 	}
 
+	/** Permissions:
+	 *  <pre>multiworld.*:
+	 *   multiworld.world.*:
+	 *    multiworld.world.save
+	 *    multiworld.world.create
+	 *    multiworld.world.import
+	 *    multiworld.world.setspawn
+	 *    multiworld.world.unload
+	 *    multiworld.world.info
+	 *   multiworld.info.*:
+	 *    multiworld.info.list
+	 *    multiworld.info.who
+	 *   multiworld.player.*:
+	 *    multiworld.player.teleport</pre>
+	 */
 	public static boolean has(CommandSender cs, String perm) {
 		if (!(cs instanceof Player)) {
 			return true;
@@ -28,6 +43,10 @@ public class Perm {
 		Player p = (Player)cs;
 		if (permissions == null) {
 			return p.isOp();
+		}
+
+		if (perm.equals("")) {
+			return true;
 		}
 
 		boolean hasPrecise = permissions.getHandler().has(p, perm);

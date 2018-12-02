@@ -6,16 +6,18 @@ import java.util.Random;
 
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.WaterMob;
-import org.bukkit.util.config.Configuration;
 
 import pl.moresteck.bvnpe.BukkitVersion;
+import pl.moresteck.multiworld.MConfig;
 import pl.moresteck.multiworld.MultiWorld;
+import bukkit.util.config.Configuration;
 
 public class MWorldConfig {
 	static Configuration worlds = new Configuration(new File("plugins/MultiWorld", "worlds.yml"));
@@ -38,26 +40,59 @@ public class MWorldConfig {
 		worlds.setProperty("craftbukkits_download", "https://betacraft.ovh/bukkit");
 		worlds.save();
 
-		createBasicConfig("world", "NORMAL");
+		createBasicConfig("world", "NORMAL", worlds);
 		if (BukkitVersion.getVersionId() >= 9) {
-			createBasicConfig("world_nether", "NETHER");
+			createBasicConfig("world_nether", "NETHER", worlds);
 		}
 	}
 
-	public static void createBasicConfig(String world, String env) {
+	public static void removeWorld(String world) {
+		if (MConfig.historyEnabled()) {
+			// Save in history.
+			Configuration con = new Configuration(new File("plugins/MultiWorld/worlds_history", world + ".yml"));
+			con.load();
+			createBasicConfig(world, getEnvironment(world).name(), con);
+			con.setProperty("worlds." + world + ".pvp", getPvP(world));
+			con.setProperty("worlds." + world + ".monsters.spawn", getAllowMonsters(world));
+			con.setProperty("worlds." + world + ".animals.spawn", getAllowAnimals(world));
+			// 1.5_02+
+			if (BukkitVersion.getVersionId() >= 4) {
+				con.setProperty("worlds." + world + ".weather", getWeather(world));
+			}
+			// b1.6.6+
+			if (BukkitVersion.getVersionId() >= 9) {
+				con.setProperty("worlds." + world + ".generator", getGenerator(world));
+			}
+			con.save();
+		}
+		// Remove from database.
 		worlds.load();
-		worlds.setProperty("worlds." + world + ".environment", env);
-		worlds.setProperty("worlds." + world + ".seed", new MWorld(world).getWorld().getId());
-		worlds.setProperty("worlds." + world + ".pvp", true);
-		worlds.setProperty("worlds." + world + ".monsters.spawn", true);
-		worlds.setProperty("worlds." + world + ".animals.spawn", true);
-		worlds.setProperty("worlds." + world + ".monsters.exceptfor", "");
-		worlds.setProperty("worlds." + world + ".animals.exceptfor", "");
+		worlds.removeProperty("worlds." + world);
+		worlds.save();
+	}
+
+	public static void createBasicConfig(String world, String env) {
+		createBasicConfig(world, env, worlds);
+	}
+
+	protected static void createBasicConfig(String world, String env, Configuration con) {
+		con.load();
+		con.setProperty("worlds." + world + ".environment", env);
+		con.setProperty("worlds." + world + ".seed", ((CraftWorld)new MWorld(world).getWorld()).getId());
+		con.setProperty("worlds." + world + ".pvp", true);
+		con.setProperty("worlds." + world + ".monsters.spawn", true);
+		con.setProperty("worlds." + world + ".animals.spawn", true);
+		con.setProperty("worlds." + world + ".monsters.exceptfor", "");
+		con.setProperty("worlds." + world + ".animals.exceptfor", "");
+		// 1.5_02+
+		if (BukkitVersion.getVersionId() >= 4) {
+			con.setProperty("worlds." + world + ".weather", true);
+		}
 		// b1.6.6+
 		if (BukkitVersion.getVersionId() >= 9) {
-			worlds.setProperty("worlds." + world + ".generator", "");
+			con.setProperty("worlds." + world + ".generator", "");
 		}
-		worlds.save();
+		con.save();
 	}
 
 	public static String getGenerator(String name) {
@@ -73,6 +108,25 @@ public class MWorldConfig {
 		if (BukkitVersion.getVersionId() >= 9) {
 			worlds.load();
 			worlds.setProperty("worlds." + name + ".generator", generator);
+			worlds.save();
+		} else {
+			return;
+		}
+	}
+
+	public static boolean getWeather(String name) {
+		if (BukkitVersion.getVersionId() >= 4) {
+			worlds.load();
+			return worlds.getBoolean("worlds." + name + ".weather", true);
+		} else {
+			return false;
+		}
+	}
+
+	public static void setWeather(String name, boolean bol) {
+		if (BukkitVersion.getVersionId() >= 4) {
+			worlds.load();
+			worlds.setProperty("worlds." + name + ".weather", bol);
 			worlds.save();
 		} else {
 			return;
@@ -106,10 +160,10 @@ public class MWorldConfig {
 		try {
 			numberized = Long.parseLong(seed);
 			if (w != null) {
-				if (numberized != w.getId()) {
+				if (numberized != ((CraftWorld)w).getId()) {
 					// Keep in sync with the configuration.
-					setSeed(name, Long.toString(w.getId()));
-					return w.getId();
+					setSeed(name, Long.toString(((CraftWorld)w).getId()));
+					return ((CraftWorld)w).getId();
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -120,7 +174,7 @@ public class MWorldConfig {
 				if (w == null) {
 					newseed = new Random().nextLong();
 				} else {
-					newseed = w.getId();
+					newseed = ((CraftWorld)w).getId();
 				}
 				numberized = newseed;
 				// Keep in sync with the configuration;

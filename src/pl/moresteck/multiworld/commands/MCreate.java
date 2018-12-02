@@ -38,7 +38,7 @@ public class MCreate extends MCommand {
 		}
 		String name = args[1];
 		if (MultiWorld.server.getWorld(name) != null) {
-			this.send("A world with this name already exists!");
+			this.send("A world with this name is already loaded: " + ChatColor.RED + name);
 			return;
 		}
 		Environment env;
@@ -49,6 +49,7 @@ public class MCreate extends MCommand {
 			return;
 		}
 		World bworld = null;
+		MWorld world = new MWorld(name);
 		// b1.4+
 		if (BukkitVersion.getVersionId() >= 3) {
 			long seed;
@@ -67,6 +68,7 @@ public class MCreate extends MCommand {
 			}
 			// b1.6.6+
 			if (BukkitVersion.getVersionId() >= 9) {
+				ChunkGenerator generator = null;
 				if (args.length >= 5) {
 					String gen;
 					String genargs;
@@ -80,35 +82,48 @@ public class MCreate extends MCommand {
 								+ ChatColor.GOLD + "GeneratorArguments");
 						return;
 					}
-					ChunkGenerator generator = null;
 					try {
 						generator = MultiWorld.server.getPluginManager().getPlugin(gen).
 						getDefaultWorldGenerator(name, genargs);
 					} catch (Exception ex) {
-						this.send("Wrong generator name or generator arguments.");
+						this.send("Wrong generator name or generator arguments: " + args[4]);
 						return;
 					}
-					bworld = MultiWorld.server.createWorld(name, env, seed, generator);
-					MWorldConfig.createBasicConfig(name, env.name());
-					MWorldConfig.setGenerator(name, args[4]);
-					MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
-							+ bworld.getSeed() + ")");
 				}
+				if (BukkitVersion.isVersionHigh()) {
+					org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
+					creator.environment(env);
+					creator.generator(generator);
+					creator.seed(seed);
+					bworld = MultiWorld.server.createWorld(creator);
+				} else {
+					bworld = MultiWorld.server.createWorld(name, env, seed, generator);
+				}
+
+				MWorldConfig.createBasicConfig(name, env.name());
+				if (generator != null) {
+					MWorldConfig.setGenerator(name, args[4]);
+				}
+				MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+						+ bworld.getSeed() + ")");
+				bworld.setSpawnFlags(world.getAllowMonsters(), world.getAllowAnimals());
+				bworld.setPVP(world.getPvP());
 			// b1.4 - b1.6.5
 			} else {
 				bworld = MultiWorld.server.createWorld(name, env, seed);
 				MWorldConfig.createBasicConfig(name, env.name());
 				MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
 						+ bworld.getSeed() + ")");
+				if (BukkitVersion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
 			}
 		// b1.3-
 		} else {
 			bworld = MultiWorld.server.createWorld(name, env);
 			MWorldConfig.createBasicConfig(name, env.name());
 			MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
-					+ bworld.getId() + ")");
+					+ world.getSeed() + ")");
 		}
-		MultiWorld.worlds.add(new MWorld(name));
+		MultiWorld.worlds.add(world);
 	}
 
 	public void displayCommandHelp() {
@@ -116,7 +131,7 @@ public class MCreate extends MCommand {
 		int id = BukkitVersion.getVersionId();
 		// b1.6.6+
 		if (id >= 9) {
-			this.send(ChatColor.BLUE + "/mw create " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment> " + ChatColor.GRAY + "[seed] [generator]");
+			this.send(ChatColor.BLUE + "/mw create " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment> " + ChatColor.GRAY + "[seed]" + ChatColor.BLUE + " [generator]");
 			this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - New world's name, e.g.: " + ChatColor.YELLOW + "survival");
 			this.send(ChatColor.DARK_GRAY + " environment" + ChatColor.WHITE + " - Environment: " + ChatColor.GREEN + "normal " + ChatColor.RED + "nether " + ChatColor.AQUA + "skylands");
 			this.send(ChatColor.DARK_GRAY + " seed" + ChatColor.WHITE + " - Seed, e.g.: " + ChatColor.GOLD + "gargamel" + ChatColor.WHITE + ", " + ChatColor.BLUE + "-random" + ChatColor.WHITE + " creates a random seed");

@@ -53,4 +53,8 @@ public class MWorld {
 	public String getGenerator() {
 		return MWorldConfig.getGenerator(this.name);
 	}
+
+	public boolean getWeather() {
+		return MWorldConfig.getWeather(this.name);
+	}
 }
