@@ -13,6 +13,12 @@ public class MHelp extends MCommand {
 	}
 
 	public void execute() {
+		if (this.exists(0, "help") && args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
 		boolean help = this.args.length == 0 ? true : this.exists(0, "help") && this.args.length == 1;
 		if (help || this.exists(1, "1")) {
 			this.send(ChatColor.YELLOW + "==============" + ChatColor.GOLD + " MultiWorld " + ChatColor.YELLOW + "==============");
@@ -34,9 +40,7 @@ public class MHelp extends MCommand {
 			this.send(ChatColor.BLUE + "/mw info " + ChatColor.GRAY + "[world_name] [page]");
 			this.send(ChatColor.BLUE + "/mw list");
 			this.send(ChatColor.AQUA + "---- Next Page: /mw help 2 ----");
-		}
-		if (this.args.length != 2) {
-			return;
+			this.send(ChatColor.BLUE + "/mw " + ChatColor.GRAY + "<command>" + ChatColor.BLUE + " help " + ChatColor.WHITE + "- Shows help for each command");
 		}
 		if (this.exists(1, "2")) {
 			this.send(ChatColor.YELLOW + "==============" + ChatColor.GOLD + " MultiWorld " + ChatColor.YELLOW + "==============");
@@ -47,10 +51,16 @@ public class MHelp extends MCommand {
 			this.send(ChatColor.BLUE + "/mw save " + ChatColor.GRAY + "[world_name]");
 			this.send(ChatColor.BLUE + "/mw version");
 			this.send(ChatColor.AQUA + "---- Previous Page: /mw help ----");
+			this.send(ChatColor.BLUE + "/mw " + ChatColor.GRAY + "<command>" + ChatColor.BLUE + " help " + ChatColor.WHITE + "- Shows help for each command");
 		}
 	}
 
 	public void displayCommandHelp() {
-		this.execute();
+		this.send(ChatColor.GREEN + "====== Command Help ======");
+		this.send(ChatColor.BLUE + "/mw help " + ChatColor.GRAY + "[page]");
+		this.send(ChatColor.DARK_GRAY + " page" + ChatColor.WHITE + " - Help page");
+		this.send(" ");
+		this.send(ChatColor.DARK_AQUA + "Permission: " + ChatColor.GREEN + "everyone");
+		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Displays command list to the sender");
 	}
 }

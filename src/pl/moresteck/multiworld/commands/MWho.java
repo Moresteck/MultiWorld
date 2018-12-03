@@ -21,6 +21,16 @@ public class MWho extends MCommand {
 		if (!who) {
 			return;
 		}
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
+		if (!Perm.has(this.getSender(), this.perm)) {
+			this.send("No permission!");
+			return;
+		}
 		MWorld world = null;
 		if (args.length == 1) {
 			// mw who

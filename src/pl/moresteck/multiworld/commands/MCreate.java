@@ -90,6 +90,7 @@ public class MCreate extends MCommand {
 						return;
 					}
 				}
+				this.send("Creating new world...");
 				if (BukkitVersion.isVersionHigh()) {
 					org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
 					creator.environment(env);
@@ -104,24 +105,29 @@ public class MCreate extends MCommand {
 				if (generator != null) {
 					MWorldConfig.setGenerator(name, args[4]);
 				}
-				MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+				MultiWorld.log.info("[MultiWorld] Created world \"" + name + "\" (Seed: "
 						+ bworld.getSeed() + ")");
 				bworld.setSpawnFlags(world.getAllowMonsters(), world.getAllowAnimals());
 				bworld.setPVP(world.getPvP());
+				this.send("Created new world - " + MList.getColor(world) + world.getName());
 			// b1.4 - b1.6.5
 			} else {
+				this.send("Creating new world...");
 				bworld = MultiWorld.server.createWorld(name, env, seed);
 				MWorldConfig.createBasicConfig(name, env.name());
-				MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+				MultiWorld.log.info("[MultiWorld] Created world \"" + name + "\" (Seed: "
 						+ bworld.getSeed() + ")");
 				if (BukkitVersion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
+				this.send("Created new world - " + MList.getColor(world) + world.getName());
 			}
 		// b1.3-
 		} else {
+			this.send("Creating new world...");
 			bworld = MultiWorld.server.createWorld(name, env);
 			MWorldConfig.createBasicConfig(name, env.name());
-			MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+			MultiWorld.log.info("[MultiWorld] Created world \"" + name + "\" (Seed: "
 					+ world.getSeed() + ")");
+			this.send("Created new world - " + MList.getColor(world) + world.getName());
 		}
 		MultiWorld.worlds.add(world);
 	}

@@ -32,6 +32,12 @@ public class MImport extends MCommand {
 			this.displayCommandHelp();
 			return;
 		}
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
 		if (!Perm.has(this.getSender(), this.perm)) {
 			this.send("No permission!");
 			return;
@@ -80,6 +86,7 @@ public class MImport extends MCommand {
 					return;
 				}
 			}
+			this.send("Importing world...");
 			if (BukkitVersion.isVersionHigh()) {
 				org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
 				creator.environment(env);
@@ -93,17 +100,20 @@ public class MImport extends MCommand {
 			if (generator != null) {
 				MWorldConfig.setGenerator(name, args[3]);
 			}
-			MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+			MultiWorld.log.info("[MultiWorld] Imported world \"" + name + "\" (Seed: "
 					+ world.getSeed() + ")");
 			bworld.setSpawnFlags(world.getAllowMonsters(), world.getAllowAnimals());
 			bworld.setPVP(world.getPvP());
+			this.send("Imported world - " + MList.getColor(world) + world.getName());
 		} else {
+			this.send("Importing world...");
 			bworld = MultiWorld.server.createWorld(name, env);
 
 			MWorldConfig.createBasicConfig(name, env.name());
-			MultiWorld.log.info("[MultiWorld]  Loaded world \"" + name + "\" (Seed: "
+			MultiWorld.log.info("[MultiWorld] Imported world \"" + name + "\" (Seed: "
 					+ world.getSeed() + ")");
 			if (BukkitVersion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
+			this.send("Imported world - " + MList.getColor(world) + world.getName());
 		}
 		MultiWorld.worlds.add(world);
 	}

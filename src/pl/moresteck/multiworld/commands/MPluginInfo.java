@@ -16,6 +16,12 @@ public class MPluginInfo extends MCommand {
 		if (!version) {
 			return;
 		}
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
 		this.send(ChatColor.AQUA + "============" + ChatColor.GOLD + " MULTIWORLD PLUGIN " + ChatColor.AQUA + "============");
 		this.send("This plugin was made possible by " + ChatColor.GREEN + "BetaCraft server");
 		this.send("Author: " + ChatColor.GREEN + "Moresteck");

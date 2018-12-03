@@ -22,6 +22,12 @@ public class MInfo extends MCommand {
 		if (!info) {
 			return;
 		}
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
 		if (!Perm.has(this.getSender(), this.perm)) {
 			this.send("No permission!");
 			return;

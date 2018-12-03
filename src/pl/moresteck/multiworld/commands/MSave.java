@@ -21,10 +21,21 @@ public class MSave extends MCommand {
 		if (!save) {
 			return;
 		}
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
+		if (!Perm.has(this.getSender(), this.perm)) {
+			this.send("No permission!");
+			return;
+		}
 		String name;
 		if (args.length == 1) {
 			if (!this.isPlayer()) {
 				this.send("You must specify a world!");
+				this.displayCommandHelp();
 				return;
 			} else {
 				Player p = (Player) this.getSender();
@@ -36,7 +47,7 @@ public class MSave extends MCommand {
 		if (name.equals("*")) {
 			this.send("Saving all worlds...");
 			for (MWorld world : MultiWorld.worlds) {
-				MultiWorld.saveWorld(world.getWorld());
+				MultiWorld.saveWorld(world);
 			}
 			this.send("Saved all worlds.");
 			return;
@@ -46,7 +57,7 @@ public class MSave extends MCommand {
 			this.send("A world with this name isn't loaded: " + name);
 			return;
 		}
-		MultiWorld.saveWorld(world.getWorld());
+		MultiWorld.saveWorld(world);
 		this.send("Saved \"" + MList.getColor(world) + name + ChatColor.WHITE + "\"");
 	}
 

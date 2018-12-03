@@ -27,3 +27,9 @@ v2.0-Pre3:
 v2.0:
 - Changed some chat messages
 - Removed '/testentity ...' command
+
+v2.0.1:
+- Added permissions for commands: import, list, save, unload, who
+- Added '/mw reload' command
+- Added '/mw <command> help' command
+- Fixed create and import command not responding when the world loads

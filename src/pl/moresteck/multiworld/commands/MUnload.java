@@ -26,6 +26,16 @@ public class MUnload extends MCommand {
 			this.displayCommandHelp();
 			return;
 		}
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("help")) {
+				this.displayCommandHelp();
+				return;
+			}
+		}
+		if (!Perm.has(this.getSender(), this.perm)) {
+			this.send("No permission!");
+			return;
+		}
 		// mw unload [world]
 		String name = args[1];
 		MWorld world = MultiWorld.getWorld(name);
