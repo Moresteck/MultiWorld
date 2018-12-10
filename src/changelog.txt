@@ -37,3 +37,4 @@ v2.0.1:
 
 v2.0.2:
 - Fixed '/mw tp ...' for b1.2_01
+- Removed some redundant code
