@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.generator.ChunkGenerator;
 
-import pl.moresteck.bvnpe.BukkitVersion;
+import pl.moresteck.bvie.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.world.MWorld;
 import pl.moresteck.multiworld.world.MWorldConfig;

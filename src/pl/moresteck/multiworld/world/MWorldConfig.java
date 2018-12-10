@@ -14,7 +14,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.WaterMob;
 
-import pl.moresteck.bvnpe.BukkitVersion;
+import pl.moresteck.bvie.BukkitVersion;
 import pl.moresteck.multiworld.MConfig;
 import pl.moresteck.multiworld.MultiWorld;
 import bukkit.util.config.Configuration;

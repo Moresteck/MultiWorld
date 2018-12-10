@@ -18,7 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pl.moresteck.bvnpe.BukkitVersion;
+import pl.moresteck.bvie.BukkitVersion;
 import pl.moresteck.multiworld.commands.MCreate;
 import pl.moresteck.multiworld.commands.MHelp;
 import pl.moresteck.multiworld.commands.MImport;
