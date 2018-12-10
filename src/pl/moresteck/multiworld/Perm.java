@@ -22,7 +22,8 @@ public class Perm {
 	}
 
 	/** Permissions:
-	 *  <pre>multiworld.*:
+	 * <pre>
+	 *  multiworld.*:
 	 *   multiworld.world.*:
 	 *    multiworld.world.save
 	 *    multiworld.world.create
@@ -34,7 +35,8 @@ public class Perm {
 	 *    multiworld.info.list
 	 *    multiworld.info.who
 	 *   multiworld.player.*:
-	 *    multiworld.player.teleport</pre>
+	 *    multiworld.player.teleport
+	 * </pre>
 	 */
 	public static boolean has(CommandSender cs, String perm) {
 		if (!(cs instanceof Player)) {

@@ -8,6 +8,15 @@ public class VersionParser {
 		return parseVersion(server.getVersion());
 	}
 
+	/**
+	 * Gives the version number from b1.1 to 1.1.
+	 * <br />
+	 * For higher versions use {@link BukkitVersion.getVersionId()}
+	 * or {@link BukkitVersion.isVersionHigh()}
+	 *
+	 * @param bver Version from Bukkit.getVersion()
+	 * @return Formatted version
+	 */
 	public static String parseVersion(String bver) {
 		if (bver.equals("1.1") || bver.equals("1.2_01")) {
 			// "1.1" may indicate b1.1, b1.1_02 or even b1.2!
@@ -27,5 +36,9 @@ public class VersionParser {
 			}
 			return "b" + version;
 		}
+	}
+
+	public static int getVersionId() {
+		return BukkitVersion.getVersionId();
 	}
 }

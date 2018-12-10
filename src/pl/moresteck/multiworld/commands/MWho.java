@@ -6,14 +6,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import pl.moresteck.multiworld.MultiWorld;
-import pl.moresteck.multiworld.Perm;
 import pl.moresteck.multiworld.world.MWorld;
 
 public class MWho extends MCommand {
 
 	public MWho(Command cmd, CommandSender cs, String[] args) {
 		super(cmd, cs, args);
-		this.perm = "multiworld.info.who";
+		this.setPermission("multiworld.info.who");
 	}
 
 	public void execute() {
@@ -27,7 +26,7 @@ public class MWho extends MCommand {
 				return;
 			}
 		}
-		if (!Perm.has(this.getSender(), this.perm)) {
+		if (!this.hasPermission()) {
 			this.send("No permission!");
 			return;
 		}
@@ -63,7 +62,7 @@ public class MWho extends MCommand {
 		this.send(ChatColor.BLUE + "/mw who " + ChatColor.GRAY + "[world_name]");
 		this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - From which world to list players");
 		this.send(" ");
-		this.send(ChatColor.DARK_AQUA + "Permission: " + (Perm.has(this.getSender(), this.perm) ? ChatColor.GREEN : ChatColor.RED) + this.perm);
+		this.send(ChatColor.DARK_AQUA + "Permission: " + (this.hasPermission() ? ChatColor.GREEN : ChatColor.RED) + this.perm);
 		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Shows who is currently playing in the specified world");
 	}
 }

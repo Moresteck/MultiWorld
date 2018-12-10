@@ -7,14 +7,13 @@ import org.bukkit.entity.Player;
 
 import pl.moresteck.bvnpe.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
-import pl.moresteck.multiworld.Perm;
 import pl.moresteck.multiworld.world.MWorld;
 
 public class MInfo extends MCommand {
 
 	public MInfo(Command cmd, CommandSender cs, String[] args) {
 		super(cmd, cs, args);
-		this.perm = "multiworld.world.info";
+		this.setPermission("multiworld.world.info");
 	}
 
 	public void execute() {
@@ -28,7 +27,7 @@ public class MInfo extends MCommand {
 				return;
 			}
 		}
-		if (!Perm.has(this.getSender(), this.perm)) {
+		if (!this.hasPermission()) {
 			this.send("No permission!");
 			return;
 		}
@@ -91,7 +90,7 @@ public class MInfo extends MCommand {
 		this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - Which world's info to view");
 		this.send(ChatColor.DARK_GRAY + " page" + ChatColor.WHITE + " - Info page");
 		this.send(" ");
-		this.send(ChatColor.DARK_AQUA + "Permission: " + (Perm.has(this.getSender(), this.perm) ? ChatColor.GREEN : ChatColor.RED) + this.perm);
+		this.send(ChatColor.DARK_AQUA + "Permission: " + (this.hasPermission() ? ChatColor.GREEN : ChatColor.RED) + this.perm);
 		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Shows some information about specified world");
 	}
 }

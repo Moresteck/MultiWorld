@@ -4,11 +4,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import pl.moresteck.multiworld.MultiWorld;
+
 public class MPluginInfo extends MCommand {
 
 	public MPluginInfo(Command cmd, CommandSender cs, String[] args) {
 		super(cmd, cs, args);
-		this.perm = "none";
+		this.setPermission("none");
 	}
 
 	public void execute() {
@@ -26,6 +28,7 @@ public class MPluginInfo extends MCommand {
 		this.send("This plugin was made possible by " + ChatColor.GREEN + "BetaCraft server");
 		this.send("Author: " + ChatColor.GREEN + "Moresteck");
 		this.send("General help: " + ChatColor.AQUA + "Kazu (KazuGod)");
+		this.send("Version: " + ChatColor.GREEN + MultiWorld.version);
 		this.send("Website: " + ChatColor.GRAY + "https://" + ChatColor.YELLOW + "betacraft" + ChatColor.GRAY + "." + ChatColor.YELLOW + "ovh" + ChatColor.GRAY + "/");
 		this.send(" Thanks for using this plugin! I hope you find it handy :)");
 	}

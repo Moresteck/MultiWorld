@@ -11,7 +11,6 @@ import org.bukkit.generator.ChunkGenerator;
 
 import pl.moresteck.bvnpe.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
-import pl.moresteck.multiworld.Perm;
 import pl.moresteck.multiworld.world.MWorld;
 import pl.moresteck.multiworld.world.MWorldConfig;
 
@@ -19,7 +18,7 @@ public class MImport extends MCommand {
 
 	public MImport(Command cmd, CommandSender cs, String[] args) {
 		super(cmd, cs, args);
-		this.perm = "multiworld.world.import";
+		this.setPermission("multiworld.world.import");
 	}
 
 	public void execute() {
@@ -38,7 +37,7 @@ public class MImport extends MCommand {
 				return;
 			}
 		}
-		if (!Perm.has(this.getSender(), this.perm)) {
+		if (!this.hasPermission()) {
 			this.send("No permission!");
 			return;
 		}
@@ -134,7 +133,7 @@ public class MImport extends MCommand {
 			this.send(ChatColor.DARK_GRAY + " environment" + ChatColor.WHITE + " - Environment: " + ChatColor.GREEN + "normal " + ChatColor.RED + "nether");
 		}
 		this.send(" ");
-		this.send(ChatColor.DARK_AQUA + "Permission: " + (Perm.has(this.getSender(), this.perm) ? ChatColor.GREEN : ChatColor.RED) + this.perm);
+		this.send(ChatColor.DARK_AQUA + "Permission: " + (this.hasPermission() ? ChatColor.GREEN : ChatColor.RED) + this.perm);
 		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Imports a world using given arguments");
 	}
 }

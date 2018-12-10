@@ -6,7 +6,6 @@ import org.bukkit.entity.Entity;
 
 import pl.moresteck.multiworld.MultiWorld;
 
-
 public class MWorld {
 	private String name;
 

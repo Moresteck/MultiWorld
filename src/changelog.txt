@@ -23,6 +23,7 @@ v2.0-Pre3:
 - Added '/mw unload ...' command
 - Added '/mw list' command
 - Added '/mw info ...' command
+- Added world's history (can be disabled)
 
 v2.0:
 - Changed some chat messages
@@ -33,3 +34,6 @@ v2.0.1:
 - Added '/mw reload' command
 - Added '/mw <command> help' command
 - Fixed create and import command not responding when the world loads
+
+v2.0.2:
+- Fixed '/mw tp ...' for b1.2_01

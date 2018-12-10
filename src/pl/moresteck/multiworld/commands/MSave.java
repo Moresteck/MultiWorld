@@ -6,14 +6,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import pl.moresteck.multiworld.MultiWorld;
-import pl.moresteck.multiworld.Perm;
 import pl.moresteck.multiworld.world.MWorld;
 
 public class MSave extends MCommand {
 
 	public MSave(Command cmd, CommandSender cs, String[] args) {
 		super(cmd, cs, args);
-		this.perm = "multiworld.world.save";
+		this.setPermission("multiworld.world.save");
 	}
 
 	public void execute() {
@@ -27,7 +26,7 @@ public class MSave extends MCommand {
 				return;
 			}
 		}
-		if (!Perm.has(this.getSender(), this.perm)) {
+		if (!this.hasPermission()) {
 			this.send("No permission!");
 			return;
 		}
@@ -66,7 +65,7 @@ public class MSave extends MCommand {
 		this.send(ChatColor.BLUE + "/mw save " + ChatColor.GRAY + "[world_name]");
 		this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - World to save; " + ChatColor.GREEN + "*" + ChatColor.WHITE + " saves all worlds");
 		this.send(" ");
-		this.send(ChatColor.DARK_AQUA + "Permission: " + (Perm.has(this.getSender(), this.perm) ? ChatColor.GREEN : ChatColor.RED) + this.perm);
+		this.send(ChatColor.DARK_AQUA + "Permission: " + (this.hasPermission() ? ChatColor.GREEN : ChatColor.RED) + this.perm);
 		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Saves specified world");
 	}
 }

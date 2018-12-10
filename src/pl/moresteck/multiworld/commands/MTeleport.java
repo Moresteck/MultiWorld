@@ -8,14 +8,13 @@ import org.bukkit.entity.Player;
 
 import pl.moresteck.bvnpe.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
-import pl.moresteck.multiworld.Perm;
 import pl.moresteck.multiworld.world.MWorld;
 
 public class MTeleport extends MCommand {
 
 	public MTeleport(Command cmd, CommandSender cs, String[] args) {
 		super(cmd, cs, args);
-		this.perm = "multiworld.player.teleport";
+		this.setPermission("multiworld.player.teleport");
 	}
 
 	public void execute() {
@@ -29,7 +28,7 @@ public class MTeleport extends MCommand {
 				return;
 			}
 		}
-		if (!Perm.has(this.getSender(), this.perm)) {
+		if (!this.hasPermission()) {
 			this.send("No permission!");
 			return;
 		}
@@ -86,7 +85,7 @@ public class MTeleport extends MCommand {
 		this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - World to teleport to, e.g.: " + ChatColor.YELLOW + "survival");
 		this.send(ChatColor.DARK_GRAY + " player" + ChatColor.WHITE + " - Who to teleport");
 		this.send(" ");
-		this.send(ChatColor.DARK_AQUA + "Permission: " + (Perm.has(this.getSender(), this.perm) ? ChatColor.GREEN : ChatColor.RED) + this.perm);
+		this.send(ChatColor.DARK_AQUA + "Permission: " + (this.hasPermission() ? ChatColor.GREEN : ChatColor.RED) + this.perm);
 		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Teleports the player to specified world");
 	}
 }

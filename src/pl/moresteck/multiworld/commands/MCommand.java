@@ -4,6 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import pl.moresteck.multiworld.Perm;
+
 public abstract class MCommand {
 	private Command cmd;
 	private CommandSender cs;
@@ -49,6 +51,18 @@ public abstract class MCommand {
 
 	public boolean isPlayer() {
 		return (this.getSender() instanceof Player);
+	}
+
+	public boolean hasPermission() {
+		return Perm.has(cs, perm);
+	}
+
+	public String getPermission() {
+		return this.perm;
+	}
+
+	public void setPermission(String perm) {
+		this.perm = perm;
 	}
 
 	public abstract void execute();

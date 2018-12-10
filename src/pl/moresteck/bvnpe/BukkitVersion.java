@@ -25,6 +25,11 @@ public class BukkitVersion {
 		return MultiWorld.server.getVersion();
 	}
 
+	/**
+	 * Says if the Bukkit version is higher than 1.1-R4.
+	 *
+	 * @return Version higher than 1.1-R4
+	 */
 	public static boolean isVersionHigh() {
 		return getVersionId() > 19 ? true : 
 		getBukkitVersion().startsWith("git-Bukkit-1.1-R4") || 
@@ -33,14 +38,15 @@ public class BukkitVersion {
 	}
 
 	/**
-	 * Returns the version number.
-	 * Detects versions from b1.1 to 1.1.
+	 * Gets the version number. <br />
+	 * Detects versions from b1.1 to 1.1. <br />
+	 * ID 20 is higher than 1.1.
 	 *
 	 * @return Version id starting from 0
 	 */
 	public static int getVersionId() {
 		if (version.equals("b1.1")) {
-			// It may be 1.1, 1.1_02 or 1.2.
+			// It may be b1.1, b1.1_02 or b1.2.
 			return 0;
 		} else if (version.equals("b1.2_01")) {
 			// b1.2_02 vanilla server never existed.
@@ -48,7 +54,7 @@ public class BukkitVersion {
 		} else if (version.equals("b1.3")) {
 			return 2;
 		} else if (version.equals("b1.4")) {
-			// No Bukkit for b1.4_01.
+			// Cannot recognize b1.4_01 Bukkit.
 			return 3;
 		} else if (version.equals("b1.5_02")) {
 			// No Bukkit for b1.5 and b1.5_01.
@@ -92,7 +98,7 @@ public class BukkitVersion {
 
 	/**
 	 * Registers an event, but may result in an NPE.
-	 *
+	 * <br />
 	 * You don't have to specify the priority and type if your version is 1.1-R4 or higher.
 	 *
 	 * @param type Type enum to register (e.g. "PLAYER_ITEM", "PLAYER_INTERACT")
@@ -110,8 +116,8 @@ public class BukkitVersion {
 
 	/**
 	 * You still have to do self-check for the Bukkit's version for no warnings.
-	 *
-	 * Safely registers an event with specified Priority.
+	 * <br />
+	 * Safely registers an event with specified Priority. <br />
 	 * You don't have to specify the priority and type if your version is 1.1-R4 or higher.
 	 *
 	 * @param type Type enum to register (e.g. "PLAYER_ITEM", "PLAYER_INTERACT")
@@ -129,7 +135,7 @@ public class BukkitVersion {
 
 	/**
 	 * You still have to do self-check for the Bukkit's version for no warnings.
-	 *
+	 * <br />
 	 * Safely registers an event.
 	 *
 	 * @param type Type enum to register (e.g. "PLAYER_ITEM", "PLAYER_INTERACT")
