@@ -20,6 +20,11 @@ public class BukkitVersion {
 		this.setupVersion((CraftServer) plugin.getServer());
 	}
 
+	/**
+	 * Gets the version of the addon.
+	 *
+	 * @return BukkitVersion's version
+	 */
 	public static double getBVVersion() {
 		return addon_version;
 	}
@@ -32,10 +37,20 @@ public class BukkitVersion {
 		}
 	}
 
+	/**
+	 * Gets now running version as a string.
+	 *
+	 * @return Version now running
+	 */
 	public String getVersion() {
 		return this.version;
 	}
 
+	/**
+	 * Gets the build of Bukkit.
+	 *
+	 * @return Bukkit's build running now
+	 */
 	public String getBukkitVersion() {
 		return plugin.getServer().getVersion();
 	}
@@ -55,7 +70,7 @@ public class BukkitVersion {
 	/**
 	 * Gets the version number. <br />
 	 * Detects versions from b1.1 to 1.1. <br />
-	 * ID 20 is higher than 1.1.
+	 * ID 21 is higher than 1.1.
 	 *
 	 * @return Version id starting from 0
 	 */
