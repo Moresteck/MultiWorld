@@ -1,4 +1,19 @@
+/**
+ * BukkitVersion v0.5 by Moresteck
+ * <br /><br />
+ * BukkitVersion is a plugin addon to provide help
+ * with compatibility issues. It tells the plugin
+ * what Bukkit version it's running on, and it
+ * can do some operations for the plugin.
+ * <br />
+ * You can use this tool for your own, but don't
+ * delete this disclaimer from here.
+ *
+ * @author Moresteck
+ */
 package pl.moresteck.bukkitversion;
+
+import java.util.logging.Logger;
 
 import net.minecraft.server.MinecraftServer;
 
@@ -7,9 +22,8 @@ import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pl.moresteck.multiworld.MultiWorld;
-
 public class BukkitVersion {
+	private Logger log = Logger.getLogger("Minecraft");
 	private static double addon_version = 0.5;
 
 	private String version;
@@ -32,6 +46,7 @@ public class BukkitVersion {
 	private void setupVersion(final CraftServer server) {
 		try {
 			this.version = new VersionParser().parseVersion(server);
+			this.log.info(this.plugin.getDescription().getName() + " uses BukkitVersion v" + addon_version);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,7 +71,7 @@ public class BukkitVersion {
 	}
 
 	/**
-	 * Says if the Bukkit version is higher than 1.1-R4.
+	 * Says if the Bukkit's version is higher than 1.1-R4.
 	 *
 	 * @return Version higher than 1.1-R4
 	 */
@@ -68,7 +83,7 @@ public class BukkitVersion {
 	}
 
 	/**
-	 * Gets the version number. <br />
+	 * Gets the version ID. <br />
 	 * Detects versions from b1.1 to 1.1. <br />
 	 * ID 21 is higher than 1.1.
 	 *
@@ -157,8 +172,8 @@ public class BukkitVersion {
 		try {
 			this.registerEvent(type, listener, priority);
 		} catch (Exception ex) {
-			MultiWorld.log.info("BV: Could not register \"" + type + "\" for " + this.plugin.getDescription().getName());
-			MultiWorld.log.info("BV: Perhaps you should use the newest Craftbukkit build?");
+			this.log.info("BV: Could not register \"" + type + "\" for " + this.plugin.getDescription().getName());
+			this.log.info("BV: Perhaps you should use the newest Craftbukkit build?");
 		}
 	}
 
@@ -179,7 +194,7 @@ public class BukkitVersion {
 		 * Gives the version number from b1.1 to 1.1.
 		 * <br />
 		 * For higher versions use {@link BukkitVersion.getVersionId()}
-		 * or {@link BukkitVersion.isVersionHigh()}
+		 * or {@link BukkitVersion.isBukkitNewSystem()}
 		 *
 		 * @param server Server instance
 		 * @return Formatted version
