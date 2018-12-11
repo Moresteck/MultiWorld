@@ -40,7 +40,7 @@ public class MWorldConfig {
 		worlds.save();
 
 		createBasicConfig("world", "NORMAL", worlds);
-		if (MultiWorld.bukkitversion.getVersionId() >= 9) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
 			createBasicConfig("world_nether", "NETHER", worlds);
 		}
 	}
@@ -55,11 +55,11 @@ public class MWorldConfig {
 			con.setProperty("worlds." + world + ".monsters.spawn", getAllowMonsters(world));
 			con.setProperty("worlds." + world + ".animals.spawn", getAllowAnimals(world));
 			// 1.5_02+
-			if (MultiWorld.bukkitversion.getVersionId() >= 4) {
+			if (MultiWorld.bukkitversion.getVersionId() >= 5) {
 				con.setProperty("worlds." + world + ".weather", getWeather(world));
 			}
 			// b1.6.6+
-			if (MultiWorld.bukkitversion.getVersionId() >= 9) {
+			if (MultiWorld.bukkitversion.getVersionId() >= 10) {
 				con.setProperty("worlds." + world + ".generator", getGenerator(world));
 			}
 			con.save();
@@ -84,18 +84,18 @@ public class MWorldConfig {
 		con.setProperty("worlds." + world + ".monsters.exceptfor", "");
 		con.setProperty("worlds." + world + ".animals.exceptfor", "");
 		// 1.5_02+
-		if (MultiWorld.bukkitversion.getVersionId() >= 4) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 5) {
 			con.setProperty("worlds." + world + ".weather", true);
 		}
 		// b1.6.6+
-		if (MultiWorld.bukkitversion.getVersionId() >= 9) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
 			con.setProperty("worlds." + world + ".generator", "");
 		}
 		con.save();
 	}
 
 	public static String getGenerator(String name) {
-		if (MultiWorld.bukkitversion.getVersionId() >= 9) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
 			worlds.load();
 			return worlds.getString("worlds." + name + ".generator", "");
 		} else {
@@ -104,7 +104,7 @@ public class MWorldConfig {
 	}
 
 	public static void setGenerator(String name, String generator) {
-		if (MultiWorld.bukkitversion.getVersionId() >= 9) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
 			worlds.load();
 			worlds.setProperty("worlds." + name + ".generator", generator);
 			worlds.save();
@@ -114,7 +114,7 @@ public class MWorldConfig {
 	}
 
 	public static boolean getWeather(String name) {
-		if (MultiWorld.bukkitversion.getVersionId() >= 4) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 5) {
 			worlds.load();
 			return worlds.getBoolean("worlds." + name + ".weather", true);
 		} else {
@@ -123,7 +123,7 @@ public class MWorldConfig {
 	}
 
 	public static void setWeather(String name, boolean bol) {
-		if (MultiWorld.bukkitversion.getVersionId() >= 4) {
+		if (MultiWorld.bukkitversion.getVersionId() >= 5) {
 			worlds.load();
 			worlds.setProperty("worlds." + name + ".weather", bol);
 			worlds.save();

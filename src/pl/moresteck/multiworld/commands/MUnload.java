@@ -51,6 +51,6 @@ public class MUnload extends MCommand {
 		this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - World to unload");
 		this.send(" ");
 		this.send(ChatColor.DARK_AQUA + "Permission: " + (this.hasPermission() ? ChatColor.GREEN : ChatColor.RED) + this.perm);
-		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Unloads world from the server" + (BukkitVersion.getVersionId() >= 9 ? "" : " (takes effect after server restart)"));
+		this.send(ChatColor.DARK_AQUA + "Info: " + ChatColor.WHITE + "Unloads world from the server" + (BukkitVersion.getVersionId() >= 10 ? "" : " (takes effect after server restart)"));
 	}
 }

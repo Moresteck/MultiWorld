@@ -69,8 +69,8 @@ public class MultiWorld extends JavaPlugin {
 		}
 
 		// To control spawn flags & PVP flags.
-		if (bukkitversion.getVersionId() <= 9) {
-			if (bukkitversion.getVersionId() <= 3) {
+		if (bukkitversion.getVersionId() <= 10) {
+			if (bukkitversion.getVersionId() <= 4) {
 				if (bukkitversion.getVersionId() == 1) {
 					bukkitversion.registerEventSafely("ENTITY_DAMAGED", (Listener) new listener());
 				} else {
@@ -159,7 +159,7 @@ public class MultiWorld extends JavaPlugin {
 		}
 		worlds.remove(world);
 		MWorldConfig.removeWorld(world.getName());
-		if (bukkitversion.getVersionId() >= 9) {
+		if (bukkitversion.getVersionId() >= 10) {
 			server.unloadWorld(world.getName(), true);
 		}
 		log.info("[MultiWorld] Unloaded world \"" + world.getName() + "\" (Seed: " + world.getSeed() + ")");
@@ -172,7 +172,7 @@ public class MultiWorld extends JavaPlugin {
 
 	protected static void loadWorld(MWorld world) {
 		// If the version is b1.6.6 or higher...
-		if (bukkitversion.getVersionId() >= 9) {
+		if (bukkitversion.getVersionId() >= 10) {
 			ChunkGenerator generator = null;
 			if (!world.getGenerator().equals("")) {
 				String gen;
@@ -225,7 +225,7 @@ public class MultiWorld extends JavaPlugin {
 						server.createWorld(world.getName(), world.getEnvironment(),
 						world.getSeed()) : server.getWorld(world.getName());
 				log.info("[MultiWorld] Loaded world \"" + world.getName() + "\" (Seed: " + world.getSeed() + ")");
-				if (bukkitversion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
+				if (bukkitversion.getVersionId() >= 5) bworld.setPVP(world.getPvP());
 			}
 		}
 		worlds.add(world);

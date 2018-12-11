@@ -61,7 +61,7 @@ public class MImport extends MCommand {
 		World bworld = null;
 		MWorld world = new MWorld(name);
 		// 1.6.6+
-		if (BukkitVersion.getVersionId() >= 9) {
+		if (BukkitVersion.getVersionId() >= 10) {
 			ChunkGenerator generator = null;
 			if (args.length >= 4) {
 				String gen;
@@ -110,7 +110,7 @@ public class MImport extends MCommand {
 			MWorldConfig.createBasicConfig(name, env.name());
 			MultiWorld.log.info("[MultiWorld] Imported world \"" + name + "\" (Seed: "
 					+ world.getSeed() + ")");
-			if (BukkitVersion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
+			if (BukkitVersion.getVersionId() >= 5) bworld.setPVP(world.getPvP());
 			this.send("Imported world - " + MList.getColor(world) + world.getName());
 		}
 		MultiWorld.worlds.add(world);
@@ -120,7 +120,7 @@ public class MImport extends MCommand {
 		this.send(ChatColor.GREEN + "====== Command Help ======");
 		int id = BukkitVersion.getVersionId();
 		// b1.6.6+
-		if (id >= 9) {
+		if (id >= 10) {
 			this.send(ChatColor.BLUE + "/mw import " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment> " + ChatColor.GRAY + "[generator]");
 			this.send(ChatColor.DARK_GRAY + " world_name" + ChatColor.WHITE + " - World's name, e.g.: " + ChatColor.YELLOW + "survival");
 			this.send(ChatColor.DARK_GRAY + " environment" + ChatColor.WHITE + " - Environment: " + ChatColor.GREEN + "normal " + ChatColor.RED + "nether " + ChatColor.AQUA + "skylands");

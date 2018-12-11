@@ -42,7 +42,7 @@ public class MTeleport extends MCommand {
 			if (arg == 3) {
 				p = MultiWorld.server.getPlayer(args[2].replace("\"", ""));
 				if (args[2].startsWith("\"") && args[2].endsWith("\"")) {
-					if (BukkitVersion.getVersionId() >= 13) {
+					if (BukkitVersion.getVersionId() >= 14) {
 						p = MultiWorld.server.getPlayerExact(args[2].replace("\"", ""));
 					}
 				}

@@ -22,7 +22,7 @@ public class MHelp extends MCommand {
 			this.send(ChatColor.YELLOW + "==============" + ChatColor.GOLD + " MultiWorld " + ChatColor.YELLOW + "==============");
 			this.send(ChatColor.AQUA + "---- Help Page 1 ----");
 			// b1.6.6+
-			if (BukkitVersion.getVersionId() >= 9) {
+			if (BukkitVersion.getVersionId() >= 10) {
 				this.send(ChatColor.BLUE + "/mw create " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment> " + ChatColor.GRAY + "[seed]" + ChatColor.BLUE + " [generator]");
 				this.send(ChatColor.BLUE + "/mw import " + ChatColor.GRAY + "<world_name>" + ChatColor.BLUE + " <environment> " + ChatColor.GRAY + "[generator]");
 			// b1.4 - b1.6.5
