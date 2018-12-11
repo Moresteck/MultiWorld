@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pl.moresteck.bvie.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.world.MWorld;
 

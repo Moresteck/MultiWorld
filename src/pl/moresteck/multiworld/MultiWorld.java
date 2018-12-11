@@ -10,7 +10,6 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -18,7 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pl.moresteck.bvie.BukkitVersion;
+import pl.moresteck.bukkitversion.BukkitVersion;
 import pl.moresteck.multiworld.commands.MCreate;
 import pl.moresteck.multiworld.commands.MHelp;
 import pl.moresteck.multiworld.commands.MImport;
@@ -41,35 +40,25 @@ public class MultiWorld extends JavaPlugin {
 	public static List<MWorld> worlds = new LinkedList<MWorld>();
 	public static String version;
 	public static MultiWorld instance;
+	public static BukkitVersion bukkitversion;
 
 	public void onEnable() {
-		BukkitVersion.setupVersion((CraftServer) this.getServer());
+		bukkitversion = new BukkitVersion(this);
 
 		instance = this;
 		server = this.getServer();
 		version = this.getDescription().getVersion();
 
 		this.load();
-		Perm.setPermissions(server.getPluginManager().getPlugin("Permissions"));
+		Perm.setupPermissions();
 	}
 
 	public void load() {
-		// Just to not repeat the message.
-		// BukkitVersion PE enables on startup, so it loads before MultiWorld.
-		if (!server.getPluginManager().isPluginEnabled("BukkitVersion")) {
-			log.info(true, "BV: enabled v" + BukkitVersion.plugin_version);
-			log.info(true, "BV: This server runs on Minecraft " + (BukkitVersion.getVersion().startsWith("b") ? BukkitVersion.getVersion().substring(1) : "Beta " + BukkitVersion.getVersion()));
-			if (BukkitVersion.getVersionId() == 0) {
-				log.info("BV: Woah! How did you get this Bukkit version?");
-				log.info("BV: If it isn't a recompile, fake or test version, please send it to me on Discord: Moresteck#1688");
-			}
-		}
-
 		log.info("[MultiWorld] Enabled v" + version);
 		log.info("[MultiWorld] Always use version's latest build of Craftbukkit for the best compatibility!");
 		log.info("[MultiWorld] Download it here: https://betacraft.ovh/bukkit");
 		// No compatibility for b1.1 because it doesn't contain any multi-world code to hook in.
-		if (BukkitVersion.getVersionId() == 0) {
+		if (bukkitversion.getVersionId() == 0) {
 			log.info("[MultiWorld] No support for Beta 1.1, disabling...");
 			this.setEnabled(false);
 			return;
@@ -80,15 +69,15 @@ public class MultiWorld extends JavaPlugin {
 		}
 
 		// To control spawn flags & PVP flags.
-		if (BukkitVersion.getVersionId() <= 9) {
-			if (BukkitVersion.getVersionId() <= 3) {
-				if (BukkitVersion.getVersionId() == 1) {
-					BukkitVersion.registerEventSafely(MultiWorld.instance, "ENTITY_DAMAGED", (Listener) new listener());
+		if (bukkitversion.getVersionId() <= 9) {
+			if (bukkitversion.getVersionId() <= 3) {
+				if (bukkitversion.getVersionId() == 1) {
+					bukkitversion.registerEventSafely("ENTITY_DAMAGED", (Listener) new listener());
 				} else {
-					BukkitVersion.registerEventSafely(MultiWorld.instance, "ENTITY_DAMAGE", (Listener) new listener());
+					bukkitversion.registerEventSafely("ENTITY_DAMAGE", (Listener) new listener());
 				}
 			}
-			BukkitVersion.registerEventSafely(MultiWorld.instance, "CREATURE_SPAWN", (Listener) new listener());
+			bukkitversion.registerEventSafely("CREATURE_SPAWN", (Listener) new listener());
 		}
 	}
 
@@ -137,7 +126,7 @@ public class MultiWorld extends JavaPlugin {
 
 	public static void saveWorld(MWorld world) {
 		// b1.3+
-		if (BukkitVersion.getVersionId() >= 2) {
+		if (bukkitversion.getVersionId() >= 2) {
 			world.getWorld().save();
 		} else {
 			((CraftWorld)world.getWorld()).getHandle().a(true, null);
@@ -161,7 +150,7 @@ public class MultiWorld extends JavaPlugin {
 		// Evacuate the players.
 		for (Player p : MultiWorld.server.getOnlinePlayers()) {
 			if (p.getWorld().getName().equals(world.getName())) {
-				if (BukkitVersion.getVersionId() >= 2) {
+				if (bukkitversion.getVersionId() >= 2) {
 					p.teleport(server.getWorlds().get(0).getSpawnLocation());
 				} else {
 					p.teleportTo(server.getWorlds().get(0).getSpawnLocation());
@@ -170,7 +159,7 @@ public class MultiWorld extends JavaPlugin {
 		}
 		worlds.remove(world);
 		MWorldConfig.removeWorld(world.getName());
-		if (BukkitVersion.getVersionId() >= 9) {
+		if (bukkitversion.getVersionId() >= 9) {
 			server.unloadWorld(world.getName(), true);
 		}
 		log.info("[MultiWorld] Unloaded world \"" + world.getName() + "\" (Seed: " + world.getSeed() + ")");
@@ -183,7 +172,7 @@ public class MultiWorld extends JavaPlugin {
 
 	protected static void loadWorld(MWorld world) {
 		// If the version is b1.6.6 or higher...
-		if (BukkitVersion.getVersionId() >= 9) {
+		if (bukkitversion.getVersionId() >= 9) {
 			ChunkGenerator generator = null;
 			if (!world.getGenerator().equals("")) {
 				String gen;
@@ -207,7 +196,7 @@ public class MultiWorld extends JavaPlugin {
 				}
 			}
 			World bworld = null;
-			if (BukkitVersion.isVersionHigh()) {
+			if (bukkitversion.isBukkitNewSystem()) {
 				org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(world.getName());
 				creator.environment(world.getEnvironment());
 				creator.generator(generator);
@@ -224,7 +213,7 @@ public class MultiWorld extends JavaPlugin {
 		} else {
 			World bworld = null;
 			// If the version is b1.3 or b1.2_01...
-			if (BukkitVersion.getVersionId() <= 2) {
+			if (bukkitversion.getVersionId() <= 2) {
 				bworld = server.getWorld(world.getName());
 				if (bworld == null) {
 					bworld = server.createWorld(world.getName(), world.getEnvironment());
@@ -236,7 +225,7 @@ public class MultiWorld extends JavaPlugin {
 						server.createWorld(world.getName(), world.getEnvironment(),
 						world.getSeed()) : server.getWorld(world.getName());
 				log.info("[MultiWorld] Loaded world \"" + world.getName() + "\" (Seed: " + world.getSeed() + ")");
-				if (BukkitVersion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
+				if (bukkitversion.getVersionId() >= 4) bworld.setPVP(world.getPvP());
 			}
 		}
 		worlds.add(world);

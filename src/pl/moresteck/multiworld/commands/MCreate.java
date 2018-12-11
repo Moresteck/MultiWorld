@@ -9,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.generator.ChunkGenerator;
 
-import pl.moresteck.bvie.BukkitVersion;
 import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.world.MWorld;
 import pl.moresteck.multiworld.world.MWorldConfig;
@@ -90,7 +89,7 @@ public class MCreate extends MCommand {
 					}
 				}
 				this.send("Creating new world...");
-				if (BukkitVersion.isVersionHigh()) {
+				if (BukkitVersion.isBukkitNewSystem()) {
 					org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
 					creator.environment(env);
 					creator.generator(generator);

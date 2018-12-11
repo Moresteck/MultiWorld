@@ -4,6 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import pl.moresteck.bukkitversion.BukkitVersion;
+import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.Perm;
 
 public abstract class MCommand {
@@ -11,8 +13,10 @@ public abstract class MCommand {
 	private CommandSender cs;
 	protected String[] args;
 	protected String perm;
+	protected BukkitVersion BukkitVersion;
 
 	public MCommand(Command cmd, CommandSender cs, String[] args) {
+		this.BukkitVersion = MultiWorld.bukkitversion;
 		this.cmd = cmd;
 		this.cs = cs;
 		this.args = args;

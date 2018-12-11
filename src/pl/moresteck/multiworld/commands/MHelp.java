@@ -4,8 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import pl.moresteck.bvie.BukkitVersion;
-
 public class MHelp extends MCommand {
 
 	public MHelp(Command cmd, CommandSender cs, String[] args) {
