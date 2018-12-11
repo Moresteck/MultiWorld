@@ -42,4 +42,4 @@ v2.0.2:
 v2.0.3:
 - Now supports PermissionsEx v1.00+
 - Removed BukkitVersion PE support as it is discontinued
-- Updated BukkitVersion IE to v0.5 and renamed it to just BukkitVersion
+- Updated BukkitVersion IE to v0.6 and renamed it to just BukkitVersion

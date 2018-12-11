@@ -85,14 +85,7 @@ public class MImport extends MCommand {
 				}
 			}
 			this.send("Importing world...");
-			if (BukkitVersion.isBukkitNewSystem()) {
-				org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
-				creator.environment(env);
-				creator.generator(generator);
-				bworld = MultiWorld.server.createWorld(creator);
-			} else {
-				bworld = MultiWorld.server.createWorld(name, env, generator);
-			}
+			bworld = BukkitVersion.createWorld(name, env, 0L, generator, false);
 
 			MWorldConfig.createBasicConfig(name, env.name());
 			if (generator != null) {

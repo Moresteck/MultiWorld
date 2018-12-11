@@ -10,7 +10,6 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -18,18 +17,7 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.moresteck.bukkitversion.BukkitVersion;
-import pl.moresteck.multiworld.commands.MCreate;
-import pl.moresteck.multiworld.commands.MHelp;
-import pl.moresteck.multiworld.commands.MImport;
-import pl.moresteck.multiworld.commands.MInfo;
-import pl.moresteck.multiworld.commands.MList;
-import pl.moresteck.multiworld.commands.MPluginInfo;
-import pl.moresteck.multiworld.commands.MReload;
-import pl.moresteck.multiworld.commands.MSave;
-import pl.moresteck.multiworld.commands.MSetSpawn;
-import pl.moresteck.multiworld.commands.MTeleport;
-import pl.moresteck.multiworld.commands.MUnload;
-import pl.moresteck.multiworld.commands.MWho;
+import pl.moresteck.multiworld.commands.*;
 import pl.moresteck.multiworld.listeners.listener;
 import pl.moresteck.multiworld.world.MWorld;
 import pl.moresteck.multiworld.world.MWorldConfig;
@@ -125,12 +113,7 @@ public class MultiWorld extends JavaPlugin {
 	}
 
 	public static void saveWorld(MWorld world) {
-		// b1.3+
-		if (bukkitversion.getVersionId() >= 2) {
-			world.getWorld().save();
-		} else {
-			((CraftWorld)world.getWorld()).getHandle().a(true, null);
-		}
+		bukkitversion.saveWorld(world.getWorld());
 		log.info(true, "[MultiWorld] \"" + world.getName() + "\" saved.");
 	}
 

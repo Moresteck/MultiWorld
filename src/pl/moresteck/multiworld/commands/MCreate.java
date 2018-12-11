@@ -89,15 +89,7 @@ public class MCreate extends MCommand {
 					}
 				}
 				this.send("Creating new world...");
-				if (BukkitVersion.isBukkitNewSystem()) {
-					org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
-					creator.environment(env);
-					creator.generator(generator);
-					creator.seed(seed);
-					bworld = MultiWorld.server.createWorld(creator);
-				} else {
-					bworld = MultiWorld.server.createWorld(name, env, seed, generator);
-				}
+				bworld = BukkitVersion.createWorld(name, env, seed, generator, true);
 
 				MWorldConfig.createBasicConfig(name, env.name());
 				if (generator != null) {

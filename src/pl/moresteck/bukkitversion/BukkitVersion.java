@@ -1,5 +1,5 @@
 /**
- * BukkitVersion v0.5 by Moresteck
+ * BukkitVersion v0.6 by Moresteck
  * <br /><br />
  * BukkitVersion is a plugin addon to provide help
  * with compatibility issues. It tells the plugin
@@ -17,20 +17,26 @@ import java.util.logging.Logger;
 
 import net.minecraft.server.MinecraftServer;
 
+import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.event.Listener;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BukkitVersion {
 	private Logger log = Logger.getLogger("Minecraft");
-	private static double addon_version = 0.5;
+	private static double addon_version = 0.6;
 
 	private String version;
 	private JavaPlugin plugin;
+	private Server server;
 
 	public BukkitVersion(JavaPlugin plugin) {
 		this.plugin = plugin;
+		this.server = plugin.getServer();
 		this.setupVersion((CraftServer) plugin.getServer());
 	}
 
@@ -45,7 +51,7 @@ public class BukkitVersion {
 
 	private void setupVersion(final CraftServer server) {
 		try {
-			this.version = new VersionParser().parseVersion(server);
+			this.version = this.parseVersion(server);
 			this.log.info(this.plugin.getDescription().getName() + " uses BukkitVersion v" + addon_version);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,6 +149,69 @@ public class BukkitVersion {
 	}
 
 	/**
+	 * Saves the world.
+	 *
+	 * @param world World to save
+	 */
+	public void saveWorld(World world) {
+		// If the version is b1.3 and higher
+		if (this.getVersionId() >= 2) {
+			world.save();
+		} else {
+			((CraftWorld)world).getHandle().a(true, null);
+		}
+	}
+
+	/**
+	 * Creates a world using given arguments.
+	 *
+	 * @param name World's name
+	 * @param env World's environment
+	 * @param seed World's seed
+	 * @param gen World's generator
+	 * @param useSeed Shall the method use specified seed? If false, it will use a random seed
+	 *
+	 * @return World
+	 */
+	public World createWorld(String name, Environment env, long seed, ChunkGenerator gen, boolean useSeed) {
+		// If the version is b1.6.6 or higher...
+		World bworld = null;
+		if (this.getVersionId() >= 10) {
+			if (this.isBukkitNewSystem()) {
+				org.bukkit.WorldCreator creator = new org.bukkit.WorldCreator(name);
+				creator.environment(env);
+				creator.generator(gen);
+				if (useSeed) {
+					creator.seed(seed);
+				}
+				bworld = server.getWorld(name) == null ? server.createWorld(creator) : server.getWorld(name);
+			} else {
+				if (useSeed) {
+					bworld = server.getWorld(name) == null ? server.createWorld(name, env,
+							seed, gen) : server.getWorld(name);
+				} else {
+					bworld = server.getWorld(name) == null ? server.createWorld(name, env,
+							gen) : server.getWorld(name);
+				}
+			}
+		} else {
+			// If the version is b1.3 or b1.2_01...
+			if (this.getVersionId() <= 2) {
+				bworld = server.getWorld(name);
+				if (bworld == null) {
+					bworld = server.createWorld(name, env);
+				}
+			// Else, the version is between b1.4 and b1.6.5.
+			} else {
+				bworld = server.getWorld(name) == null ? 
+						server.createWorld(name, env,
+						seed) : server.getWorld(name);
+			}
+		}
+		return bworld;
+	}
+
+	/**
 	 * Registers an event, but may result in an NPE.
 	 * <br />
 	 * You don't have to specify the priority and type if your version is 1.1-R4 or higher.
@@ -188,55 +257,52 @@ public class BukkitVersion {
 		registerEventSafely(type, listener, "Normal");
 	}
 
-	private static class VersionParser {
-
-		/**
-		 * Gives the version number from b1.1 to 1.1.
-		 * <br />
-		 * For higher versions use {@link BukkitVersion.getVersionId()}
-		 * or {@link BukkitVersion.isBukkitNewSystem()}
-		 *
-		 * @param server Server instance
-		 * @return Formatted version
-		 */
-		public String parseVersion(CraftServer server) {
-			String bver = server.getVersion();
-			if (bver.equals("1.1") || bver.equals("1.2_01")) {
-				// "1.1" may indicate b1.1, b1.1_02 or even b1.2!
-				// b1.2_02 vanilla server never existed.
-				return "b" + bver;
-			} else {
-				String[] part = bver.split(" ");
-				String version = part[2].replace(")", "");
-				// Detects b1.9-pre5.
-				if (version.equals("Beta 1.9 Prerelease 5")) {
-					return "b1.9";
-				}
-				if (version.equals("1.3")) {
-					// Detects b1.4_01 and 1.3
-					try {
-						@SuppressWarnings("unused")
-						MinecraftServer minecraftserver = server.getHandle().server;
-						return "b1.4_01";
-					} catch (Exception ex) {
-						return "b1.3";
-					}
-				}
-				// Detects most of Beta versions.
-				if (version.equals("1.2_01") || version.equals("1.4") || 
-						version.equals("1.5_02") || version.equals("1.6.3") || 
-						version.equals("1.6.5") || version.equals("1.6.6") || 
-						version.equals("1.7") || version.equals("1.7_01") || 
-						version.equals("1.7.3") || version.equals("1.8.1")) {
-					return "b" + version;
-				}
-				// Detects b1.6.2, b1.6.4, b1.7.2 and b1.8
+	/**
+	 * Gives the version number from b1.1 to 1.1.
+	 * <br />
+	 * For higher versions use {@link BukkitVersion.getVersionId()}
+	 * or {@link BukkitVersion.isBukkitNewSystem()}
+	 *
+	 * @param server Server instance
+	 * @return Formatted version
+	 */
+	public String parseVersion(CraftServer server) {
+		String bver = server.getVersion();
+		if (bver.equals("1.1") || bver.equals("1.2_01")) {
+			// "1.1" may indicate b1.1, b1.1_02 or even b1.2!
+			// b1.2_02 vanilla server never existed.
+			return "b" + bver;
+		} else {
+			String[] part = bver.split(" ");
+			String version = part[2].replace(")", "");
+			// Detects b1.9-pre5.
+			if (version.equals("Beta 1.9 Prerelease 5")) {
+				return "b1.9";
+			}
+			if (version.equals("1.3")) {
+				// Detects b1.4_01 and 1.3
 				try {
-					server.createWorld("world", Environment.NORMAL);
-					return "b" + version;
+					@SuppressWarnings("unused")
+					MinecraftServer minecraftserver = server.getHandle().server;
+					return "b1.4_01";
 				} catch (Exception ex) {
-					return version;
+					return "b1.3";
 				}
+			}
+			// Detects most of Beta versions.
+			if (version.equals("1.2_01") || version.equals("1.4") || 
+					version.equals("1.5_02") || version.equals("1.6.3") || 
+					version.equals("1.6.5") || version.equals("1.6.6") || 
+					version.equals("1.7") || version.equals("1.7_01") || 
+					version.equals("1.7.3") || version.equals("1.8.1")) {
+				return "b" + version;
+			}
+			// Detects b1.6.2, b1.6.4, b1.7.2 and b1.8
+			try {
+				server.createWorld("world", Environment.NORMAL);
+				return "b" + version;
+			} catch (Exception ex) {
+				return version;
 			}
 		}
 	}
