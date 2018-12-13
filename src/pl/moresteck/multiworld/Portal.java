@@ -101,7 +101,7 @@ public class Portal {
 		World world = loc.getWorld();
 		String worldname = world.getName();
 		if (world.getSpawnLocation().getBlock() == loc.getBlock()) {
-			config.setProperty(this.name + ".location", "W:" + worldname);
+			config.setProperty(this.name + ".destination", "W:" + worldname);
 			return true;
 		}
 		double x, y, z;
@@ -112,7 +112,7 @@ public class Portal {
 		p = loc.getPitch();
 		yaw = loc.getYaw();
 		String location = worldname + "," + x + "," + y + "," + z + "," + p + "," + yaw;
-		config.setProperty(this.name + ".location", location);
+		config.setProperty(this.name + ".destination", location);
 		config.save();
 		return true;
 	}
