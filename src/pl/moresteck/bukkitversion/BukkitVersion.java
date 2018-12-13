@@ -1,5 +1,5 @@
 /**
- * BukkitVersion v0.6 by Moresteck
+ * BukkitVersion v0.61 by Moresteck
  * <br /><br />
  * BukkitVersion is a plugin addon to provide help
  * with compatibility issues. It tells the plugin
@@ -28,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BukkitVersion {
 	private Logger log = Logger.getLogger("Minecraft");
-	private static double addon_version = 0.6;
+	private static double addon_version = 0.61;
 
 	private String version;
 	private JavaPlugin plugin;
@@ -299,7 +299,8 @@ public class BukkitVersion {
 			}
 			// Detects b1.6.2, b1.6.4, b1.7.2 and b1.8
 			try {
-				server.createWorld("world", Environment.NORMAL);
+				World w = server.getWorlds().get(0);
+				server.createWorld(w.getName(), w.getEnvironment());
 				return "b" + version;
 			} catch (Exception ex) {
 				return version;

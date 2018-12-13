@@ -7,7 +7,7 @@ v2.0-Pre2:
 - Added '/mw setspawn' command
 - Added '/mw help ...' command
 - Command permissions
-- Can hook into Permissions 1.0+
+- Can hook into Permissions v1.0+
 - Updates to BukkitVersion IE
 - Fixed a compatibility issue
 - Fixed custom worlds not loading after the main ones
@@ -39,7 +39,11 @@ v2.0.2:
 - Fixed '/mw tp ...' for b1.2_01
 - Removed some redundant code
 
-v2.0.3:
+v2.0.3-Pre1:
 - Now supports PermissionsEx v1.00+
 - Removed BukkitVersion PE support as it is discontinued
-- Updated BukkitVersion IE to v0.6 and renamed it to just BukkitVersion
+- Updated BukkitVersion IE to v0.5 and renamed it to just BukkitVersion
+
+v2.0.3-Pre2:
+- Updated BukkitVersion to v0.61
+- Fixed MultiWorld creating a new world under certain circumstances when it shouldn't
