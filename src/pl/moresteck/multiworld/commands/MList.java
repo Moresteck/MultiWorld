@@ -31,7 +31,7 @@ public class MList extends MCommand {
 			return;
 		}
 
-		this.send("World list:");
+		this.send("World list (" + MultiWorld.worlds.size() + "):");
 		for (MWorld world : MultiWorld.worlds) {
 			this.send(" - " + getColor(world) + world.getName());
 		}
