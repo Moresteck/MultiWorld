@@ -223,6 +223,7 @@ public class Portal {
 		String worldname = world.getName();
 		if (isEqual(world.getSpawnLocation(), loc)) {
 			config.setProperty(this.name + ".destination", "W:" + worldname);
+			config.save();
 			return true;
 		}
 		int x, y, z;

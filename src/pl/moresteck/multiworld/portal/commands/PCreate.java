@@ -60,7 +60,7 @@ public class PCreate extends MCommand {
 			return;
 		}
 		this.send("Created a new portal '" + name + "' with destination set to '" + dest + "'");
-		this.send("You can change it by typing '/mw destination " + name + " [new_destination]'");
+		this.send("You can change it by typing '/mwp destination " + name + " [new_destination]'");
 	}
 
 	public void displayCommandHelp() {
