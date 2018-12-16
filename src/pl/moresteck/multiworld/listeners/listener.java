@@ -15,6 +15,7 @@ public class listener extends EntityListener {
 
 	@Override
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
+		if (e.isCancelled()) return;
 		World world = e.getEntity().getWorld();
 		MWorld mworld = MultiWorld.getWorld(world.getName());
 
@@ -25,6 +26,7 @@ public class listener extends EntityListener {
 
 	@Override
 	public void onEntityDamage(EntityDamageEvent e) {
+		if (e.isCancelled()) return;
 		if (!(e instanceof EntityDamageByEntityEvent)) {
 			return;
 		}

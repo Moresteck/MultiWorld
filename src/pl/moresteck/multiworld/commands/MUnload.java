@@ -15,10 +15,9 @@ public class MUnload extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean unload = this.exists(0, "unload");
-		if (!unload) {
-			return;
-		}
+		if (!unload) return;
 		if (args.length == 1) {
 			// mw unload
 			this.displayCommandHelp();

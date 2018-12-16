@@ -19,10 +19,9 @@ public class MReload extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean reload = this.exists(0, "reload");
-		if (!reload) {
-			return;
-		}
+		if (!reload) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

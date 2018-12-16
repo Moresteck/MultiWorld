@@ -11,6 +11,7 @@ public class MHelp extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		if (this.exists(0, "help") && args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();
@@ -48,6 +49,7 @@ public class MHelp extends MCommand {
 			this.send(ChatColor.BLUE + "/mw who " + ChatColor.GRAY + "[world_name]");
 			this.send(ChatColor.BLUE + "/mw save " + ChatColor.GRAY + "[world_name]");
 			this.send(ChatColor.BLUE + "/mw version");
+			this.send(ChatColor.BLUE + "/mwp");
 			this.send(ChatColor.AQUA + "---- Previous Page: /mw help ----");
 			this.send(ChatColor.BLUE + "/mw " + ChatColor.GRAY + "<command>" + ChatColor.BLUE + " help " + ChatColor.WHITE + "- Shows help for each command");
 		}

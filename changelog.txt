@@ -47,3 +47,13 @@ v2.0.3-Pre1:
 v2.0.3-Pre2:
 - Updated BukkitVersion to v0.61
 - Fixed MultiWorld creating a new world under certain circumstances when it shouldn't
+
+v2.1.0:
+- Implemented working portals!
+- Added '/mwp create ...' command
+- Added '/mwp remove ...' command
+- Added '/mwp list' command
+- Added '/mwp modify ...' command
+- Added '/mwp destination ...' command
+- Updated BukkitVersion to v0.62
+- Fixed some bugs regarding world creation using custom generator

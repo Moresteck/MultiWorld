@@ -16,10 +16,9 @@ public class MSave extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean save = this.exists(0, "save");
-		if (!save) {
-			return;
-		}
+		if (!save) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

@@ -154,7 +154,7 @@ public class MWorldConfig {
 	public static long getSeed(String name) {
 		World w = new MWorld(name).getWorld();
 		worlds.load();
-		String seed = worlds.getString("worlds." + name + ".seed", "gargamel");
+		String seed = worlds.getString("worlds." + name + ".seed", w != null ? ((CraftWorld)w).getId() + "" : "gargamel");
 		long numberized;
 		try {
 			numberized = Long.parseLong(seed);

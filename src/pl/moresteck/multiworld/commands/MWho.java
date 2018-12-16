@@ -16,10 +16,9 @@ public class MWho extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean who = this.exists(0, "who");
-		if (!who) {
-			return;
-		}
+		if (!who) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();
@@ -45,11 +44,11 @@ public class MWho extends MCommand {
 			String name = args[1];
 			world = MultiWorld.getWorld(name);
 			if (world == null) {
-				this.send("A world with this name isn't loaded: " + ChatColor.RED + name);
+				this.send("A world with this name isn't loaded: " + ChatColor.GRAY + name);
 				return;
 			}
 		}
-		this.send("Players in world \"" + MList.getColor(world) + world.getName() + ChatColor.WHITE + "\":");
+		this.send("Players in world \"" + MList.getColor(world) + world.getName() + ChatColor.WHITE + "\" (" + MultiWorld.server.getOnlinePlayers().length + "):");
 		for (Player p : MultiWorld.server.getOnlinePlayers()) {
 			if (p.getWorld().getName().equals(world.getName())) {
 				this.send(" - " + ChatColor.YELLOW + p.getName() + ChatColor.WHITE + (p.getDisplayName().equals(p.getName()) ? ", nick: " + ChatColor.YELLOW + p.getDisplayName() : ""));

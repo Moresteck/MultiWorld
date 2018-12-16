@@ -16,10 +16,9 @@ public class MList extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean list = this.exists(0, "list");
-		if (!list) {
-			return;
-		}
+		if (!list) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

@@ -14,10 +14,9 @@ public class MPluginInfo extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean version = this.exists(0, "version");
-		if (!version) {
-			return;
-		}
+		if (!version) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

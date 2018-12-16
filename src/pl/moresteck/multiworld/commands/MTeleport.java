@@ -17,10 +17,9 @@ public class MTeleport extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean tp = this.exists(0, "tp");
-		if (!tp) {
-			return;
-		}
+		if (!tp) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

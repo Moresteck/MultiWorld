@@ -21,10 +21,9 @@ public class MCreate extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean create = this.exists(0, "create");
-		if (!create) {
-			return;
-		}
+		if (!create) return;
 		int arg = args.length;
 		if (arg == 1 || arg == 2) {
 			this.displayCommandHelp();
@@ -75,10 +74,15 @@ public class MCreate extends MCommand {
 						gen = arr[0];
 						genargs = arr[1];
 					} catch (Exception ex) {
-						this.send("Generator must be specified as "
-								+ ChatColor.GOLD + "GeneratorName" + ChatColor.WHITE + ":"
-								+ ChatColor.GOLD + "GeneratorArguments");
-						return;
+						try {
+							gen = args[4];
+							genargs = "";
+						} catch (Exception ex1) {
+							this.send("Generator must be specified as "
+									+ ChatColor.GOLD + "GeneratorName" + ChatColor.WHITE + "[:"
+									+ ChatColor.GOLD + "GeneratorArguments]");
+							return;
+						}
 					}
 					try {
 						generator = MultiWorld.server.getPluginManager().getPlugin(gen).

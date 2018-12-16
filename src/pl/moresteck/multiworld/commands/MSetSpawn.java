@@ -18,10 +18,9 @@ public class MSetSpawn extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean setspawn = this.exists(0, "setspawn");
-		if (!setspawn) {
-			return;
-		}
+		if (!setspawn) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

@@ -3,10 +3,14 @@ package pl.moresteck.multiworld;
 import java.util.logging.Logger;
 
 public class MLogger {
-	static Logger log;
+	private static Logger log;
 
 	public MLogger(String str) {
 		log = Logger.getLogger(str);
+	}
+
+	public void info(int i) {
+		info(false, Integer.toString(i));
 	}
 
 	public void info(String str) {
@@ -22,5 +26,9 @@ public class MLogger {
 		} else {
 			log.info(str);
 		}
+	}
+
+	public void warning(String str) {
+		log.warning(str);
 	}
 }

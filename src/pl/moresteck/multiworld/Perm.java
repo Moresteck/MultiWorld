@@ -52,6 +52,14 @@ public class Perm {
 	 *    multiworld.info.who
 	 *   multiworld.player.*:
 	 *    multiworld.player.teleport
+	 *   multiworld.portal.*:
+	 *    multiworld.portal.list
+	 *    multiworld.portal.create
+	 *    multiworld.portal.remove
+	 *    multiworld.portal.select
+	 *    multiworld.portal.modify
+	 *    multiworld.portal.destination.read
+	 *    multiworld.portal.destination.set
 	 * </pre>
 	 */
 	public static boolean has(CommandSender cs, String perm) {
@@ -81,6 +89,9 @@ public class Perm {
 		// Such as world list, player list in world.
 		boolean hasAllInfo = permissions != null ? permissions.getHandler().has(p, "multiworld.info.*") : permissionsex.has(p, "multiworld.info.*");
 
+		// Such as world list, player list in world.
+		boolean hasAllPortal = permissions != null ? permissions.getHandler().has(p, "multiworld.portal.*") : permissionsex.has(p, "multiworld.portal.*");
+
 		if (!hasPrecise) {
 			if (hasAll) {
 				return true;
@@ -89,6 +100,8 @@ public class Perm {
 			} else if (hasAllPlayer && perm.startsWith("multiworld.player")) {
 				return true;
 			} else if (hasAllInfo && perm.startsWith("multiworld.info")) {
+				return true;
+			} else if (hasAllPortal && perm.startsWith("multiworld.portal")) {
 				return true;
 			} else {
 				return false;

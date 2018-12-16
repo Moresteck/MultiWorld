@@ -16,10 +16,9 @@ public class MInfo extends MCommand {
 	}
 
 	public void execute() {
+		if (!this.getCommand().isMW()) return;
 		boolean info = this.exists(0, "info");
-		if (!info) {
-			return;
-		}
+		if (!info) return;
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				this.displayCommandHelp();

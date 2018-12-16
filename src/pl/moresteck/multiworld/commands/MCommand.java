@@ -9,7 +9,7 @@ import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.Perm;
 
 public abstract class MCommand {
-	private Command cmd;
+	private CType cmd;
 	private CommandSender cs;
 	protected String[] args;
 	protected String perm;
@@ -17,7 +17,7 @@ public abstract class MCommand {
 
 	public MCommand(Command cmd, CommandSender cs, String[] args) {
 		this.BukkitVersion = MultiWorld.bukkitversion;
-		this.cmd = cmd;
+		this.cmd = CType.getType(cmd);
 		this.cs = cs;
 		this.args = args;
 		this.perm = "multiworld.*";
@@ -27,8 +27,8 @@ public abstract class MCommand {
 		return this.cs;
 	}
 
-	public String getCommand() {
-		return this.cmd.getName();
+	public CType getCommand() {
+		return this.cmd;
 	}
 
 	public String[] getArgs() {
@@ -67,6 +67,40 @@ public abstract class MCommand {
 
 	public void setPermission(String perm) {
 		this.perm = perm;
+	}
+
+	protected enum CType {
+		MW(0),
+		MWP(1);
+
+		private int cmd;
+
+		private CType(int s) {
+			this.cmd = s;
+		}
+
+		public String getCmd() {
+			return this.isMW() ? "mw" : (this.isMWP() ? "mwp" : null);
+		}
+
+		public boolean isMW() {
+			return cmd == 0;
+		}
+
+		public boolean isMWP() {
+			return cmd == 1;
+		}
+
+		public static CType getType(Command cmd) {
+			CType ctype = CType.getType(cmd.getName().equalsIgnoreCase("mw") ? 0 : (cmd.getName().equalsIgnoreCase("mwp") ? 1 : -1));
+			return ctype;
+		}
+
+		public static CType getType(int i) {
+			if (i == 0) return CType.MW;
+			if (i == 1) return CType.MWP;
+			return null;
+		}
 	}
 
 	public abstract void execute();

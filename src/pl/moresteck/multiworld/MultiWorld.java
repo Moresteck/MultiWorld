@@ -6,19 +6,25 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.moresteck.bukkitversion.BukkitVersion;
 import pl.moresteck.multiworld.commands.*;
+import pl.moresteck.multiworld.listeners.blocklistener;
 import pl.moresteck.multiworld.listeners.listener;
+import pl.moresteck.multiworld.listeners.playerlistener;
+import pl.moresteck.multiworld.listeners.playerlistenerNew;
+import pl.moresteck.multiworld.nether.Link;
+import pl.moresteck.multiworld.nether.NetherListener;
+import pl.moresteck.multiworld.portal.commands.*;
 import pl.moresteck.multiworld.world.MWorld;
 import pl.moresteck.multiworld.world.MWorldConfig;
 
@@ -29,6 +35,7 @@ public class MultiWorld extends JavaPlugin {
 	public static String version;
 	public static MultiWorld instance;
 	public static BukkitVersion bukkitversion;
+	public static boolean worldEditEnabled = false;
 
 	public void onEnable() {
 		bukkitversion = new BukkitVersion(this);
@@ -36,6 +43,7 @@ public class MultiWorld extends JavaPlugin {
 		instance = this;
 		server = this.getServer();
 		version = this.getDescription().getVersion();
+		worldEditEnabled = server.getPluginManager().isPluginEnabled("WorldEdit");
 
 		this.load();
 		Perm.setupPermissions();
@@ -59,13 +67,37 @@ public class MultiWorld extends JavaPlugin {
 		// To control spawn flags & PVP flags.
 		if (bukkitversion.getVersionId() <= 10) {
 			if (bukkitversion.getVersionId() <= 4) {
-				if (bukkitversion.getVersionId() == 1) {
-					bukkitversion.registerEventSafely("ENTITY_DAMAGED", (Listener) new listener());
+				if (bukkitversion.getVersionId() <= 1) {
+					bukkitversion.registerEventSafely("ENTITY_DAMAGED", new listener());
 				} else {
-					bukkitversion.registerEventSafely("ENTITY_DAMAGE", (Listener) new listener());
+					bukkitversion.registerEventSafely("ENTITY_DAMAGE", new listener());
 				}
 			}
-			bukkitversion.registerEventSafely("CREATURE_SPAWN", (Listener) new listener());
+			bukkitversion.registerEventSafely("CREATURE_SPAWN", new listener());
+		}
+		// For portals
+		if (bukkitversion.isBukkitNewSystem()) {
+			bukkitversion.registerEventSafely("PLAYER_MOVE", new playerlistenerNew());
+			bukkitversion.registerEventSafely("PLAYER_INTERACT", new playerlistenerNew());
+		} else {
+			if (bukkitversion.getVersionId() >= 2) {
+				bukkitversion.registerEventSafely("PLAYER_INTERACT", new playerlistener());
+			} else {
+				bukkitversion.registerEventSafely("BLOCK_RIGHTCLICKED", new blocklistener());
+				bukkitversion.registerEventSafely("BLOCK_DAMAGED", new blocklistener());
+			}
+			bukkitversion.registerEventSafely("PLAYER_MOVE", new playerlistener());
+		}
+		// For Nether portals
+		if (bukkitversion.getVersionId() < 10) {
+			// DANGEROUS TO USE
+			//bukkitversion.registerEventSafely("PLAYER_MOVE", new NetherListener());
+		} else {
+			bukkitversion.registerEventSafely("PLAYER_PORTAL", new NetherListener());
+		}
+
+		if (Link.getLinks().isEmpty()) {
+			Link.createSampleLink();
 		}
 	}
 
@@ -95,6 +127,7 @@ public class MultiWorld extends JavaPlugin {
 	public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
 		if (args.length > 0) {
 			new MHelp(cmd, cs, args).execute();
+			new PHelp(cmd, cs, args).execute();
 			new MCreate(cmd, cs, args).execute();
 			new MTeleport(cmd, cs, args).execute();
 			new MSetSpawn(cmd, cs, args).execute();
@@ -106,8 +139,15 @@ public class MultiWorld extends JavaPlugin {
 			new MUnload(cmd, cs, args).execute();
 			new MSave(cmd, cs, args).execute();
 			new MReload(cmd, cs, args).execute();
+
+			new PCreate(cmd, cs, args).execute();
+			new PRemove(cmd, cs, args).execute();
+			new PModify(cmd, cs, args).execute();
+			new PList(cmd, cs, args).execute();
+			new PDestination(cmd, cs, args).execute();
 		} else if (args.length == 0) {
 			new MHelp(cmd, cs, args).execute();
+			new PHelp(cmd, cs, args).execute();
 		}
 		return true;
 	}
@@ -165,10 +205,15 @@ public class MultiWorld extends JavaPlugin {
 					gen = arr[0];
 					genargs = arr[1];
 				} catch (Exception ex) {
-					log.info("[MultiWorld] Generator must be specified as "
-							+ ChatColor.GOLD + "GeneratorName" + ChatColor.WHITE + ":"
-							+ ChatColor.GOLD + "GeneratorArguments" + ChatColor.WHITE + " in " + world.getName());
-					return;
+					try {
+						gen = world.getGenerator();
+						genargs = "";
+					} catch (Exception ex1) {
+						log.info("Generator must be specified as "
+								+ ChatColor.GOLD + "GeneratorName" + ChatColor.WHITE + "[:"
+								+ ChatColor.GOLD + "GeneratorArguments]");
+						return;
+					}
 				}
 				try {
 					generator = MultiWorld.server.getPluginManager().getPlugin(gen).
@@ -216,5 +261,10 @@ public class MultiWorld extends JavaPlugin {
 
 	public static String getName(Entity e) {
 		return e.getClass().getSimpleName().substring(5).toUpperCase();
+	}
+
+	public static String locToString(Location loc) {
+		if (loc == null) return null;
+		return loc.getWorld().getName() + ", x:" + loc.getBlockX() + ", y:" + loc.getBlockY() + ", z:" + loc.getBlockZ();
 	}
 }
