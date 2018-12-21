@@ -3,6 +3,7 @@ package pl.moresteck.multiworld.world;
 import java.io.File;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -26,7 +27,8 @@ public class MWorldConfig {
 			createBasicConfig();
 		}
 		String[] array = new String[worlds.getKeys("worlds").size()];
-		String[] warray = worlds.getKeys("worlds").toArray(new String[9]);
+		Set<String> set = worlds.getKeys("worlds");
+		String[] warray = set.toArray(new String[set.size()]);
 		for (int i = 0; i < warray.length; i++) {
 			String name = warray[i];
 			array[i] = name;
