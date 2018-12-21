@@ -9,12 +9,12 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import bukkit.util.config.Configuration;
+import pl.moresteck.bukkitversion.Config;
 import pl.moresteck.multiworld.MultiWorld;
 import pl.moresteck.multiworld.world.MWorld;
 
 public class Portal {
-	private static Configuration config = new Configuration(new File("plugins/MultiWorld", "portals.yml"));
+	private static Config config = new Config(new File("plugins/MultiWorld", "portals.yml"));
 	private String name;
 
 	public Portal(String name) {
@@ -24,7 +24,6 @@ public class Portal {
 	public static Portal getPortal(Location loc) {
 		if (loc == null) return null;
 		Portal portal = null;
-		config.load();
 		if (config.getKeys() == null) {
 			return null;
 		}
@@ -38,7 +37,6 @@ public class Portal {
 	}
 
 	public static List<Portal> getPortals() {
-		config.load();
 		List<Portal> portals = new LinkedList<Portal>();
 		for (String portal : config.getKeys()) {
 			portals.add(new Portal(portal));
@@ -48,7 +46,6 @@ public class Portal {
 
 	public static boolean portalExists(String name) {
 		if (name == null) return false;
-		config.load();
 		String loc1 = config.getString(name + ".location1", null);
 		String loc2 = config.getString(name + ".location2", null);
 		String to = config.getString(name + ".destination", null);
@@ -59,8 +56,7 @@ public class Portal {
 	public static Portal createPortal(String name, Location loc1, Location loc2, String dest, boolean cooldown) {
 		if (name == null || dest == null || loc2 == null || loc1 == null) return null;
 		Portal p = new Portal(name);
-		config.load();
-		config.setProperty(name + ".destination", dest);
+		config.set(name + ".destination", dest);
 		config.save();
 		p.setLocations(loc1, loc2);
 		p.setFancyCooldown(cooldown);
@@ -68,13 +64,11 @@ public class Portal {
 	}
 
 	public void setFancyCooldown(boolean value) {
-		config.load();
-		config.setProperty(this.name + ".fancy-cooldown", value);
+		config.set(this.name + ".fancy-cooldown", value);
 		config.save();
 	}
 
 	public boolean getFancyCooldown() {
-		config.load();
 		boolean value = config.getBoolean(this.name + ".fancy-cooldown", false);
 		// No PlayerPortalEvent before 1.6.6
 		if (value && MultiWorld.bukkitversion.getVersionId() <= 9) {
@@ -86,8 +80,7 @@ public class Portal {
 
 	public boolean removePortal() {
 		try {
-			config.load();
-			config.removeProperty(this.name);
+			config.remove(this.name);
 			config.save();
 		} catch (Exception ex) {
 			return false;
@@ -114,7 +107,6 @@ public class Portal {
 			MultiWorld.log.info("The destination for portal '" + this.name + "' is not valid!");
 			return null;
 		}
-		config.load();
 		String destination = config.getString(this.name + ".destination", null);
 		Location dest = null;
 		if (destination.startsWith("W:")) {
@@ -151,7 +143,6 @@ public class Portal {
 			MultiWorld.log.info("The locations of portal '" + this.name + "' are not valid!");
 			return null;
 		}
-		config.load();
 		String location1 = config.getString(this.name + ".location1", null);
 		String location2 = config.getString(this.name + ".location2", null);
 		Location loc1 = null;
@@ -186,7 +177,6 @@ public class Portal {
 
 	public boolean setLocations(Location loc1, Location loc2) {
 		if (loc1 == null || loc2 == null) return false;
-		config.load();
 		String world = loc1.getWorld().getName();
 		int x1, y1, z1, x2, y2, z2;
 		x1 = loc1.getBlockX();
@@ -210,19 +200,18 @@ public class Portal {
 		}
 		String location1 = world + "," + x1 + "," + y1 + "," + z1;
 		String location2 = world + "," + x2 + "," + y2 + "," + z2;
-		config.setProperty(this.name + ".location1", location1);
-		config.setProperty(this.name + ".location2", location2);
+		config.set(this.name + ".location1", location1);
+		config.set(this.name + ".location2", location2);
 		config.save();
 		return true;
 	}
 
 	public boolean setDestination(Location loc) {
 		if (loc == null) return false;
-		config.load();
 		World world = loc.getWorld();
 		String worldname = world.getName();
 		if (isEqual(world.getSpawnLocation(), loc)) {
-			config.setProperty(this.name + ".destination", "W:" + worldname);
+			config.set(this.name + ".destination", "W:" + worldname);
 			config.save();
 			return true;
 		}
@@ -231,7 +220,7 @@ public class Portal {
 		y = loc.getBlock().getY();
 		z = loc.getBlock().getZ();
 		String location = worldname + "," + x + "," + y + "," + z;
-		config.setProperty(this.name + ".destination", location);
+		config.set(this.name + ".destination", location);
 		config.save();
 		return true;
 	}
@@ -241,7 +230,6 @@ public class Portal {
 			MultiWorld.log.info("The destination for portal '" + this.name + "' is not valid!");
 			return null;
 		}
-		config.load();
 		String destination = config.getString(this.name + ".destination", null);
 		if (destination.startsWith("W:")) return Destination.WORLD;
 		else return Destination.LOCATION;

@@ -61,3 +61,5 @@ v2.1.0:
 
 v2.1.1:
 - Fixed stupid bugs
+- Updated BukkitVersion to v0.7 - added Config
+- Removed borrowed configuration code and replaced it with BukkitVersion's Config

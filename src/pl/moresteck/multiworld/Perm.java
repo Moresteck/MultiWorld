@@ -89,7 +89,7 @@ public class Perm {
 		// Such as world list, player list in world.
 		boolean hasAllInfo = permissions != null ? permissions.getHandler().has(p, "multiworld.info.*") : permissionsex.has(p, "multiworld.info.*");
 
-		// Such as world list, player list in world.
+		// Such as portal list, portal list etc.
 		boolean hasAllPortal = permissions != null ? permissions.getHandler().has(p, "multiworld.portal.*") : permissionsex.has(p, "multiworld.portal.*");
 
 		if (!hasPrecise) {

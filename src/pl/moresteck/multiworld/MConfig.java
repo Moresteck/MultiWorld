@@ -2,10 +2,10 @@ package pl.moresteck.multiworld;
 
 import java.io.File;
 
-import bukkit.util.config.Configuration;
+import pl.moresteck.bukkitversion.Config;
 
 public class MConfig {
-	private static Configuration config = new Configuration(new File("plugins/MultiWorld", "config.yml"));
+	private static Config config = new Config(new File("plugins/MultiWorld", "config.yml"));
 
 	public static boolean debug() {
 		return get("debug-messages");
@@ -16,7 +16,6 @@ public class MConfig {
 	}
 
 	private static boolean get(String node) {
-		config.load();
 		String b = config.getString(node, null);
 		boolean get;
 		if (b == null) {
@@ -34,9 +33,8 @@ public class MConfig {
 	}
 
 	protected static void defaultSetup() {
-		config.load();
-		config.setProperty("debug-messages", false);
-		config.setProperty("enable-history", true);
+		config.set("debug-messages", false);
+		config.set("enable-history", true);
 		config.save();
 	}
 }

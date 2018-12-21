@@ -90,14 +90,9 @@ public class NetherListener extends PlayerListener {
 			return;
 		}
 
-		if (now.getWorld().getEnvironment() == Environment.NETHER) {
-			String[] split = world.split("_");
-			totp = split[0];
-		} else if (now.getWorld().getEnvironment() == Environment.SKYLANDS) {
+		if (now.getWorld().getEnvironment() == Environment.SKYLANDS) {
 			e.setCancelled(true);
 			return;
-		} else {
-			totp = world + "_nether";
 		}
 		String link = Link.getLink(world);
 		totp = link == null ? totp : link;

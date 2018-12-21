@@ -14,29 +14,28 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.WaterMob;
 
+import pl.moresteck.bukkitversion.Config;
 import pl.moresteck.multiworld.MConfig;
 import pl.moresteck.multiworld.MultiWorld;
-import bukkit.util.config.Configuration;
 
 public class MWorldConfig {
-	static Configuration worlds = new Configuration(new File("plugins/MultiWorld", "worlds.yml"));
+	static Config worlds = new Config(new File("plugins/MultiWorld", "worlds.yml"));
 
 	public static String[] getWorlds() {
-		worlds.load();
 		if (worlds.getKeys("worlds") == null) {
 			createBasicConfig();
 		}
 		String[] array = new String[worlds.getKeys("worlds").size()];
-		for (int i = 0; i < worlds.getKeys("worlds").size(); i++) {
-			String name = worlds.getKeys("worlds").get(i);
+		String[] warray = worlds.getKeys("worlds").toArray(new String[9]);
+		for (int i = 0; i < warray.length; i++) {
+			String name = warray[i];
 			array[i] = name;
 		}
 		return array;
 	}
 
 	protected static void createBasicConfig() {
-		worlds.load();
-		worlds.setProperty("craftbukkits_download", "https://betacraft.ovh/bukkit");
+		worlds.set("craftbukkits_download", "https://betacraft.ovh/bukkit");
 		worlds.save();
 
 		createBasicConfig("world", "NORMAL", worlds);
@@ -48,25 +47,23 @@ public class MWorldConfig {
 	public static void removeWorld(String world) {
 		if (MConfig.historyEnabled()) {
 			// Save in history.
-			Configuration con = new Configuration(new File("plugins/MultiWorld/worlds_history", world + ".yml"));
-			con.load();
+			Config con = new Config(new File("plugins/MultiWorld/worlds_history", world + ".yml"));
 			createBasicConfig(world, getEnvironment(world).name(), con);
-			con.setProperty("worlds." + world + ".pvp", getPvP(world));
-			con.setProperty("worlds." + world + ".monsters.spawn", getAllowMonsters(world));
-			con.setProperty("worlds." + world + ".animals.spawn", getAllowAnimals(world));
+			con.set("worlds." + world + ".pvp", getPvP(world));
+			con.set("worlds." + world + ".monsters.spawn", getAllowMonsters(world));
+			con.set("worlds." + world + ".animals.spawn", getAllowAnimals(world));
 			// 1.5_02+
 			if (MultiWorld.bukkitversion.getVersionId() >= 5) {
-				con.setProperty("worlds." + world + ".weather", getWeather(world));
+				con.set("worlds." + world + ".weather", getWeather(world));
 			}
 			// b1.6.6+
 			if (MultiWorld.bukkitversion.getVersionId() >= 10) {
-				con.setProperty("worlds." + world + ".generator", getGenerator(world));
+				con.set("worlds." + world + ".generator", getGenerator(world));
 			}
 			con.save();
 		}
 		// Remove from database.
-		worlds.load();
-		worlds.removeProperty("worlds." + world);
+		worlds.remove("worlds." + world);
 		worlds.save();
 	}
 
@@ -74,29 +71,27 @@ public class MWorldConfig {
 		createBasicConfig(world, env, worlds);
 	}
 
-	protected static void createBasicConfig(String world, String env, Configuration con) {
-		con.load();
-		con.setProperty("worlds." + world + ".environment", env);
-		con.setProperty("worlds." + world + ".seed", ((CraftWorld)new MWorld(world).getWorld()).getId());
-		con.setProperty("worlds." + world + ".pvp", true);
-		con.setProperty("worlds." + world + ".monsters.spawn", true);
-		con.setProperty("worlds." + world + ".animals.spawn", true);
-		con.setProperty("worlds." + world + ".monsters.exceptfor", "");
-		con.setProperty("worlds." + world + ".animals.exceptfor", "");
+	protected static void createBasicConfig(String world, String env, Config con) {
+		con.set("worlds." + world + ".environment", env);
+		con.set("worlds." + world + ".seed", ((CraftWorld)new MWorld(world).getWorld()).getId());
+		con.set("worlds." + world + ".pvp", true);
+		con.set("worlds." + world + ".monsters.spawn", true);
+		con.set("worlds." + world + ".animals.spawn", true);
+		con.set("worlds." + world + ".monsters.exceptfor", "");
+		con.set("worlds." + world + ".animals.exceptfor", "");
 		// 1.5_02+
 		if (MultiWorld.bukkitversion.getVersionId() >= 5) {
-			con.setProperty("worlds." + world + ".weather", true);
+			con.set("worlds." + world + ".weather", true);
 		}
 		// b1.6.6+
 		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
-			con.setProperty("worlds." + world + ".generator", "");
+			con.set("worlds." + world + ".generator", "");
 		}
 		con.save();
 	}
 
 	public static String getGenerator(String name) {
 		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
-			worlds.load();
 			return worlds.getString("worlds." + name + ".generator", "");
 		} else {
 			return "";
@@ -105,8 +100,7 @@ public class MWorldConfig {
 
 	public static void setGenerator(String name, String generator) {
 		if (MultiWorld.bukkitversion.getVersionId() >= 10) {
-			worlds.load();
-			worlds.setProperty("worlds." + name + ".generator", generator);
+			worlds.set("worlds." + name + ".generator", generator);
 			worlds.save();
 		} else {
 			return;
@@ -115,7 +109,6 @@ public class MWorldConfig {
 
 	public static boolean getWeather(String name) {
 		if (MultiWorld.bukkitversion.getVersionId() >= 5) {
-			worlds.load();
 			return worlds.getBoolean("worlds." + name + ".weather", true);
 		} else {
 			return false;
@@ -124,8 +117,7 @@ public class MWorldConfig {
 
 	public static void setWeather(String name, boolean bol) {
 		if (MultiWorld.bukkitversion.getVersionId() >= 5) {
-			worlds.load();
-			worlds.setProperty("worlds." + name + ".weather", bol);
+			worlds.set("worlds." + name + ".weather", bol);
 			worlds.save();
 		} else {
 			return;
@@ -139,7 +131,6 @@ public class MWorldConfig {
 	 * @return World's environment
 	 */
 	public static Environment getEnvironment(String name) {
-		worlds.load();
 		String string = worlds.getString("worlds." + name + ".environment", "NORMAL");
 		Environment env = Environment.valueOf(string);
 		return env;
@@ -153,7 +144,6 @@ public class MWorldConfig {
 	 */
 	public static long getSeed(String name) {
 		World w = new MWorld(name).getWorld();
-		worlds.load();
 		String seed = worlds.getString("worlds." + name + ".seed", w != null ? ((CraftWorld)w).getId() + "" : "gargamel");
 		long numberized;
 		try {
@@ -190,7 +180,6 @@ public class MWorldConfig {
 	 * @return PvP allowed in the world
 	 */
 	public static boolean getPvP(String name) {
-		worlds.load();
 		boolean bool = worlds.getBoolean("worlds." + name + ".pvp", true);
 		return bool;
 	}
@@ -202,7 +191,6 @@ public class MWorldConfig {
 	 * @return Monsters allowed to spawn
 	 */
 	public static boolean getAllowMonsters(String name) {
-		worlds.load();
 		boolean diff = worlds.getBoolean("worlds." + name + ".monsters.spawn", true);
 		return diff;
 	}
@@ -214,7 +202,6 @@ public class MWorldConfig {
 	 * @return Animals allowed to spawn
 	 */
 	public static boolean getAllowAnimals(String name) {
-		worlds.load();
 		boolean diff = worlds.getBoolean("worlds." + name + ".animals.spawn", true);
 		return diff;
 	}
@@ -227,7 +214,6 @@ public class MWorldConfig {
 	 * @return Entity allowed to spawn
 	 */
 	public static boolean getAllowSpawn(String name, Entity type) {
-		worlds.load();
 		if (type instanceof Monster || type instanceof Ghast ||
 				type instanceof Slime) {
 			boolean cbool = worlds.getBoolean("worlds." + name + ".monsters.spawn", true);
@@ -268,38 +254,32 @@ public class MWorldConfig {
 	}
 
 	public static void setSeed(String name, String seed) {
-		worlds.load();
-		worlds.setProperty("worlds." + name + ".seed", seed);
+		worlds.set("worlds." + name + ".seed", seed);
 		worlds.save();
 	}
 
 	public static void setPvP(String name, boolean pvp) {
-		worlds.load();
-		worlds.setProperty("worlds." + name + ".pvp", pvp);
+		worlds.set("worlds." + name + ".pvp", pvp);
 		worlds.save();
 	}
 
 	public static void setAllowMonsters(String name, boolean set) {
-		worlds.load();
-		worlds.setProperty("worlds." + name + ".monsters.spawn", set);
+		worlds.set("worlds." + name + ".monsters.spawn", set);
 		worlds.save();
 	}
 
 	public static void setAllowAnimals(String name, boolean set) {
-		worlds.load();
-		worlds.setProperty("worlds." + name + ".animals.spawn", set);
+		worlds.set("worlds." + name + ".animals.spawn", set);
 		worlds.save();
 	}
 
 	public static void setExceptMonsters(String name, List<String> set) {
-		worlds.load();
-		worlds.setProperty("worlds." + name + ".monsters.exceptfor", set);
+		worlds.set("worlds." + name + ".monsters.exceptfor", set);
 		worlds.save();
 	}
 
 	public static void setExceptAnimals(String name, List<String> set) {
-		worlds.load();
-		worlds.setProperty("worlds." + name + ".animals.exceptfor", set);
+		worlds.set("worlds." + name + ".animals.exceptfor", set);
 		worlds.save();
 	}
 }
