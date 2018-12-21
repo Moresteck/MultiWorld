@@ -96,9 +96,10 @@ public class NetherListener extends PlayerListener {
 		}
 		String link = Link.getLink(world);
 		totp = link == null ? totp : link;
-		World toTp = MultiWorld.server.getWorld(totp);
-
-		if (toTp == null) {
+		World toTp = null;
+		try {
+			toTp = MultiWorld.server.getWorld(totp);
+		} catch (Exception ex) {
 			e.getPlayer().sendMessage(prefix + "There is no world named '" + totp + "' loaded.");
 			e.setCancelled(true);
 			return;
