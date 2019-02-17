@@ -273,8 +273,7 @@ public class BukkitVersion {
 			// b1.2_02 vanilla server never existed.
 			return "b" + bver;
 		} else {
-			String[] part = bver.split(" ");
-			String version = part[2].replace(")", "");
+			String version = bver.substring(bver.indexOf(":") + 2, bver.indexOf(")"));
 			// Detects b1.9-pre5.
 			if (version.equals("Beta 1.9 Prerelease 5")) {
 				return "b1.9";
