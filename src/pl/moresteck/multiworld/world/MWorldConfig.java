@@ -1,6 +1,7 @@
 package pl.moresteck.multiworld.world;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -23,12 +24,17 @@ public class MWorldConfig {
 	static Config worlds = new Config(new File("plugins/MultiWorld", "worlds.yml"));
 
 	public static String[] getWorlds() {
-		if (worlds.getKeys("worlds") == null) {
+		Set<String> worldz = new HashSet<String>();
+		for (String par : worlds.getKeys("worlds")) {
+			String[] s1 = par.split(".");
+			if (s1.length <= 1) continue;
+			worldz.add(s1[1]);
+		}
+		if (worldz.isEmpty()) {
 			createBasicConfig();
 		}
-		String[] array = new String[worlds.getKeys("worlds").size()];
-		Set<String> set = worlds.getKeys("worlds");
-		String[] warray = set.toArray(new String[set.size()]);
+		String[] array = new String[worldz.size()];
+		String[] warray = worldz.toArray(new String[worldz.size()]);
 		for (int i = 0; i < warray.length; i++) {
 			String name = warray[i];
 			array[i] = name;
